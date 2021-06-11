@@ -24,7 +24,7 @@ export class CanvasEventsHandler{
     startDrag() {
         this.itemsMousedDown.add(this.canvasModel);
 
-        // TODO: change this to handle all children list
+        // TODO: change this to handle the all children list and choosing the right item
         this.currentSelectedItem = this.itemsMousedDown.values().next().value;
     }
 
