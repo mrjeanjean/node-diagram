@@ -1,8 +1,10 @@
-import {makeDraggable} from "./make-draggable";
-import {makeZoomable} from "./make-zoomable";
 import {generateRandomColor, getUniqueID} from "./helpers";
-import {DiagramItemModel} from "./diagram-item-model";
-import {NodeModel} from "./node-model";
+import {DiagramItemModel} from "./models/diagram-item-model";
+import {NodeModel} from "./models/node-model";
+import {DraggableItem} from "./draggable-item";
+import {ZoomableItem} from "./zoomable-item";
+import {CanvasModel} from "./models/canvas-model";
+import {LayerModel} from "./models/layer-model";
 
 const makeNode = ($container) => {
     let $node = document.createElement("div");
@@ -12,81 +14,59 @@ const makeNode = ($container) => {
     return $node;
 }
 
-/*export const CanvasEngine = () => {
-    let $nodeContainer = null;
-
-    const createCanvas = ($container) => {
-        let $canvas = document.createElement("div");
-        $canvas.classList.add("canvas-engine");
-
-        $nodeContainer = document.createElement("div");
-        $nodeContainer.classList.add("node-container");
-
-        $canvas.appendChild($nodeContainer);
-        $container.appendChild($canvas);
-
-        for (let i = 0; i < 1000; i++) {
-            makeNode($nodeContainer);
-        }
-
-        makeDraggable($nodeContainer, $canvas);
-        makeZoomable($canvas, $nodeContainer);
-
-        return $canvas;
-    }
-
-    return {
-        createCanvas
-    }
-}*/
-
 export class CanvasEngine {
-    $nodeContainer = null;
+    $nodeLayer = null;
+    canvasModel;
     $canvas = null;
     draggingTarget = null;
-    childrenList = new Map();
+    diagramItems = new Map();
 
     currentChildren = new Set();
-    getZoom = null;
+    zoomableItem;
 
     constructor($container) {
         this.$canvas = this.createCanvas();
-        this.$nodeContainer = this.createNodeContainer();
+        this.$nodeLayer = this.createNodeContainer();
 
         $container.appendChild(this.$canvas);
-        this.$canvas.appendChild(this.$nodeContainer);
+        this.$canvas.appendChild(this.$nodeLayer);
 
-        let nodeContainerId = getUniqueID();
-        let nodeContainerModel = new DiagramItemModel(this.$nodeContainer, 100, 100);
-        this.childrenList.set(nodeContainerId, nodeContainerModel);
-        this.$nodeContainer.dataset.diagramItemId = nodeContainerId;
+        let nodeLayerModel = new LayerModel(this.$nodeLayer, 100, 100);
+        this.registerDiagramItem(nodeLayerModel);
 
-        makeDraggable(this.$canvas, this.onDragStart.bind(this), this.onDrag.bind(this), this.onDragEnd.bind(this));
-        const {getCurrentZoom} = makeZoomable(this.$canvas, this.$nodeContainer);
-        this.getZoom = getCurrentZoom;
+        DraggableItem.makeDraggable(this.$canvas, this.onDragStart.bind(this), this.onDrag.bind(this), this.onDragEnd.bind(this));
+
+        this.canvasModel = new CanvasModel(this.$canvas);
+        this.canvasModel.addLayer(this.$nodeLayer);
+
+        this.zoomableItem = ZoomableItem.makeZoomable(this.canvasModel);
     }
 
-    /**
-     * @return {HTMLDivElement}
-     */
-    createCanvas() {
-        let $canvas = document.createElement('div');
-        $canvas.classList.add("canvas-engine");
-
-        return $canvas;
+    getModelFromElement($element) {
+        return this.diagramItems.get($element.dataset.diagramItemId);
     }
 
-    getModelFromElement($element){
-        return this.childrenList.get($element.dataset.diagramItemId);
+    registerDiagramItem(model){
+        const itemID = getUniqueID();
+
+        // Register as diagram item
+        this.diagramItems.set(itemID, model);
+
+        const $HTMLElement = model.getHTMLElement();
+        $HTMLElement.dataset.diagramItemId = itemID;
+
+        $HTMLElement.addEventListener("mousedown", (event) => {
+            this.onChildMouseDown(event, event.currentTarget);
+        })
     }
 
     onDragStart() {
         // Add node container by default as a child
-        this.currentChildren.add(this.$nodeContainer);
+        this.currentChildren.add(this.$nodeLayer);
 
         // TODO: change this to handle all children list
         let currentChild = this.currentChildren.values().next().value;
-        this.draggingTarget = this.childrenList.get(currentChild.dataset.diagramItemId);
+        this.draggingTarget = this.diagramItems.get(currentChild.dataset.diagramItemId);
     }
 
     onDrag(data) {
@@ -104,29 +84,28 @@ export class CanvasEngine {
         this.currentChildren.add($element);
     }
 
+    createNode(positionX = 0, positionY = 0) {
+        let $node = makeNode(this.$nodeLayer);
+        let nodeModel = new NodeModel($node, this.canvasModel, positionX, positionY);
+        this.registerDiagramItem(nodeModel);
+    }
+
+    /**
+     * @return {HTMLDivElement}
+     */
+    createCanvas() {
+        let $canvas = document.createElement('div');
+        $canvas.classList.add("canvas-engine");
+
+        return $canvas;
+    }
+
     /**
      * @return {HTMLDivElement}
      */
     createNodeContainer() {
-        let $nodeContainer = document.createElement('div');
-        $nodeContainer.classList.add("node-container");
-        $nodeContainer.addEventListener("mousedown", (event) => {
-            this.onChildMouseDown(event, event.currentTarget);
-        })
-        return $nodeContainer;
-    }
-
-    createNode(positionX = 0, positionY = 0){
-        let nodeContainerId = getUniqueID();
-        let $node = makeNode(this.$nodeContainer);
-        let nodeModel = new NodeModel($node, this.getZoom,positionX, positionY);
-        this.childrenList.set(nodeContainerId, nodeModel);
-        $node.dataset.diagramItemId = nodeContainerId;
-
-        // Attach mouse down to trigger canvas when clicking
-        // TODO: create factory for DiagramModel and DiagramItem
-        $node.addEventListener("mousedown", (event) => {
-            this.onChildMouseDown(event, event.currentTarget);
-        })
+        let $nodeLayer = document.createElement('div');
+        $nodeLayer.classList.add("node-container");
+        return $nodeLayer;
     }
 }

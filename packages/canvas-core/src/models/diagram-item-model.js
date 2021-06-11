@@ -28,4 +28,8 @@ export class DiagramItemModel{
         this.$diagramItem.style.left = `${this.positionX}px`;
         this.$diagramItem.style.top = `${this.positionY}px`;
     }
+
+    getHTMLElement(){
+        return this.$diagramItem;
+    }
 }

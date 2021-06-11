@@ -6,8 +6,8 @@ let canvasEngine = new CanvasEngine($root);
 
 
 for(let i = 0; i < 20; i++){
-    let x = getRandom(-4000, 4000);
-    let y = getRandom(-4000, 4000);
+    let x = getRandom(-1200, 1200);
+    let y = getRandom(-1200, 1200);
     canvasEngine.createNode(x, y);
 }
 
