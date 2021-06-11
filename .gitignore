@@ -1,0 +1,6 @@
+dist
+build
+.idea
+.env
+node_modules
+*.log

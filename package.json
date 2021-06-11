@@ -1,0 +1,23 @@
+{
+  "name": "trias-node-diagram",
+  "version": "1.0.0",
+  "description": "Node diagram tools",
+  "scripts": {
+    "launch-vite-server": "npm --prefix packages/diagram-node-example run dev",
+    "bootstrap": "lerna bootstrap",
+    "test": "lerna run test:ci",
+    "clean": "lerna clean",
+    "clean:build": "lerna exec -- rimraf lib",
+    "release": "lerna publish",
+    "ls": "lerna ls"
+  },
+  "author": {
+    "name": "Trias Museum",
+    "email": "pigeonnier@trias-museum.com",
+    "url": "https://www.trias-museum.com"
+  },
+  "devDependencies": {
+    "lerna": "^3.22.1",
+    "sass": "^1.34.1"
+  }
+}

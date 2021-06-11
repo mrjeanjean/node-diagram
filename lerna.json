@@ -1,0 +1,7 @@
+{
+  "packages": [
+    "packages/canvas-core",
+    "packages/diagram-node-example"
+  ],
+  "version": "0.1.0"
+}

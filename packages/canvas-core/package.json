@@ -1,0 +1,16 @@
+{
+  "name": "canvas-core",
+  "version": "0.1.0",
+  "main": "index.js",
+  "module": "src/index.js",
+  "description": "Canvas core library",
+  "author": "Gaëtan <gaetan@moveo-webdesign.com>",
+  "homepage": "",
+  "private": true,
+  "scripts": {
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "dependencies": {
+    "uuid": "^8.3.2"
+  }
+}
