@@ -1,3 +1,5 @@
+import {EventDispatcher} from "./event-dispatcher";
+
 export class DraggableItem{
     isDragging = false;
     initialX = 0;
@@ -7,16 +9,11 @@ export class DraggableItem{
     currentPositionY = 0;
 
     $item;
-    dragStartCallback;
-    onDragCallback;
-    dragEndCallback;
+    events
 
-
-    constructor($item, dragStartCallback, onDragCallback, dragEndCallback) {
+    constructor($item) {
         this.$item = $item;
-        this.dragStartCallback = dragStartCallback;
-        this.onDragCallback = onDragCallback;
-        this.dragEndCallback = dragEndCallback;
+        this.events = new EventDispatcher();
 
         this.attachEvents();
     }
@@ -29,13 +26,12 @@ export class DraggableItem{
         this.initialX = e.clientX;
         this.initialY = e.clientY;
 
-        this.dragStartCallback({
+        this.events.fire('startDrag', {
             initialX: this.initialX,
             initialY: this.initialY,
         })
 
         this.isDragging = true;
-        //e.stopPropagation();
     }
 
     onDrag = (e) => {
@@ -43,7 +39,7 @@ export class DraggableItem{
             this.currentPositionX = e.clientX - this.initialX;
             this.currentPositionY = e.clientY - this.initialY;
 
-            this.onDragCallback({
+            this.events.fire("onDrag", {
                 initialX: this.initialX,
                 initialY: this.initialY,
                 currentPositionX: this.currentPositionX,
@@ -55,7 +51,7 @@ export class DraggableItem{
     endDrag = () => {
         if(this.isDragging){
             this.isDragging = false;
-            this.dragEndCallback({
+            this.events.fire('endDrag', {
                 currentPositionX: this.currentPositionX,
                 currentPositionY: this.currentPositionY,
             })

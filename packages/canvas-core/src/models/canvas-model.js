@@ -25,11 +25,4 @@ export class CanvasModel{
     getHTMLElement(){
         return this.$canvas;
     }
-
-    serialize(){
-        return {
-            type: "canvas",
-            zoom: this.zoom
-        }
-    }
 }

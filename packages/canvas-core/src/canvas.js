@@ -5,6 +5,7 @@ import {DraggableItem} from "./draggable-item";
 import {ZoomableItem} from "./zoomable-item";
 import {CanvasModel} from "./models/canvas-model";
 import {LayerModel} from "./models/layer-model";
+import {CanvasEventsHandler} from "./canvas-events-handler";
 
 const makeNode = ($container) => {
     let $node = document.createElement("div");
@@ -18,10 +19,8 @@ export class CanvasEngine {
     $nodeLayer = null;
     canvasModel;
     $canvas = null;
-    draggingTarget = null;
+    canvasEventsHandler;
     diagramItems = new Map();
-
-    currentChildren = new Set();
     zoomableItem;
 
     constructor($container) {
@@ -34,11 +33,10 @@ export class CanvasEngine {
         let nodeLayerModel = new LayerModel(this.$nodeLayer, 100, 100);
         this.registerDiagramItem(nodeLayerModel);
 
-        DraggableItem.makeDraggable(this.$canvas, this.onDragStart.bind(this), this.onDrag.bind(this), this.onDragEnd.bind(this));
-
         this.canvasModel = new CanvasModel(this.$canvas);
         this.canvasModel.addLayer(this.$nodeLayer);
 
+        this.canvasEventsHandler = new CanvasEventsHandler(this.canvasModel, this);
         this.zoomableItem = ZoomableItem.makeZoomable(this.canvasModel);
     }
 
@@ -56,32 +54,8 @@ export class CanvasEngine {
         $HTMLElement.dataset.diagramItemId = itemID;
 
         $HTMLElement.addEventListener("mousedown", (event) => {
-            this.onChildMouseDown(event, event.currentTarget);
+            this.canvasEventsHandler.onItemMouseDown(event.currentTarget);
         })
-    }
-
-    onDragStart() {
-        // Add node container by default as a child
-        this.currentChildren.add(this.$nodeLayer);
-
-        // TODO: change this to handle all children list
-        let currentChild = this.currentChildren.values().next().value;
-        this.draggingTarget = this.diagramItems.get(currentChild.dataset.diagramItemId);
-    }
-
-    onDrag(data) {
-        this.draggingTarget?.onDrag(data);
-    }
-
-    onDragEnd(data) {
-        console.log("END", data);
-        this.draggingTarget?.endDrag(data);
-        this.currentChildren.clear();
-        this.draggingTarget = null;
-    }
-
-    onChildMouseDown(event, $element) {
-        this.currentChildren.add($element);
     }
 
     createNode(positionX = 0, positionY = 0) {
