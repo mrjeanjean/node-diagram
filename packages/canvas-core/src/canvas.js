@@ -20,7 +20,6 @@ export class CanvasEngine {
     canvasModel;
     $canvas = null;
     canvasEventsHandler;
-    diagramItems = new Map();
     zoomableItem;
 
     constructor($container) {
@@ -31,24 +30,20 @@ export class CanvasEngine {
         this.$canvas.appendChild(this.$nodeLayer);
 
         let nodeLayerModel = new LayerModel(this.$nodeLayer, 100, 100);
-        this.registerDiagramItem(nodeLayerModel);
 
         this.canvasModel = new CanvasModel(this.$canvas);
         this.canvasModel.addLayer(this.$nodeLayer);
+
+        this.registerDiagramItem(nodeLayerModel);
 
         this.canvasEventsHandler = new CanvasEventsHandler(this.canvasModel, this);
         this.zoomableItem = ZoomableItem.makeZoomable(this.canvasModel);
     }
 
-    getModelFromElement($element) {
-        return this.diagramItems.get($element.dataset.diagramItemId);
-    }
-
     registerDiagramItem(model){
         const itemID = getUniqueID();
 
-        // Register as diagram item
-        this.diagramItems.set(itemID, model);
+        this.canvasModel.addItem(itemID, model);
 
         const $HTMLElement = model.getHTMLElement();
         $HTMLElement.dataset.diagramItemId = itemID;
