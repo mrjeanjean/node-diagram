@@ -1,62 +1,55 @@
 import {generateRandomColor, getUniqueID} from "./helpers";
-import {DiagramItemModel} from "./models/diagram-item-model";
 import {NodeModel} from "./models/node-model";
-import {DraggableItem} from "./draggable-item";
 import {ZoomableItem} from "./zoomable-item";
 import {CanvasModel} from "./models/canvas-model";
 import {LayerModel} from "./models/layer-model";
 import {CanvasEventsHandler} from "./canvas-events-handler";
 
-const makeNode = ($container) => {
-    let $node = document.createElement("div");
-    $node.classList.add("node");
-    $node.style.backgroundColor = generateRandomColor()
-    $container.appendChild($node);
-    return $node;
-}
-
 export class CanvasEngine {
-    $nodeLayer = null;
+    $nodeLayer;
     canvasModel;
-    $canvas = null;
+    $canvas;
     canvasEventsHandler;
-    zoomableItem;
 
     constructor($container) {
+        // Create HTML elements
         this.$canvas = this.createCanvas();
         this.$nodeLayer = this.createNodeContainer();
-
         $container.appendChild(this.$canvas);
         this.$canvas.appendChild(this.$nodeLayer);
 
-        let nodeLayerModel = new LayerModel(this.$nodeLayer, 100, 100);
-
+        // Create main models
+        let nodeLayerModel = new LayerModel(this.$nodeLayer);
         this.canvasModel = new CanvasModel(this.$canvas);
-        this.canvasModel.addLayer(this.$nodeLayer);
 
-        this.registerDiagramItem(nodeLayerModel);
+        this.canvasModel.addLayer(nodeLayerModel);
+        const {itemID:layerID} = this.decorateDiagramItem(this.$nodeLayer);
+        this.canvasModel.addItem(layerID, nodeLayerModel);
 
-        this.canvasEventsHandler = new CanvasEventsHandler(this.canvasModel, this);
-        this.zoomableItem = ZoomableItem.makeZoomable(this.canvasModel);
+        this.canvasEventsHandler = new CanvasEventsHandler(this.canvasModel);
+        ZoomableItem.makeZoomable(this.canvasModel);
     }
 
-    registerDiagramItem(model){
+    decorateDiagramItem($item){
         const itemID = getUniqueID();
+        $item.dataset.diagramItemId = itemID;
 
-        this.canvasModel.addItem(itemID, model);
+        return {
+            $item,
+            itemID
+        }
+    }
 
-        const $HTMLElement = model.getHTMLElement();
-        $HTMLElement.dataset.diagramItemId = itemID;
+    addNode(positionX = 0, positionY = 0) {
+        let $node = this.createNode(this.$nodeLayer);
+        let nodeModel = new NodeModel($node, this.canvasModel, positionX, positionY);
+        const {itemID:nodeID} =  this.decorateDiagramItem($node);
 
-        $HTMLElement.addEventListener("mousedown", (event) => {
+        $node.addEventListener("mousedown", (event) => {
             this.canvasEventsHandler.onItemMouseDown(event.currentTarget);
         })
-    }
 
-    createNode(positionX = 0, positionY = 0) {
-        let $node = makeNode(this.$nodeLayer);
-        let nodeModel = new NodeModel($node, this.canvasModel, positionX, positionY);
-        this.registerDiagramItem(nodeModel);
+        this.canvasModel.addItem(nodeID, nodeModel);
     }
 
     /**
@@ -76,5 +69,16 @@ export class CanvasEngine {
         let $nodeLayer = document.createElement('div');
         $nodeLayer.classList.add("node-container");
         return $nodeLayer;
+    }
+
+    /**
+     * @return {HTMLDivElement}
+     */
+    createNode($container){
+        let $node = document.createElement("div");
+        $node.classList.add("node");
+        $node.style.backgroundColor = generateRandomColor()
+        $container.appendChild($node);
+        return $node;
     }
 }

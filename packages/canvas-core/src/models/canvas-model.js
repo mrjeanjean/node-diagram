@@ -1,50 +1,49 @@
-export class CanvasModel{
+export class CanvasModel {
     layers = [];
     diagramItems = new Map();
     zoom = 1;
     $canvas;
 
-    constructor($canvas){
+    constructor($canvas) {
         this.$canvas = $canvas;
     }
 
-    getZoom(){
+    getZoom() {
         return this.zoom;
     }
 
-    setZoom(zoom){
+    setZoom(zoom) {
         this.zoom = zoom;
-        this.layers.forEach($layer=>{
+        this.layers.forEach(layer => {
+            const $layer = layer.getHTMLElement();
             $layer.style.transform = `scale(${this.zoom})`
         })
     }
 
-    addLayer($layer){
-        this.layers.push($layer);
+    addLayer(layerModel) {
+        this.layers.push(layerModel);
     }
 
-    addItem(itemID, model){
-        this.diagramItems.set(itemID, model);
+    addItem(itemID, itemModel) {
+        this.diagramItems.set(itemID, itemModel);
     }
 
     getModelFromElement($element) {
         return this.diagramItems.get($element.dataset.diagramItemId);
     }
 
-    getHTMLElement(){
+    getHTMLElement() {
         return this.$canvas;
     }
 
-    onDrag(data){
-        this.layers.forEach($layer=>{
-            const layerModel = this.getModelFromElement($layer);
+    onDrag(data) {
+        this.layers.forEach(layerModel => {
             layerModel.onDrag(data);
         })
     }
 
-    endDrag(data){
-        this.layers.forEach($layer=>{
-            const layerModel = this.getModelFromElement($layer);
+    endDrag(data) {
+        this.layers.forEach(layerModel => {
             layerModel.endDrag(data);
         })
     }

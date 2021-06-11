@@ -64,7 +64,7 @@ export class DraggableItem{
         document.addEventListener("mousemove", this.onDrag);
     }
 
-    static makeDraggable($item, dragStartCallback, onDragCallback, dragEndCallback){
-        return new DraggableItem($item, dragStartCallback, onDragCallback, dragEndCallback);
+    static makeDraggable($item){
+        return new DraggableItem($item);
     }
 }

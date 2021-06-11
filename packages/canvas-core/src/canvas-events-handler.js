@@ -12,28 +12,27 @@ export class CanvasEventsHandler{
 
         let draggableItem = DraggableItem.makeDraggable(this.canvasModel.getHTMLElement());
 
-        draggableItem.events.add("startDrag", this.onDragStart.bind(this));
+        draggableItem.events.add("startDrag", this.startDrag.bind(this));
         draggableItem.events.add("onDrag", this.onDrag.bind(this));
-        draggableItem.events.add("endDrag", this.onDragEnd.bind(this));
+        draggableItem.events.add("endDrag", this.endDrag.bind(this));
     }
 
     onItemMouseDown($item){
         this.itemsMousedDown.add(this.canvasModel.getModelFromElement($item));
     }
 
-    onDragStart() {
+    startDrag() {
         this.itemsMousedDown.add(this.canvasModel);
 
         // TODO: change this to handle all children list
-        let currentElement = this.itemsMousedDown.values().next().value;
-        this.currentSelectedItem = currentElement;
+        this.currentSelectedItem = this.itemsMousedDown.values().next().value;
     }
 
     onDrag(data) {
         this.currentSelectedItem?.onDrag(data);
     }
 
-    onDragEnd(data) {
+    endDrag(data) {
         this.currentSelectedItem?.endDrag(data);
         this.itemsMousedDown.clear();
         this.currentSelectedItem = null;

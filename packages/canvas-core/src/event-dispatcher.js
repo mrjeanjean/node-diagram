@@ -9,7 +9,6 @@ export class EventDispatcher{
     }
 
     add(type, callback){
-        console.log(type)
         this.observers.push({
             type,
             callback
