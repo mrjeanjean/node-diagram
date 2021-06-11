@@ -14,12 +14,18 @@ body {
   cursor: move;
 }
 
-.node-container {
+.node-layer,
+.link-layer{
   background-color: rgba(255, 255, 255, 0.2);
   height: 100%;
   width: 100%;
   position: absolute;
   user-select: none;
+}
+
+.link-layer{
+  pointer-events: none;
+  overflow: visible;
 }
 
 .node {

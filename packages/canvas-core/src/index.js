@@ -2,4 +2,3 @@
 import './styles.scss';
 
 export {CanvasEngine} from './canvas';
-

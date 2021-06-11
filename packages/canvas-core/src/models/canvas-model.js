@@ -32,6 +32,10 @@ export class CanvasModel {
         return this.diagramItems.get($element.dataset.diagramItemId);
     }
 
+    getModelFromId(id) {
+        return this.diagramItems.get(id);
+    }
+
     getHTMLElement() {
         return this.$canvas;
     }

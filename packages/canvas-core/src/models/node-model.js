@@ -1,8 +1,8 @@
 import {DiagramItemModel} from "./diagram-item-model";
 
 export class NodeModel extends DiagramItemModel{
-
     canvasModel;
+    links = [];
 
     constructor($diagramItem, canvasModel, positionX = 0, positionY = 0) {
         super($diagramItem, positionX, positionY);
@@ -12,6 +12,17 @@ export class NodeModel extends DiagramItemModel{
     onDrag(data){
         this.positionX = data.currentPositionX / this.canvasModel.getZoom() + this.initialX;
         this.positionY = data.currentPositionY / this.canvasModel.getZoom() + this.initialY;
+        this.notifyLinks();
         this.draw();
+    }
+
+    addLink(linkModel){
+        this.links.push(linkModel);
+    }
+
+    notifyLinks() {
+        this.links.forEach(linkModel=>{
+            linkModel.draw();
+        })
     }
 }
