@@ -63,13 +63,15 @@ export class ConnectState extends DefaultState {
         this.linkModel.getHTMLElement().remove();
 
         if(this.portTarget){
-            this.canvasModel.getCanvasEngine().addLink(this.currentDiagramItem, this.portTarget);
+            if(this.portTarget.accept(this.linkModel)){
+                this.canvasModel.getCanvasEngine().addLink(this.currentDiagramItem, this.portTarget);
+            }
         }
     }
 
     createLink() {
         let $linkLayer = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-        $linkLayer.classList.add("link-layer");
+        $linkLayer.classList.add("link");
         return $linkLayer;
     }
 

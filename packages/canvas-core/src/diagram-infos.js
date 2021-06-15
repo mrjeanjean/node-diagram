@@ -7,7 +7,7 @@ class DiagramInfos{
 
     updateData(canvasModel){
         this.$diagramInfos.innerHTML = `
-            <div>Zoom: ${canvasModel.getZoom()}</div> 
+            <div>Zoom: ${Math.floor(canvasModel.getZoom() * 100)}%</div> 
         `;
     }
 }

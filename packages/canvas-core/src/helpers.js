@@ -94,7 +94,7 @@ export function getRandom(min, max) {
  * @return {string} - random color
  */
 export function generateRandomColor(){
-    return '#'+(Math.random()*0xFFFFFF<<0).toString(16);
+    return '#' + Math.random().toString(16).substr(-6);
 }
 
 /**

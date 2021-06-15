@@ -3,7 +3,7 @@ import {diagramInfos} from "../diagram-infos";
 export class CanvasModel {
     layers = new Map();
     diagramItems = new Map();
-    zoom = 1;
+    zoom = 0.5;
     $canvas;
     canvasEngine;
 

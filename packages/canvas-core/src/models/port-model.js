@@ -1,3 +1,5 @@
+import {portsTypes} from "..";
+
 export class PortModel {
     $port;
     portType;
@@ -32,17 +34,38 @@ export class PortModel {
         };
     }
 
+    getPortType(){
+        return this.portType;
+    }
+
     addLink(link) {
         this.links.push(link);
     }
 
-    updateLinks(){
-        this.links.forEach(link=>{
+    removeLink(link) {
+        this.links = this.links.filter(linkModel => {
+            return link.getId() !== linkModel.getId()
+        });
+    }
+
+    updateLinks() {
+        this.links.forEach(link => {
             link.draw();
         })
     }
 
-    getHTMLElement(){
+    getHTMLElement() {
         return this.$port;
+    }
+
+    accept(linkModel){
+        if(linkModel.startPort.getPortType() === portsTypes.input){
+            return this.portType === portsTypes.output;
+        }
+
+        if(linkModel.startPort.getPortType() === portsTypes.output){
+            return this.portType === portsTypes.input;
+        }
+        return false;
     }
 }

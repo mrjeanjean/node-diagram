@@ -24,56 +24,88 @@ body {
 
 .node-layer {
   background-color: rgba(255, 255, 255, 0.2);
+  z-index: 1;
+  pointer-events: none;
 }
 
 .link-layer {
   overflow: visible;
   background-color: transparent;
-  z-index: -1;
   pointer-events: none;
+  z-index: 0;
+}
+
+.svg-filters{
+  display: none;
+}
+
+.link{
+  cursor: pointer;
+  fill: transparent;
+  pointer-events: all;
+}
+
+.link.selected{
+  stroke: red;
 }
 
 .node {
   background-color: deepskyblue;
-  width: 200px;
+  width: 300px;
   height: 150px;
   border-radius: 20px;
+  z-index: 2;
   position: absolute;
   user-select: none;
   -webkit-user-select: none;
   -webkit-touch-callout: none; /* iOS Safari */
   cursor: move;
+  pointer-events: all;
 }
 
 .port {
   width: 50px;
-  height: 50px;
+  height: 25px;
   background-color: #fff;
-  border-radius: 50%;
   position: absolute;
   z-index: -1;
   cursor: pointer;
 }
 
 .port.port-inputPort {
-  top: 0;
+  top: calc(0% - 25px / 2);
   left: 50%;
-  //margin-left: -15px;
+  border-top-left-radius: 50px;
+  border-top-right-radius: 50px;
   transform: translateX(-50%) translateY(-50%);
 }
 
 
 .port.port-outputPort {
-  top: 100%;
+  top: calc(100% + 25px / 2);
   left: 50%;
-  //margin-left: -15px;
+  border-bottom-left-radius: 50px;
+  border-bottom-right-radius: 50px;
   transform: translateX(-50%) translateY(-50%);
+}
+
+.port.active{
+  box-shadow: blue 6px 6px;
 }
 
 
 #diagram-infos{
   position: fixed;
   top: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.2);
+  padding: 10px;
+  color: #ffffff;
+}
+
+#diagram-menu{
+  position: fixed;
+  top: 50px;
   right: 0;
   background-color: rgba(0, 0, 0, 0.2);
   padding: 10px;

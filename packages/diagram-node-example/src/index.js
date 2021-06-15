@@ -1,4 +1,5 @@
 import {CanvasEngine, portsTypes} from "canvas-core";
+import {getRandom} from "./helpers";
 
 const $root = document.getElementById("node-diagram");
 let canvasEngine = new CanvasEngine($root);
@@ -15,6 +16,14 @@ canvasEngine.addPort(node1, portsTypes.input);
 
 //canvasEngine.addLink(output, input);
 //canvasEngine.addLink(output2, input2);
+
+const $addNodeButton = document.querySelector(".add-node");
+$addNodeButton.addEventListener("click", ()=>{
+    const node = canvasEngine.addNode(getRandom(-1000, 2000), getRandom(-1000, 1000));
+
+    canvasEngine.addPort(node, portsTypes.input);
+    canvasEngine.addPort(node, portsTypes.output);
+})
 
 /*const nodes = [];
 

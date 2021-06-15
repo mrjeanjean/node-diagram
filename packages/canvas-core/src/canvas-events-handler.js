@@ -3,6 +3,7 @@ import {PortModel} from "./models/port-model";
 import {DragState} from "./state/drag-state";
 import {ConnectState} from "./state/connect-state";
 import {NodeModel} from "./models/node-model";
+import {LinkModel} from "./models/link-model";
 
 export class CanvasEventsHandler {
     canvasModel;
@@ -42,6 +43,16 @@ export class CanvasEventsHandler {
                 this.onItemMouseDown(itemModel);
             });
         }
+
+        if(itemModel instanceof LinkModel){
+            itemModel.getHTMLElement().addEventListener("click", () => {
+                this.selectItem(itemModel);
+            });
+        }
+    }
+
+    removeItem(){
+        // TODO: do something, like removing events
     }
 
     onItemMouseDown(itemModel) {
@@ -86,5 +97,9 @@ export class CanvasEventsHandler {
         let currentHoveredItem = this.itemsMousedOver.values().next().value;
 
         this.currentState?.onHover(currentHoveredItem);
+    }
+
+    selectItem(itemModel) {
+        this.canvasModel.getCanvasEngine().removeLink(itemModel);
     }
 }

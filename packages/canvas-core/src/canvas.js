@@ -76,8 +76,18 @@ export class CanvasEngine {
         const {itemID: linkID} = this.decorateDiagramItem($link);
         linkModel.setId(linkID);
 
+        this.canvasEventsHandler.addItem(linkModel);
+
         startPortModel.addLink(linkModel);
         endPortModel.addLink(linkModel);
+    }
+
+    removeLink(linkModel){
+        console.log(linkModel);
+        linkModel.startPort.removeLink(linkModel);
+        linkModel.endPort.removeLink(linkModel);
+        this.canvasEventsHandler.removeItem(linkModel);
+        linkModel.getHTMLElement().remove();
     }
 
     addPort(nodeModel, portType){
