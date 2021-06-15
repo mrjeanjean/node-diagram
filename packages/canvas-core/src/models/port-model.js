@@ -26,10 +26,6 @@ export class PortModel {
     getPosition() {
         let {x, y} = this.node.getPosition();
 
-        //return this.node.getPosition();
-
-        //console.log("x: %s, y: %s, left: %d", x, y, this.$port.offsetLeft)
-
         return {
             x: x + this.$port.offsetLeft,
             y: y + this.$port.offsetTop,
@@ -44,5 +40,9 @@ export class PortModel {
         this.links.forEach(link=>{
             link.draw();
         })
+    }
+
+    getHTMLElement(){
+        return this.$port;
     }
 }

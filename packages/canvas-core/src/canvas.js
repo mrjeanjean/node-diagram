@@ -26,19 +26,19 @@ export class CanvasEngine {
         this.$canvas.appendChild(this.$linkLayer);
 
         // Create main models
-        this.canvasModel = new CanvasModel(this.$canvas);
+        this.canvasModel = new CanvasModel(this.$canvas, this);
 
         // Add node layer
         let nodeLayerModel = new LayerModel(this.$nodeLayer);
         const {itemID: nodeLayerID} = this.decorateDiagramItem(this.$nodeLayer);
         this.canvasModel.addItem(nodeLayerID, nodeLayerModel);
-        this.canvasModel.addLayer(nodeLayerModel);
+        this.canvasModel.addLayer("node-layer", nodeLayerModel);
 
         // Add link layer
         const linkLayerModel = new LayerModel(this.$linkLayer);
         const {itemID: linkLayerID} = this.decorateDiagramItem(this.$linkLayer);
         this.canvasModel.addItem(linkLayerID, linkLayerModel);
-        this.canvasModel.addLayer(linkLayerModel);
+        this.canvasModel.addLayer("link-layer", linkLayerModel);
 
         // Add user event handlers
         this.canvasEventsHandler = new CanvasEventsHandler(this.canvasModel);
@@ -62,9 +62,7 @@ export class CanvasEngine {
         let nodeModel = new NodeModel($node, this.canvasModel, positionX, positionY);
         const {itemID: nodeID} = this.decorateDiagramItem($node);
 
-        $node.addEventListener("mousedown", (event) => {
-            this.canvasEventsHandler.onItemMouseDown(event.currentTarget);
-        })
+        this.canvasEventsHandler.addItem(nodeModel);
 
         this.canvasModel.addItem(nodeID, nodeModel);
         nodeModel.setId(nodeID);
@@ -87,6 +85,9 @@ export class CanvasEngine {
 
         let portModel = new PortModel($port, portType, nodeModel);
         const {itemID: portID} = this.decorateDiagramItem($port);
+
+        this.canvasEventsHandler.addItem(portModel);
+
         portModel.setId(portID);
 
         nodeModel.addPort(portModel);

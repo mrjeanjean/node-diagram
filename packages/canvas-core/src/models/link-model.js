@@ -7,11 +7,11 @@ export class LinkModel{
     linkId;
     lineColor;
 
-    constructor($link, startPort, endPort) {
+    constructor($link, startPort, endPort, color = null) {
         this.$link = $link;
         this.startPort = startPort;
         this.endPort = endPort;
-        this.lineColor = generateRandomColor();
+        this.lineColor = color ?? generateRandomColor();
 
         this.draw();
     }
@@ -34,5 +34,9 @@ export class LinkModel{
 
     getId(){
         return this.linkId;
+    }
+
+    getHTMLElement(){
+        return this.$link;
     }
 }

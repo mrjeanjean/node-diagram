@@ -34,26 +34,28 @@ export class DraggableItem{
         this.isDragging = true;
     }
 
-    onDrag = (e) => {
+    onDrag = (event) => {
         if (this.isDragging) {
-            this.currentPositionX = e.clientX - this.initialX;
-            this.currentPositionY = e.clientY - this.initialY;
+            this.currentPositionX = event.clientX - this.initialX;
+            this.currentPositionY = event.clientY - this.initialY;
 
             this.events.fire("onDrag", {
                 initialX: this.initialX,
                 initialY: this.initialY,
                 currentPositionX: this.currentPositionX,
-                currentPositionY: this.currentPositionY
+                currentPositionY: this.currentPositionY,
+                event: event
             })
         }
     }
 
-    endDrag = () => {
+    endDrag = (event) => {
         if(this.isDragging){
             this.isDragging = false;
             this.events.fire('endDrag', {
                 currentPositionX: this.currentPositionX,
                 currentPositionY: this.currentPositionY,
+                event: event
             })
         }
     }

@@ -52,6 +52,7 @@ body {
   border-radius: 50%;
   position: absolute;
   z-index: -1;
+  cursor: pointer;
 }
 
 .port.port-inputPort {
@@ -67,4 +68,14 @@ body {
   left: 50%;
   //margin-left: -15px;
   transform: translateX(-50%) translateY(-50%);
+}
+
+
+#diagram-infos{
+  position: fixed;
+  top: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.2);
+  padding: 10px;
+  color: #ffffff;
 }

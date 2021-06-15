@@ -1,11 +1,19 @@
-export class CanvasModel {
-    layers = [];
-    diagramItems = new Map();
-    zoom = 0.5;
-    $canvas;
+import {diagramInfos} from "../diagram-infos";
 
-    constructor($canvas) {
+export class CanvasModel {
+    layers = new Map();
+    diagramItems = new Map();
+    zoom = 1;
+    $canvas;
+    canvasEngine;
+
+    constructor($canvas, canvasEngine) {
         this.$canvas = $canvas;
+        this.canvasEngine = canvasEngine;
+    }
+
+    getCanvasEngine(){
+        return this.canvasEngine;
     }
 
     getZoom() {
@@ -21,11 +29,17 @@ export class CanvasModel {
         this.layers.forEach(layer => {
             const $layer = layer.getHTMLElement();
             $layer.style.transform = `scale(${this.zoom})`
-        })
+        });
+
+        diagramInfos.updateData(this);
     }
 
-    addLayer(layerModel) {
-        this.layers.push(layerModel);
+    addLayer(layerName, layerModel) {
+        this.layers.set(layerName, layerModel);
+    }
+
+    getLayer(layerName){
+        return this.layers.get(layerName);
     }
 
     addItem(itemID, itemModel) {

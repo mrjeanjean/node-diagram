@@ -13,8 +13,8 @@ const input = canvasEngine.addPort(node2, portsTypes.input);
 const input2 = canvasEngine.addPort(node3, portsTypes.input);
 canvasEngine.addPort(node1, portsTypes.input);
 
-canvasEngine.addLink(output, input);
-canvasEngine.addLink(output2, input2);
+//canvasEngine.addLink(output, input);
+//canvasEngine.addLink(output2, input2);
 
 /*const nodes = [];
 
