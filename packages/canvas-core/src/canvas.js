@@ -6,6 +6,7 @@ import {LayerModel} from "./models/layer-model";
 import {CanvasEventsHandler} from "./canvas-events-handler";
 import {LinkModel} from "./models/link-model";
 import {PortModel} from "./models/port-model";
+import {portsTypes} from "./ports/ports-types";
 
 export class CanvasEngine {
     $nodeLayer;
@@ -72,7 +73,7 @@ export class CanvasEngine {
     addLink(startPortModel, endPortModel) {
         let $link = this.createLink(this.$linkLayer);
 
-        let linkModel = new LinkModel($link, startPortModel, endPortModel);
+        let linkModel = new LinkModel($link, startPortModel, endPortModel, "#666");
         const {itemID: linkID} = this.decorateDiagramItem($link);
         linkModel.setId(linkID);
 
@@ -83,7 +84,6 @@ export class CanvasEngine {
     }
 
     removeLink(linkModel){
-        console.log(linkModel);
         linkModel.startPort.removeLink(linkModel);
         linkModel.endPort.removeLink(linkModel);
         this.canvasEventsHandler.removeItem(linkModel);
@@ -91,17 +91,15 @@ export class CanvasEngine {
     }
 
     addPort(nodeModel, portType){
-        let $port = this.createPort(nodeModel.getHTMLElement(), portType);
+        let $portContainer = nodeModel.getHTMLElement().querySelector(`.port-container--${portType}`);
+        let $port = this.createPort($portContainer, portType);
 
         let portModel = new PortModel($port, portType, nodeModel);
         const {itemID: portID} = this.decorateDiagramItem($port);
 
         this.canvasEventsHandler.addItem(portModel);
-
         portModel.setId(portID);
-
         nodeModel.addPort(portModel);
-
         return portModel;
     }
 
@@ -139,9 +137,24 @@ export class CanvasEngine {
     createNode($container) {
         let $node = document.createElement("div");
         $node.classList.add("node");
-        $node.style.backgroundColor = generateRandomColor()
+        $node.style.backgroundColor = generateRandomColor();
+
+        $node.appendChild(this.createPortContainer(portsTypes.input));
+        $node.appendChild(this.createPortContainer(portsTypes.output));
+        $node.appendChild(this.createPortContainer(portsTypes.actionInput));
+        $node.appendChild(this.createPortContainer(portsTypes.actionOutput));
+
         $container.appendChild($node);
         return $node;
+    }
+
+    /**
+     * @return {HTMLDivElement}
+     */
+    createPortContainer(portType){
+        let $portContainer = document.createElement("div");
+        $portContainer.classList.add("port-container", `port-container--${portType}`);
+        return $portContainer;
     }
 
     /**
@@ -161,7 +174,13 @@ export class CanvasEngine {
         let $port = document.createElement("div");
         $port.classList.add("port");
         $port.classList.add(`port-${portType}`);
+
+        let $innerPort = document.createElement("div");
+        $innerPort.classList.add("port__inner");
+
+        $port.appendChild($innerPort);
         $node.appendChild($port);
+
         return $port;
     }
 }

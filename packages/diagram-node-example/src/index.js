@@ -5,14 +5,19 @@ const $root = document.getElementById("node-diagram");
 let canvasEngine = new CanvasEngine($root);
 
 const node1 = canvasEngine.addNode(-200, -200);
-const node2 = canvasEngine.addNode(600, 100);
-const node3 = canvasEngine.addNode(600, 400);
+/*const node2 = canvasEngine.addNode(600, 100);
+const node3 = canvasEngine.addNode(600, 400);*/
 
 const output = canvasEngine.addPort(node1, portsTypes.output);
-const output2 = canvasEngine.addPort(node2, portsTypes.output);
+canvasEngine.addPort(node1, portsTypes.input);
+canvasEngine.addPort(node1, portsTypes.actionOutput);
+canvasEngine.addPort(node1, portsTypes.actionOutput);
+canvasEngine.addPort(node1, portsTypes.actionInput);
+canvasEngine.addPort(node1, portsTypes.actionInput);
+/*const output2 = canvasEngine.addPort(node2, portsTypes.output);
 const input = canvasEngine.addPort(node2, portsTypes.input);
 const input2 = canvasEngine.addPort(node3, portsTypes.input);
-canvasEngine.addPort(node1, portsTypes.input);
+canvasEngine.addPort(node1, portsTypes.input);*/
 
 //canvasEngine.addLink(output, input);
 //canvasEngine.addLink(output2, input2);

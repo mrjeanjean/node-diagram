@@ -7,7 +7,6 @@ class MouseHelper {
 
     constructor({x, y}) {
         this.setPosition(x, y);
-        console.log(x, y);
     }
 
     getPosition() {
@@ -33,6 +32,7 @@ export class ConnectState extends DefaultState {
         this.mouseHelper = new MouseHelper(this.currentDiagramItem.getPosition());
 
         const $link = this.createLink();
+        $link.classList.add("on-connection")
         this.canvasModel.getLayer("link-layer").getHTMLElement().appendChild($link);
         this.linkModel = new LinkModel($link, currentDiagramItem, this.mouseHelper, "#666");
     }
@@ -47,7 +47,7 @@ export class ConnectState extends DefaultState {
             y: (data.event.clientY / this.canvasModel.getZoom() - linkLayerRealY / this.canvasModel.getZoom())
         }
 
-        if(this.portTarget){
+        if(this.portTarget && this.portTarget.accept(this.linkModel)){
             computedPosition = this.portTarget.getPosition();
         }
 

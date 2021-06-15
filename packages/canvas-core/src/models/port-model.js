@@ -59,6 +59,10 @@ export class PortModel {
     }
 
     accept(linkModel){
+        if(this.isAlreadyConnectedTo(linkModel)){
+            return false;
+        }
+
         if(linkModel.startPort.getPortType() === portsTypes.input){
             return this.portType === portsTypes.output;
         }
@@ -66,6 +70,13 @@ export class PortModel {
         if(linkModel.startPort.getPortType() === portsTypes.output){
             return this.portType === portsTypes.input;
         }
+
         return false;
+    }
+
+    isAlreadyConnectedTo(linkModel) {
+        return this.links.find(
+            link=>link.startPort.getId() === linkModel.startPort.getId()
+        ) !== undefined;
     }
 }
