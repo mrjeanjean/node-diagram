@@ -4,6 +4,7 @@ export class DiagramItemModel{
     positionY;
     initialX;
     initialY
+    itemId;
 
     constructor($diagramItem, positionX = 0, positionY = 0) {
         this.$diagramItem = $diagramItem;
@@ -31,5 +32,20 @@ export class DiagramItemModel{
 
     getHTMLElement(){
         return this.$diagramItem;
+    }
+
+    setId(id){
+        this.itemId = id;
+    }
+
+    getId(){
+        return this.itemId;
+    }
+
+    getPosition(){
+        return {
+            x: this.positionX,
+            y: this.positionY
+        }
     }
 }

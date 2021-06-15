@@ -94,14 +94,23 @@ export function getRandom(min, max) {
  * @return {string} - random color
  */
 export function generateRandomColor(){
-    return '#'+(Math.random()*0xFFFFFF<<0).toString(16);
+    return '#' + Math.random().toString(16).substr(-6);
 }
 
 /**
  * Generate Unique ID
  * @return {string}
  */
-export const getUniqueID = ()=>{
+export function getUniqueID(){
     return uuid();
 }
 
+/**
+ * Return distance between (x1, y1) and (x2, y2) points
+ * @return {number}
+ * @param point1
+ * @param point2
+ */
+export function getDistance(point1, point2){
+    return Math.hypot(point2.x - point1.x, point2.y - point1.y);
+}
