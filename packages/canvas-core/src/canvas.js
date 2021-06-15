@@ -5,6 +5,7 @@ import {CanvasModel} from "./models/canvas-model";
 import {LayerModel} from "./models/layer-model";
 import {CanvasEventsHandler} from "./canvas-events-handler";
 import {LinkModel} from "./models/link-model";
+import {PortModel} from "./models/port-model";
 
 export class CanvasEngine {
     $nodeLayer;
@@ -12,7 +13,6 @@ export class CanvasEngine {
     $canvas;
     $linkLayer;
     canvasEventsHandler;
-    links = [];
 
     constructor($container) {
         // Create HTML elements
@@ -34,8 +34,8 @@ export class CanvasEngine {
         this.canvasModel.addItem(nodeLayerID, nodeLayerModel);
         this.canvasModel.addLayer(nodeLayerModel);
 
-        // Add node layer
-        let linkLayerModel = new LayerModel(this.$linkLayer);
+        // Add link layer
+        const linkLayerModel = new LayerModel(this.$linkLayer);
         const {itemID: linkLayerID} = this.decorateDiagramItem(this.$linkLayer);
         this.canvasModel.addItem(linkLayerID, linkLayerModel);
         this.canvasModel.addLayer(linkLayerModel);
@@ -43,6 +43,8 @@ export class CanvasEngine {
         // Add user event handlers
         this.canvasEventsHandler = new CanvasEventsHandler(this.canvasModel);
         ZoomableItem.makeZoomable(this.canvasModel);
+
+        this.canvasModel.updateZoom();
     }
 
     decorateDiagramItem($item) {
@@ -69,24 +71,27 @@ export class CanvasEngine {
         return nodeModel;
     }
 
-    addLink(startNodeID, endNodeID) {
+    addLink(startPortModel, endPortModel) {
         let $link = this.createLink(this.$linkLayer);
-        let startNode = this.canvasModel.getModelFromId(startNodeID);
-        let endNode = this.canvasModel.getModelFromId(endNodeID);
 
-        let linkModel = new LinkModel($link, startNode, endNode);
+        let linkModel = new LinkModel($link, startPortModel, endPortModel);
         const {itemID: linkID} = this.decorateDiagramItem($link);
-
         linkModel.setId(linkID);
 
-        startNode.addLink(linkModel);
-        endNode.addLink(linkModel);
+        startPortModel.addLink(linkModel);
+        endPortModel.addLink(linkModel);
+    }
 
-        this.links.push({
-            startNodeID,
-            endNodeID,
-            id: getUniqueID()
-        })
+    addPort(nodeModel, portType){
+        let $port = this.createPort(nodeModel.getHTMLElement(), portType);
+
+        let portModel = new PortModel($port, portType, nodeModel);
+        const {itemID: portID} = this.decorateDiagramItem($port);
+        portModel.setId(portID);
+
+        nodeModel.addPort(portModel);
+
+        return portModel;
     }
 
     /**
@@ -136,5 +141,16 @@ export class CanvasEngine {
         $link.classList.add("link");
         $container.appendChild($link);
         return $link;
+    }
+
+    /**
+     * @return {HTMLDivElement}
+     */
+    createPort($node, portType){
+        let $port = document.createElement("div");
+        $port.classList.add("port");
+        $port.classList.add(`port-${portType}`);
+        $node.appendChild($port);
+        return $port;
     }
 }

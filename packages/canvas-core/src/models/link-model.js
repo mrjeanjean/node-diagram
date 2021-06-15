@@ -1,31 +1,31 @@
 import {generateRandomColor} from "../helpers";
 
 export class LinkModel{
-    startNode;
-    endNode;
+    startPort;
+    endPort;
     $link;
     linkId;
     lineColor;
 
-    constructor($link, startNode, endNode) {
+    constructor($link, startPort, endPort) {
         this.$link = $link;
-        this.startNode = startNode;
-        this.endNode = endNode;
+        this.startPort = startPort;
+        this.endPort = endPort;
         this.lineColor = generateRandomColor();
 
         this.draw();
     }
 
     draw(){
-        const startNodePosition = this.startNode.getPosition();
-        const endNodePosition = this.endNode.getPosition();
+        const startPortPosition = this.startPort.getPosition();
+        const endPortPosition = this.endPort.getPosition();
 
-        this.$link.setAttribute('x1', startNodePosition.x + 100);
-        this.$link.setAttribute('y1', startNodePosition.y + 75);
-        this.$link.setAttribute('x2', endNodePosition.x + 100);
-        this.$link.setAttribute('y2', endNodePosition.y + 75);
+        this.$link.setAttribute('x1', startPortPosition.x );
+        this.$link.setAttribute('y1', startPortPosition.y);
+        this.$link.setAttribute('x2', endPortPosition.x);
+        this.$link.setAttribute('y2', endPortPosition.y);
         this.$link.setAttribute('stroke', this.lineColor);
-        this.$link.setAttribute('stroke-width', "4");
+        this.$link.setAttribute('stroke-width', "5");
     }
 
     setId(linkId){

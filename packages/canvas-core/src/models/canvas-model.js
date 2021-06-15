@@ -1,7 +1,7 @@
 export class CanvasModel {
     layers = [];
     diagramItems = new Map();
-    zoom = 1;
+    zoom = 0.5;
     $canvas;
 
     constructor($canvas) {
@@ -14,6 +14,10 @@ export class CanvasModel {
 
     setZoom(zoom) {
         this.zoom = zoom;
+        this.updateZoom();
+    }
+
+    updateZoom(){
         this.layers.forEach(layer => {
             const $layer = layer.getHTMLElement();
             $layer.style.transform = `scale(${this.zoom})`
