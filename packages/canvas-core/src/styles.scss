@@ -50,8 +50,12 @@ body {
   cursor: pointer;
 }
 
-.link__wrapper:hover .link-handle{
+.link__wrapper:not(.on-connection):hover .link-handle{
   opacity: 0.2;
+}
+
+.link__wrapper.on-connection {
+  pointer-events: none;
 }
 
 .link {
@@ -73,10 +77,6 @@ body {
 
 .link.selected {
   stroke: red;
-}
-
-.link.on-connection {
-  pointer-events: none;
 }
 
 .node {
