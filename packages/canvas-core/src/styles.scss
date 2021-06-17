@@ -1,3 +1,9 @@
+:root{
+  --port-size: 60px;
+}
+
+$port-size: 60px;
+
 body {
   background-color: pink;
   margin: 0;
@@ -32,7 +38,7 @@ body {
   overflow: visible;
   background-color: transparent;
   pointer-events: none;
-  z-index: 2;
+  z-index: 0;
 }
 
 .svg-filters {
@@ -67,6 +73,10 @@ body {
   pointer-events: all;
 }
 
+.node.is-dragging{
+  z-index: 3;
+}
+
 .port {
   background-color: #fff;
   z-index: -1;
@@ -77,10 +87,10 @@ body {
 
 .port-container{
   position: absolute;
-  top: -25px;
-  left: -25px;
-  right: -25px;
-  bottom: -25px;
+  top: $port-size / -2;
+  left: $port-size / -2;
+  right: $port-size / -2;
+  bottom: $port-size / -2;
   display: flex;
   pointer-events: none;
   z-index: 10;
@@ -90,14 +100,14 @@ body {
 .port-container--actionInputPort,
 .port-container--actionOutputPort {
   flex-direction: column;
-  padding-top: 25px;
-  padding-bottom: 25px;
+  padding-top: $port-size / 2;
+  padding-bottom: $port-size / 2;
 }
 
 .port-container--inputPort,
 .port-container--outputPort {
-  padding-left: 25px;
-  padding-right: 25px;
+  padding-left: $port-size / 2;
+  padding-right: $port-size / 2;
 }
 
 .port-container--outputPort,
@@ -107,51 +117,43 @@ body {
 
 .port-container--inputPort .port,
 .port-container--outputPort .port {
-  width: 50px;
-  height: 25px;
+  width: $port-size;
+  height: $port-size / 2;
 }
 
 .port-container--actionInputPort .port,
 .port-container--actionOutputPort .port {
-  height: 50px;
-  width: 25px;
+  width: $port-size / 2;
+  height: $port-size;
 }
 
 .port-container--inputPort .port{
-  border-top-left-radius: 50px;
-  border-top-right-radius: 50px;
+  border-top-left-radius: $port-size;
+  border-top-right-radius: $port-size;
+  top: $port-size / -4;
+  transform: translateY($port-size / 4);
 }
 
 .port-container--outputPort .port{
-  border-bottom-left-radius: 50px;
-  border-bottom-right-radius: 50px;
+  border-bottom-left-radius: $port-size;
+  border-bottom-right-radius: $port-size;
+  top: $port-size / -4;
+  transform: translateY($port-size / 4);
 }
 
 .port-container--actionInputPort .port{
-  border-top-left-radius: 50px;
-  border-bottom-left-radius: 50px;
+  border-top-left-radius: $port-size;
+  border-bottom-left-radius: $port-size;
+  left: $port-size / -4;
+  transform: translateX($port-size / 4);
 }
 
 .port-container--actionOutputPort .port{
-  border-top-right-radius: 50px;
-  border-bottom-right-radius: 50px;
+  border-top-right-radius: $port-size;
+  border-bottom-right-radius: $port-size;
+  right: $port-size / 4;
+  transform: translateX($port-size / 4);
 }
-
-  /*.port.port-inputPort {
-    top: calc(0% - 25px / 2);
-    left: 50%;
-    border-top-left-radius: 50px;
-    border-top-right-radius: 50px;
-    transform: translateX(-50%) translateY(-50%);
-  }
-
-  .port.port-outputPort {
-    top: calc(100% + 25px / 2);
-    left: 50%;
-    border-bottom-left-radius: 50px;
-    border-bottom-right-radius: 50px;
-    transform: translateX(-50%) translateY(-50%);
-  }*/
 
 /*.port__inner {
   position: absolute;

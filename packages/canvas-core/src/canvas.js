@@ -158,10 +158,10 @@ export class CanvasEngine {
     }
 
     /**
-     * @return {SVGLineElement}
+     * @return {SVGPathElement}
      */
     createLink($container) {
-        let $link = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+        let $link = document.createElementNS('http://www.w3.org/2000/svg', 'path');
         $link.classList.add("link");
         $container.appendChild($link);
         return $link;

@@ -58,6 +58,8 @@ export class CanvasModel {
         return this.$canvas;
     }
 
+    startDrag(){}
+
     onDrag(data) {
         this.layers.forEach(layerModel => {
             layerModel.onDrag(data);

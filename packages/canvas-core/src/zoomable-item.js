@@ -1,11 +1,13 @@
 import {clamp} from "./helpers";
 
 export class ZoomableItem{
-    zoom = 1;
+    zoom;
     model;
 
     constructor(model){
         this.model = model;
+        this.zoom = model.getZoom() ?? 1;
+        console.log(model);
         this.attachEvents();
     }
 

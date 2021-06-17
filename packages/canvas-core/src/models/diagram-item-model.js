@@ -14,6 +14,10 @@ export class DiagramItemModel{
         this.draw();
     }
 
+    startDrag(){
+
+    }
+
     onDrag(data){
         this.positionX = data.currentPositionX + this.initialX;
         this.positionY = data.currentPositionY + this.initialY;

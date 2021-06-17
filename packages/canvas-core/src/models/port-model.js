@@ -63,12 +63,12 @@ export class PortModel {
             return false;
         }
 
-        if(linkModel.startPort.getPortType() === portsTypes.input){
-            return this.portType === portsTypes.output;
+        if(linkModel.startPort.isInputPort()){
+            return !this.isInputPort();
         }
 
-        if(linkModel.startPort.getPortType() === portsTypes.output){
-            return this.portType === portsTypes.input;
+        if(!linkModel.startPort.isInputPort()){
+            return this.isInputPort();
         }
 
         return false;
@@ -78,5 +78,14 @@ export class PortModel {
         return this.links.find(
             link=>link.startPort.getId() === linkModel.startPort.getId()
         ) !== undefined;
+    }
+
+    isInputPort(){
+        return this.getPortType() === portsTypes.actionInput ||
+        this.getPortType() === portsTypes.input
+    }
+
+    isActionType(){
+        return this.getPortType().startsWith('action');
     }
 }

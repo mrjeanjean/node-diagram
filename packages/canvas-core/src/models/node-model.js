@@ -12,11 +12,20 @@ export class NodeModel extends DiagramItemModel{
         this.events = new EventDispatcher()
     }
 
+    startDrag() {
+        this.getHTMLElement().classList.add("is-dragging");
+    }
+
     onDrag(data){
         this.positionX = data.currentPositionX / this.canvasModel.getZoom() + this.initialX;
         this.positionY = data.currentPositionY / this.canvasModel.getZoom() + this.initialY;
         this.events.fire('node_update', this);
         this.draw();
+    }
+
+    endDrag() {
+        super.endDrag();
+        this.getHTMLElement().classList.remove("is-dragging");
     }
 
     addPort(portModel){

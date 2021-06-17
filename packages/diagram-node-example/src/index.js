@@ -8,19 +8,23 @@ const node1 = canvasEngine.addNode(-200, -200);
 /*const node2 = canvasEngine.addNode(600, 100);
 const node3 = canvasEngine.addNode(600, 400);*/
 
-const output = canvasEngine.addPort(node1, portsTypes.output);
-canvasEngine.addPort(node1, portsTypes.input);
-canvasEngine.addPort(node1, portsTypes.actionOutput);
-canvasEngine.addPort(node1, portsTypes.actionOutput);
-canvasEngine.addPort(node1, portsTypes.actionInput);
-canvasEngine.addPort(node1, portsTypes.actionInput);
-/*const output2 = canvasEngine.addPort(node2, portsTypes.output);
-const input = canvasEngine.addPort(node2, portsTypes.input);
-const input2 = canvasEngine.addPort(node3, portsTypes.input);
-canvasEngine.addPort(node1, portsTypes.input);*/
+const node2 = canvasEngine.addNode(-200, 200);
+const node3 = canvasEngine.addNode(600, 400);
+const node4 = canvasEngine.addNode(-800, 200);
 
-//canvasEngine.addLink(output, input);
-//canvasEngine.addLink(output2, input2);
+const output = canvasEngine.addPort(node1, portsTypes.output);
+const input = canvasEngine.addPort(node2, portsTypes.input);
+const output2 = canvasEngine.addPort(node1, portsTypes.actionOutput);
+const output3 = canvasEngine.addPort(node4, portsTypes.actionOutput);
+const input3 = canvasEngine.addPort(node2, portsTypes.actionInput);
+const input2 = canvasEngine.addPort(node3, portsTypes.actionInput);
+
+canvasEngine.addPort(node3, portsTypes.input);
+canvasEngine.addPort(node1, portsTypes.actionOutput);
+
+canvasEngine.addLink(output2, input2);
+canvasEngine.addLink(output, input);
+canvasEngine.addLink(output3, input3);
 
 const $addNodeButton = document.querySelector(".add-node");
 $addNodeButton.addEventListener("click", ()=>{

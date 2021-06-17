@@ -4,9 +4,12 @@ import {DefaultState} from "./default-state";
 class MouseHelper {
     positionX;
     positionY;
+    startedPort
 
-    constructor({x, y}) {
-        this.setPosition(x, y);
+    constructor(startedPort) {
+        this.startedPort = startedPort;
+        let startedPortPosition = startedPort.getPosition();
+        this.setPosition(startedPortPosition.x, startedPortPosition.y);
     }
 
     getPosition() {
@@ -20,6 +23,14 @@ class MouseHelper {
         this.positionX = x;
         this.positionY = y;
     }
+
+    isActionType(){
+        return this.startedPort.isActionType();
+    }
+
+    isInputPort(){
+        return !this.startedPort.isInputPort();
+    }
 }
 
 export class ConnectState extends DefaultState {
@@ -29,12 +40,16 @@ export class ConnectState extends DefaultState {
     constructor(currentDiagramItem, canvasModel) {
         super(currentDiagramItem, canvasModel);
 
-        this.mouseHelper = new MouseHelper(this.currentDiagramItem.getPosition());
+        this.mouseHelper = new MouseHelper(this.currentDiagramItem);
 
-        const $link = this.createLink();
-        $link.classList.add("on-connection")
-        this.canvasModel.getLayer("link-layer").getHTMLElement().appendChild($link);
-        this.linkModel = new LinkModel($link, currentDiagramItem, this.mouseHelper, "#666");
+        const $link = this.canvasModel.getCanvasEngine().createLink(this.canvasModel.getLayer("link-layer").getHTMLElement());
+        $link.classList.add("on-connection");
+
+        if (currentDiagramItem.isInputPort()) {
+            this.linkModel = new LinkModel($link, this.mouseHelper, currentDiagramItem, "#666");
+        } else {
+            this.linkModel = new LinkModel($link, currentDiagramItem, this.mouseHelper, "#666");
+        }
     }
 
     onDrag(data) {
@@ -47,7 +62,7 @@ export class ConnectState extends DefaultState {
             y: (data.event.clientY / this.canvasModel.getZoom() - linkLayerRealY / this.canvasModel.getZoom())
         }
 
-        if(this.portTarget && this.portTarget.accept(this.linkModel)){
+        if (this.portTarget && this.portTarget.accept(this.linkModel)) {
             computedPosition = this.portTarget.getPosition();
         }
 
@@ -62,17 +77,16 @@ export class ConnectState extends DefaultState {
     endDrag() {
         this.linkModel.getHTMLElement().remove();
 
-        if(this.portTarget){
-            if(this.portTarget.accept(this.linkModel)){
-                this.canvasModel.getCanvasEngine().addLink(this.currentDiagramItem, this.portTarget);
+        if (this.portTarget) {
+            if (this.portTarget.accept(this.linkModel)) {
+
+                if (this.currentDiagramItem.isInputPort()) {
+                    this.canvasModel.getCanvasEngine().addLink(this.portTarget, this.currentDiagramItem);
+                } else {
+                    this.canvasModel.getCanvasEngine().addLink(this.currentDiagramItem, this.portTarget);
+                }
             }
         }
-    }
-
-    createLink() {
-        let $linkLayer = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-        $linkLayer.classList.add("link");
-        return $linkLayer;
     }
 
     onHover(item) {
