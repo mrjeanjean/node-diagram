@@ -45,10 +45,30 @@ body {
   display: none;
 }
 
+.link__wrapper{
+  pointer-events: all;
+  cursor: pointer;
+}
+
+.link__wrapper:hover .link-handle{
+  opacity: 0.2;
+}
+
 .link {
   cursor: pointer;
   fill: transparent;
   pointer-events: all;
+  stroke: #666;
+  stroke-width: 6px;
+}
+
+.link-handle{
+  fill: transparent;
+  pointer-events: all;
+  stroke: deepskyblue;
+  stroke-width: 30px;
+  opacity: 0;
+  transition: opacity 200ms;
 }
 
 .link.selected {

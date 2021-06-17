@@ -114,3 +114,10 @@ export function getUniqueID(){
 export function getDistance(point1, point2){
     return Math.hypot(point2.x - point1.x, point2.y - point1.y);
 }
+
+/**
+ * @return {SVGElement}
+ */
+export function createSVGElement(type){
+    return document.createElementNS('http://www.w3.org/2000/svg', type);
+}

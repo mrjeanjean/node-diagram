@@ -1,4 +1,4 @@
-import {generateRandomColor, getUniqueID} from "./helpers";
+import {createSVGElement, generateRandomColor, getUniqueID} from "./helpers";
 import {NodeModel} from "./models/node-model";
 import {ZoomableItem} from "./zoomable-item";
 import {CanvasModel} from "./models/canvas-model";
@@ -158,13 +158,22 @@ export class CanvasEngine {
     }
 
     /**
-     * @return {SVGPathElement}
+     * @return {SVGElement}
      */
     createLink($container) {
-        let $link = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        let $linkGroup = createSVGElement("g");
+        let $link = createSVGElement("path");
+        let $LinkHandle = createSVGElement("path");
+
+        $linkGroup.classList.add("link__wrapper");
         $link.classList.add("link");
-        $container.appendChild($link);
-        return $link;
+        $LinkHandle.classList.add("link-handle");
+
+        $linkGroup.appendChild($link);
+        $linkGroup.appendChild($LinkHandle);
+
+        $container.appendChild($linkGroup);
+        return $linkGroup;
     }
 
     /**

@@ -1,6 +1,6 @@
 import {generateRandomColor} from "../helpers";
 
-export class LinkModel{
+export class LinkModel {
     startPort;
     endPort;
     $link;
@@ -18,12 +18,12 @@ export class LinkModel{
 
     getCurvedPath(points, curvature = 0.35) {
         const [x1, y1, x2, y2] = points;
-        if(this.startPort.isActionType()){
+        if (this.startPort.isActionType()) {
             const hx1 = x1 + Math.abs(x2 - x1) * curvature;
             const hx2 = x2 - Math.abs(x2 - x1) * curvature;
 
             return `M ${x1} ${y1} C ${hx1} ${y1} ${hx2} ${y2} ${x2} ${y2}`;
-        }else{
+        } else {
             const hy1 = y1 + Math.abs(y2 - y1) * curvature;
             const hy2 = y2 - Math.abs(y2 - y1) * curvature;
 
@@ -31,7 +31,7 @@ export class LinkModel{
         }
     }
 
-    draw(){
+    draw() {
         const startPortPosition = this.startPort.getPosition();
         const endPortPosition = this.endPort.getPosition();
 
@@ -50,20 +50,21 @@ export class LinkModel{
         this.$link.setAttribute('stroke-width', "5");
         this.$link.setAttribute('stroke-linecap', "round");*/
 
-        this.$link.setAttribute('d', path );
-        this.$link.setAttribute('stroke', this.lineColor);
-        this.$link.setAttribute('stroke-width', "5");
+        this.$link.querySelectorAll("path").forEach($path => {
+            $path.setAttribute('d', path);
+        });
+
     }
 
-    setId(linkId){
+    setId(linkId) {
         this.linkId = linkId;
     }
 
-    getId(){
+    getId() {
         return this.linkId;
     }
 
-    getHTMLElement(){
+    getHTMLElement() {
         return this.$link;
     }
 }
