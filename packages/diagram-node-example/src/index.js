@@ -26,13 +26,30 @@ canvasEngine.addLink(output2, input2);
 canvasEngine.addLink(output, input);
 canvasEngine.addLink(output3, input3);
 
+const groupNode = canvasEngine.addGroupNode(1200, 500);
+
+const addSubNode = () => {
+    const newNode = groupNode.addNode();
+    canvasEngine.addPort(newNode, portsTypes.actionInput);
+    canvasEngine.addPort(newNode, portsTypes.actionOutput);
+}
+
+addSubNode();
+addSubNode();
+
+canvasEngine.addPort(groupNode, portsTypes.input);
+
+
 const $addNodeButton = document.querySelector(".add-node");
-$addNodeButton.addEventListener("click", ()=>{
+$addNodeButton.addEventListener("click", () => {
     const node = canvasEngine.addNode(getRandom(-1000, 2000), getRandom(-1000, 1000));
 
     canvasEngine.addPort(node, portsTypes.input);
     canvasEngine.addPort(node, portsTypes.output);
 })
+
+const $addSubNodeButton = document.querySelector(".add-subnode");
+$addSubNodeButton.addEventListener("click", addSubNode);
 
 /*const nodes = [];
 

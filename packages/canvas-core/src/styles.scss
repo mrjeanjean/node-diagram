@@ -1,8 +1,4 @@
-:root{
-  --port-size: 60px;
-}
-
-$port-size: 60px;
+$port-size: 32px;
 
 body {
   background-color: pink;
@@ -41,10 +37,40 @@ body {
   z-index: 0;
 }
 
-.svg-filters {
-  display: none;
+// NODE
+//-----------------------------
+.node {
+  background-color: deepskyblue;
+  min-width: 250px;
+  min-height: 150px;
+  border-radius: 10px;
+  z-index: 2;
+  position: absolute;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none; /* iOS Safari */
+  cursor: move;
+  pointer-events: all;
 }
 
+.node-group-node{
+  padding: 20px;
+  background-color: rgba(#fff, 0.5) !important;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.node-group-node .node{
+  position: relative;
+}
+
+.node.is-dragging{
+  z-index: 3;
+}
+
+// LINK
+//-----------------------------
 .link__wrapper{
   pointer-events: all;
   cursor: pointer;
@@ -63,7 +89,7 @@ body {
   fill: transparent;
   pointer-events: all;
   stroke: #666;
-  stroke-width: 6px;
+  stroke-width: 4px;
 }
 
 .link-handle{
@@ -79,30 +105,15 @@ body {
   stroke: red;
 }
 
-.node {
-  background-color: deepskyblue;
-  width: 300px;
-  height: 250px;
-  border-radius: 20px;
-  z-index: 2;
-  position: absolute;
-  user-select: none;
-  -webkit-user-select: none;
-  -webkit-touch-callout: none; /* iOS Safari */
-  cursor: move;
-  pointer-events: all;
-}
-
-.node.is-dragging{
-  z-index: 3;
-}
-
+// PORT
+//-----------------------------
 .port {
   background-color: #fff;
   z-index: -1;
   cursor: pointer;
   position: relative;
   pointer-events: all;
+  opacity: 1;
 }
 
 .port-container{
@@ -150,41 +161,56 @@ body {
 .port-container--inputPort .port{
   border-top-left-radius: $port-size;
   border-top-right-radius: $port-size;
-  top: $port-size / -4;
-  transform: translateY($port-size / 4);
 }
 
 .port-container--outputPort .port{
   border-bottom-left-radius: $port-size;
   border-bottom-right-radius: $port-size;
-  top: $port-size / -4;
-  transform: translateY($port-size / 4);
 }
 
 .port-container--actionInputPort .port{
   border-top-left-radius: $port-size;
   border-bottom-left-radius: $port-size;
-  left: $port-size / -4;
-  transform: translateX($port-size / 4);
 }
 
 .port-container--actionOutputPort .port{
   border-top-right-radius: $port-size;
   border-bottom-right-radius: $port-size;
-  right: $port-size / 4;
-  transform: translateX($port-size / 4);
 }
 
-/*.port__inner {
+// PORT TURNING AS DOT SLOT
+// TODO: keep or remove
+//-----------------------------
+/*.port-container--actionInputPort,
+.port-container--actionOutputPort{
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 15px;
+  justify-content: flex-start;
+  gap: 15px;
+}
+
+.port-container--actionInputPort .port,
+.port-container--actionOutputPort .port{
+  border-radius: 50%;
+  width: $port-size / 2;
+  height: $port-size / 2;
+}
+
+.port-container--actionInputPort .port.port.connected .port__inner,
+.port-container--actionOutputPort .port.connected .port__inner {
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 15px;
-  height: 15px;
+  width: 50%;
+  height: 50%;
   pointer-events: none;
 }
 
-.port__inner:before {
+.port-container--actionInputPort .port.connected .port__inner:before,
+.port-container--actionOutputPort .port.connected .port__inner:before {
   content: "";
   top: 0;
   left: 0;
@@ -194,7 +220,6 @@ body {
   background-color: #666;
   border-radius: 50%;
   transform: translate(-50%, -50%);
-  border: 2px #666 solid;
 }*/
 
 // GUI
@@ -215,4 +240,7 @@ body {
   background-color: rgba(0, 0, 0, 0.2);
   padding: 10px;
   color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
