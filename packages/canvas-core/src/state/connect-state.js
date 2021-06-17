@@ -53,14 +53,7 @@ export class ConnectState extends DefaultState {
     }
 
     onDrag(data) {
-        let linkLayer = this.canvasModel.getLayer("link-layer");
-        let linkLayerRealX = linkLayer.getHTMLElement().getBoundingClientRect().x;
-        let linkLayerRealY = linkLayer.getHTMLElement().getBoundingClientRect().y;
-
-        let computedPosition = {
-            x: (data.event.clientX / this.canvasModel.getZoom() - linkLayerRealX / this.canvasModel.getZoom()),
-            y: (data.event.clientY / this.canvasModel.getZoom() - linkLayerRealY / this.canvasModel.getZoom())
-        }
+        let computedPosition = this.canvasModel.getRelativePosition(data.event.clientX, data.event.clientY);
 
         if (this.portTarget && this.portTarget.accept(this.linkModel)) {
             computedPosition = this.portTarget.getPosition();

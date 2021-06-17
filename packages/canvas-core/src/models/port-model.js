@@ -6,11 +6,13 @@ export class PortModel {
     itemId;
     node;
     links = [];
+    canvasModel;
 
-    constructor($port, portType, nodeModel) {
+    constructor($port, portType, nodeModel, canvasModel) {
         this.$port = $port;
         this.portType = portType;
         this.node = nodeModel;
+        this.canvasModel = canvasModel;
 
         this.updateLinks = this.updateLinks.bind(this);
 
@@ -26,12 +28,11 @@ export class PortModel {
     }
 
     getPosition() {
-        let {x, y} = this.node.getPosition();
+        let portReal = this.getHTMLElement().getBoundingClientRect();
+        let portRealX = portReal.x + portReal.width / 2;
+        let portRealY = portReal.y + portReal.height / 2;
 
-        return {
-            x: x + this.$port.offsetLeft,
-            y: y + this.$port.offsetTop,
-        };
+        return this.canvasModel.getRelativePosition(portRealX, portRealY);
     }
 
     getPortType(){
@@ -39,6 +40,7 @@ export class PortModel {
     }
 
     addLink(link) {
+        this.getHTMLElement().classList.add("connected");
         this.links.push(link);
     }
 

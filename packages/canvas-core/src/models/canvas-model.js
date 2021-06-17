@@ -3,7 +3,7 @@ import {diagramInfos} from "../diagram-infos";
 export class CanvasModel {
     layers = new Map();
     diagramItems = new Map();
-    zoom = 0.5;
+    zoom = 1;
     $canvas;
     canvasEngine;
 
@@ -46,14 +46,6 @@ export class CanvasModel {
         this.diagramItems.set(itemID, itemModel);
     }
 
-    getModelFromElement($element) {
-        return this.diagramItems.get($element.dataset.diagramItemId);
-    }
-
-    getModelFromId(id) {
-        return this.diagramItems.get(id);
-    }
-
     getHTMLElement() {
         return this.$canvas;
     }
@@ -70,5 +62,16 @@ export class CanvasModel {
         this.layers.forEach(layerModel => {
             layerModel.endDrag(data);
         })
+    }
+
+    getRelativePosition(x, y, layerName = "node-layer"){
+        let linkLayer = this.getLayer(layerName);
+        let linkLayerRealX = linkLayer.getHTMLElement().getBoundingClientRect().x;
+        let linkLayerRealY = linkLayer.getHTMLElement().getBoundingClientRect().y;
+
+        return {
+            x: (x / this.getZoom() - linkLayerRealX / this.getZoom()),
+            y: (y / this.getZoom() - linkLayerRealY / this.getZoom())
+        }
     }
 }

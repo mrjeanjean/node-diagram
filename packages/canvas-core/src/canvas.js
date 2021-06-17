@@ -7,6 +7,7 @@ import {CanvasEventsHandler} from "./canvas-events-handler";
 import {LinkModel} from "./models/link-model";
 import {PortModel} from "./models/port-model";
 import {portsTypes} from "./ports/ports-types";
+import {GroupNodeModel} from "./models/group-node-model";
 
 export class CanvasEngine {
     $nodeLayer;
@@ -58,9 +59,29 @@ export class CanvasEngine {
         }
     }
 
-    addNode(positionX = 0, positionY = 0) {
-        let $node = this.createNode(this.$nodeLayer);
+    add(itemModel) {
+        const {itemID: itemID} = this.decorateDiagramItem(itemModel.getHTMLElement());
+        this.canvasModel.addItem(itemID, itemModel);
+        itemModel.setId(itemID);
+    }
+
+    addNode(positionX = 0, positionY = 0, type = "default") {
+        let $node = this.createNode(this.$nodeLayer, type);
+
         let nodeModel = new NodeModel($node, this.canvasModel, positionX, positionY);
+        const {itemID: nodeID} = this.decorateDiagramItem($node);
+
+        this.canvasEventsHandler.addItem(nodeModel);
+
+        this.canvasModel.addItem(nodeID, nodeModel);
+        nodeModel.setId(nodeID);
+        return nodeModel;
+    }
+
+    addGroupNode(positionX = 0, positionY = 0) {
+        let $node = this.createNode(this.$nodeLayer, "group-node");
+
+        let nodeModel = new GroupNodeModel($node, this.canvasModel, positionX, positionY);
         const {itemID: nodeID} = this.decorateDiagramItem($node);
 
         this.canvasEventsHandler.addItem(nodeModel);
@@ -83,18 +104,18 @@ export class CanvasEngine {
         endPortModel.addLink(linkModel);
     }
 
-    removeLink(linkModel){
+    removeLink(linkModel) {
         linkModel.startPort.removeLink(linkModel);
         linkModel.endPort.removeLink(linkModel);
         this.canvasEventsHandler.removeItem(linkModel);
         linkModel.getHTMLElement().remove();
     }
 
-    addPort(nodeModel, portType){
-        let $portContainer = nodeModel.getHTMLElement().querySelector(`.port-container--${portType}`);
+    addPort(nodeModel, portType) {
+        let $portContainer = nodeModel.getHTMLElement().querySelector(`:scope > .port-container--${portType}`);
         let $port = this.createPort($portContainer, portType);
 
-        let portModel = new PortModel($port, portType, nodeModel);
+        let portModel = new PortModel($port, portType, nodeModel, this.canvasModel);
         const {itemID: portID} = this.decorateDiagramItem($port);
 
         this.canvasEventsHandler.addItem(portModel);
@@ -134,9 +155,11 @@ export class CanvasEngine {
     /**
      * @return {HTMLDivElement}
      */
-    createNode($container) {
+    createNode($container, type) {
         let $node = document.createElement("div");
         $node.classList.add("node");
+        $node.classList.add(`node-${type}`);
+
         $node.style.backgroundColor = generateRandomColor();
 
         $node.appendChild(this.createPortContainer(portsTypes.input));
@@ -151,7 +174,7 @@ export class CanvasEngine {
     /**
      * @return {HTMLDivElement}
      */
-    createPortContainer(portType){
+    createPortContainer(portType) {
         let $portContainer = document.createElement("div");
         $portContainer.classList.add("port-container", `port-container--${portType}`);
         return $portContainer;
@@ -179,7 +202,7 @@ export class CanvasEngine {
     /**
      * @return {HTMLDivElement}
      */
-    createPort($node, portType){
+    createPort($node, portType) {
         let $port = document.createElement("div");
         $port.classList.add("port");
         $port.classList.add(`port-${portType}`);

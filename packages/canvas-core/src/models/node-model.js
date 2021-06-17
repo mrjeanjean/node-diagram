@@ -19,6 +19,10 @@ export class NodeModel extends DiagramItemModel{
     onDrag(data){
         this.positionX = data.currentPositionX / this.canvasModel.getZoom() + this.initialX;
         this.positionY = data.currentPositionY / this.canvasModel.getZoom() + this.initialY;
+        this.update();
+    }
+
+    update(){
         this.events.fire('node_update', this);
         this.draw();
     }
