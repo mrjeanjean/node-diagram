@@ -1,14 +1,19 @@
-import {portsTypes} from "..";
+import {NodeModel} from "./node-model";
+import {LinkModel} from "./link-model";
+import {CanvasModel} from "./canvas-model";
+import {PortInterface} from "../interfaces/port-interface";
+import {portsTypes} from "./../ports/ports-types";
+import {Point} from "../types";
 
-export class PortModel {
-    $port;
-    portType;
-    itemId;
-    node;
-    links = [];
+export class PortModel implements PortInterface {
+    $port: HTMLElement;
+    portType: string;
+    itemId: string | null = null;
+    node: NodeModel;
+    links: Array<LinkModel> = [];
     canvasModel;
 
-    constructor($port, portType, nodeModel, canvasModel) {
+    constructor($port: HTMLElement, portType: string, nodeModel: NodeModel, canvasModel: CanvasModel) {
         this.$port = $port;
         this.portType = portType;
         this.node = nodeModel;
@@ -19,15 +24,15 @@ export class PortModel {
         this.node.events.add('node_update', this.updateLinks);
     }
 
-    setId(id) {
+    setId(id: string): void {
         this.itemId = id;
     }
 
-    getId() {
+    getId(): string | null {
         return this.itemId;
     }
 
-    getPosition() {
+    getPosition(): Point{
         let portReal = this.getHTMLElement().getBoundingClientRect();
         let portRealX = portReal.x + portReal.width / 2;
         let portRealY = portReal.y + portReal.height / 2;
@@ -35,59 +40,59 @@ export class PortModel {
         return this.canvasModel.getRelativePosition(portRealX, portRealY);
     }
 
-    getPortType(){
+    getPortType(): string {
         return this.portType;
     }
 
-    addLink(link) {
+    addLink(link: LinkModel): void {
         this.getHTMLElement().classList.add("connected");
         this.links.push(link);
     }
 
-    removeLink(link) {
+    removeLink(link: LinkModel): void {
         this.links = this.links.filter(linkModel => {
             return link.getId() !== linkModel.getId()
         });
     }
 
-    updateLinks() {
+    updateLinks(): void{
         this.links.forEach(link => {
             link.draw();
         })
     }
 
-    getHTMLElement() {
+    getHTMLElement(): HTMLElement {
         return this.$port;
     }
 
-    accept(linkModel){
-        if(this.isAlreadyConnectedTo(linkModel)){
+    accept(portModelFrom: PortModel): boolean{
+        if (this.isAlreadyConnectedTo(portModelFrom)) {
             return false;
         }
 
-        if(linkModel.startPort.isInputPort()){
+        if (portModelFrom.isInputPort()) {
             return !this.isInputPort();
         }
 
-        if(!linkModel.startPort.isInputPort()){
+        if (!portModelFrom.isInputPort()) {
             return this.isInputPort();
         }
 
         return false;
     }
 
-    isAlreadyConnectedTo(linkModel) {
+    isAlreadyConnectedTo(portModel: PortModel): boolean {
         return this.links.find(
-            link=>link.startPort.getId() === linkModel.startPort.getId()
+            link => link.startPort.getId() === portModel.getId()
         ) !== undefined;
     }
 
-    isInputPort(){
+    isInputPort(): boolean {
         return this.getPortType() === portsTypes.actionInput ||
-        this.getPortType() === portsTypes.input
+            this.getPortType() === portsTypes.input
     }
 
-    isActionType(){
+    isActionType(): boolean {
         return this.getPortType().startsWith('action');
     }
 }

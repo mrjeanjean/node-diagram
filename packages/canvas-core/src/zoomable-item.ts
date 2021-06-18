@@ -1,32 +1,33 @@
-import {clamp} from "./helpers";
+import {clamp} from "./utils/helpers";
 
 export class ZoomableItem{
-    zoom;
-    model;
+    zoom: number;
+    model: any;
 
-    constructor(model){
+    constructor(model: any){
         this.model = model;
         this.zoom = model.getZoom() ?? 1;
-        console.log(model);
+
+        this.onMouseWheel = this.onMouseWheel.bind(this);
         this.attachEvents();
     }
 
-    onMouseWheel = (e)=>{
-        this.zoom += (e.deltaY * -1) / 800;
+    onMouseWheel(event: WheelEvent): void{
+        this.zoom += (event.deltaY * -1) / 800;
         this.zoom = clamp(this.zoom, 0.1, 4);
 
         this.model.setZoom(this.zoom);
     }
 
-    attachEvents(){
+    attachEvents(): void{
         this.model.getHTMLElement().addEventListener("wheel", this.onMouseWheel);
     }
 
-    getZoom(){
+    getZoom(): number{
         return this.zoom;
     }
 
-    static makeZoomable(model){
+    static makeZoomable(model: any){
         return new ZoomableItem(model);
     }
 }

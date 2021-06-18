@@ -2,8 +2,8 @@
   "name": "canvas-core",
   "version": "0.1.0",
   "main": "index.js",
-  "module": "src/index.js",
-  "description": "Canvas core library",
+  "module": "src/index.ts",
+  "description": "Super canvas core library",
   "author": "Gaëtan <gaetan@moveo-webdesign.com>",
   "homepage": "",
   "private": true,
@@ -11,6 +11,10 @@
     "test": "echo \"Error: run tests from root\" && exit 1"
   },
   "dependencies": {
+    "@types/uuid": "^8.3.0",
     "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "typescript": "^4.3.4"
   }
 }

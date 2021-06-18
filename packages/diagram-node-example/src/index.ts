@@ -1,7 +1,7 @@
 import {CanvasEngine, portsTypes} from "canvas-core";
 import {getRandom} from "./helpers";
 
-const $root = document.getElementById("node-diagram");
+const $root = document.getElementById("node-diagram") as HTMLElement;
 let canvasEngine = new CanvasEngine($root);
 
 const node1 = canvasEngine.addNode(-200, -200);
@@ -40,7 +40,7 @@ addSubNode();
 canvasEngine.addPort(groupNode, portsTypes.input);
 
 
-const $addNodeButton = document.querySelector(".add-node");
+const $addNodeButton = document.querySelector(".add-node") as HTMLElement;
 $addNodeButton.addEventListener("click", () => {
     const node = canvasEngine.addNode(getRandom(-1000, 2000), getRandom(-1000, 1000));
 
@@ -48,7 +48,7 @@ $addNodeButton.addEventListener("click", () => {
     canvasEngine.addPort(node, portsTypes.output);
 })
 
-const $addSubNodeButton = document.querySelector(".add-subnode");
+const $addSubNodeButton = document.querySelector(".add-subnode") as HTMLElement;
 $addSubNodeButton.addEventListener("click", addSubNode);
 
 /*const nodes = [];
@@ -78,7 +78,6 @@ for (let j = 0; j < 10; j++) {
     const {node1, node2} = getRandomPairOfNode();
     canvasEngine.addLink(node1.getId(), node2.getId());
 }*/
-
 
 
 

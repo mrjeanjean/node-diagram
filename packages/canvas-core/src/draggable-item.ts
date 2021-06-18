@@ -1,30 +1,34 @@
-import {EventDispatcher} from "./event-dispatcher";
+import {EventDispatcher} from "./utils/event-dispatcher";
 
-export class DraggableItem{
-    isDragging = false;
-    initialX = 0;
-    initialY = 0;
+export class DraggableItem {
+    isDragging: boolean = false;
+    initialX: number = 0;
+    initialY: number = 0;
 
-    currentPositionX = 0;
-    currentPositionY = 0;
+    currentPositionX: number = 0;
+    currentPositionY: number = 0;
 
-    $item;
-    events
+    $item: HTMLElement;
+    events: EventDispatcher
 
-    constructor($item) {
+    constructor($item: HTMLElement) {
         this.$item = $item;
         this.events = new EventDispatcher();
+
+        this.startDrag = this.startDrag.bind(this);
+        this.onDrag = this.onDrag.bind(this);
+        this.endDrag = this.endDrag.bind(this);
 
         this.attachEvents();
     }
 
-    startDrag = (e) => {
-        if(e.button !== 0){
+    startDrag(event: MouseEvent): void {
+        if (event.button !== 0) {
             return;
         }
 
-        this.initialX = e.clientX;
-        this.initialY = e.clientY;
+        this.initialX = event.clientX;
+        this.initialY = event.clientY;
 
         this.events.fire('startDrag', {
             initialX: this.initialX,
@@ -34,7 +38,7 @@ export class DraggableItem{
         this.isDragging = true;
     }
 
-    onDrag = (event) => {
+    onDrag(event: MouseEvent): void {
         if (this.isDragging) {
             this.currentPositionX = event.clientX - this.initialX;
             this.currentPositionY = event.clientY - this.initialY;
@@ -49,8 +53,8 @@ export class DraggableItem{
         }
     }
 
-    endDrag = (event) => {
-        if(this.isDragging){
+    endDrag(event: MouseEvent): void {
+        if (this.isDragging) {
             this.isDragging = false;
             this.events.fire('endDrag', {
                 currentPositionX: this.currentPositionX,
@@ -60,13 +64,13 @@ export class DraggableItem{
         }
     }
 
-    attachEvents() {
+    attachEvents(): void {
         this.$item.addEventListener("mousedown", this.startDrag);
         document.addEventListener("mouseup", this.endDrag);
         document.addEventListener("mousemove", this.onDrag);
     }
 
-    static makeDraggable($item){
+    static makeDraggable($item: HTMLElement): DraggableItem {
         return new DraggableItem($item);
     }
 }

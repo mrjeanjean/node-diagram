@@ -1,11 +1,13 @@
+import {CanvasModel} from "./models/canvas-model";
+
 class DiagramInfos{
-    $diagramInfos;
+    $diagramInfos: HTMLElement;
 
     constructor(){
-        this.$diagramInfos = document.querySelector("#diagram-infos");
+        this.$diagramInfos = document.querySelector("#diagram-infos") as HTMLElement;
     }
 
-    updateData(canvasModel){
+    updateData(canvasModel: CanvasModel): void{
         this.$diagramInfos.innerHTML = `
             <div>Zoom: ${Math.floor(canvasModel.getZoom() * 100)}%</div> 
         `;
