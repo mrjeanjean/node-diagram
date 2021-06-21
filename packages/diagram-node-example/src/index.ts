@@ -1,10 +1,12 @@
 import {CanvasEngine, portsTypes} from "canvas-core";
 import {getRandom} from "./helpers";
+import {LabelNodeFactory} from "./label-node-factory";
 
 const $root = document.getElementById("node-diagram") as HTMLElement;
 let canvasEngine = new CanvasEngine($root);
+canvasEngine.registerNodeFactory("label-node", new LabelNodeFactory());
 
-const node1 = canvasEngine.addNode(-200, -200);
+const node1 = canvasEngine.addNode(-200, -200, "label-node");
 /*const node2 = canvasEngine.addNode(600, 100);
 const node3 = canvasEngine.addNode(600, 400);*/
 
@@ -29,7 +31,7 @@ canvasEngine.addLink(output3, input3);
 const groupNode = canvasEngine.addGroupNode(1200, 500);
 
 const addSubNode = () => {
-    const newNode = groupNode.addNode();
+    const newNode = groupNode.addNode("label-node");
     canvasEngine.addPort(newNode, portsTypes.actionInput);
     canvasEngine.addPort(newNode, portsTypes.actionOutput);
 }

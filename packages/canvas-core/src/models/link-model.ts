@@ -7,7 +7,6 @@ export class LinkModel extends ItemModel implements LinkInterface{
     startPort: PortModel;
     endPort: PortModel;
     $link: SVGElement;
-    lineColor: string;
 
     constructor($link: SVGElement, startPort: PortModel, endPort: PortModel, color: string|null = null) {
 
@@ -16,7 +15,6 @@ export class LinkModel extends ItemModel implements LinkInterface{
         this.$link = $link;
         this.startPort = startPort;
         this.endPort = endPort;
-        this.lineColor = color ?? generateRandomColor();
 
         this.draw();
     }

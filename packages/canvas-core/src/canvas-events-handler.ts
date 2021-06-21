@@ -7,6 +7,7 @@ import {DragConnexionState} from "./state/drag-connexion-state";
 import {DragCanvasState} from "./state/drag-canvas-state";
 import {DragStateInterface} from "./state/drag-state-interface";
 import {DragNodeState} from "./state/drag-node-state";
+import {DraggableInterface} from "./interfaces/draggable-interface";
 
 export class CanvasEventsHandler {
     canvasModel: CanvasModel;
@@ -17,11 +18,11 @@ export class CanvasEventsHandler {
     constructor(canvasModel: CanvasModel) {
         this.canvasModel = canvasModel;
 
-        let draggableItem = DraggableItem.makeDraggable(this.canvasModel.getHTMLElement());
+        let draggableCanvas = DraggableItem.makeDraggable(this.canvasModel.getHTMLElement());
 
-        draggableItem.events.add("startDrag", this.startDrag.bind(this));
-        draggableItem.events.add("onDrag", this.onDrag.bind(this));
-        draggableItem.events.add("endDrag", this.endDrag.bind(this));
+        draggableCanvas.events.add("startDrag", this.startDrag.bind(this));
+        draggableCanvas.events.add("onDrag", this.onDrag.bind(this));
+        draggableCanvas.events.add("endDrag", this.endDrag.bind(this));
 
         this.canvasModel.getHTMLElement().addEventListener("mousemove", this.onMouseMove.bind(this));
     }

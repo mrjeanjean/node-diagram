@@ -7,7 +7,7 @@ import {ItemModel} from "./item-model";
 export class CanvasModel {
     layers: Map<string, LayerModel> = new Map();
     diagramItems: Map<string, ItemModel> = new Map();
-    zoom: number = 0.5;
+    zoom: number = 1;
     $canvas: HTMLElement;
     canvasEngine: CanvasEngine;
 

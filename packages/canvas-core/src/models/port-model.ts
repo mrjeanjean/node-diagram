@@ -11,6 +11,7 @@ export class PortModel implements PortInterface {
     itemId: string | null = null;
     node: NodeModel;
     links: Array<LinkModel> = [];
+    data:any = {};
     canvasModel;
 
     constructor($port: HTMLElement, portType: string, nodeModel: NodeModel, canvasModel: CanvasModel) {

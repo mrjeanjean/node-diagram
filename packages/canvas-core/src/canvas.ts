@@ -8,6 +8,11 @@ import {PortModel} from "./models/port-model";
 import {portsTypes} from "./ports/ports-types";
 import {GroupNodeModel} from "./models/group-node-model";
 import {createSVGElement, generateRandomColor, getUniqueID} from "./utils/helpers";
+import {ItemsFactories} from "./factories/items-factories";
+import {GroupNodeFactory} from "./factories/group-node-factory";
+import {DefaultNodeFactory} from "./factories/default-node-factory";
+import {NodeFactory} from "./factories/factory-interface";
+import {DefaultLinkFactory} from "./factories/default-link-factory";
 
 export class CanvasEngine {
     $canvas: HTMLElement;
@@ -15,6 +20,7 @@ export class CanvasEngine {
     $linkLayer: SVGElement;
     canvasModel: CanvasModel;
     canvasEventsHandler: CanvasEventsHandler;
+    itemsFactories: ItemsFactories;
 
     constructor($container: HTMLElement) {
         // Create HTML elements
@@ -42,6 +48,12 @@ export class CanvasEngine {
         this.canvasModel.addItem(linkLayerID, linkLayerModel);
         this.canvasModel.addLayer("link-layer", linkLayerModel);
 
+        // Create item factories
+        this.itemsFactories = new ItemsFactories();
+        this.itemsFactories.registerNodeFactory("default", new DefaultNodeFactory());
+        this.itemsFactories.registerNodeFactory("group-node", new GroupNodeFactory());
+        this.itemsFactories.registerLinkFactory("default", new DefaultLinkFactory());
+
         // Add user event handlers
         this.canvasEventsHandler = new CanvasEventsHandler(this.canvasModel);
         ZoomableItem.makeZoomable(this.canvasModel);
@@ -49,7 +61,11 @@ export class CanvasEngine {
         this.canvasModel.updateZoom();
     }
 
-    decorateDiagramItem($item: HTMLElement|SVGElement): {$item: HTMLElement|SVGElement, itemId: string}{
+    registerNodeFactory(type: string, nodeFactory: NodeFactory) {
+        this.itemsFactories.registerNodeFactory(type, nodeFactory);
+    }
+
+    decorateDiagramItem($item: HTMLElement | SVGElement): { $item: HTMLElement | SVGElement, itemId: string } {
         const itemId = getUniqueID();
         $item.dataset.diagramItemId = itemId;
 
@@ -59,42 +75,37 @@ export class CanvasEngine {
         }
     }
 
-    add(itemModel:any):void {
+    add(itemModel: any): void {
         const {itemId} = this.decorateDiagramItem(itemModel.getHTMLElement());
         this.canvasModel.addItem(itemId, itemModel);
         itemModel.setId(itemId);
     }
 
-    addNode(positionX:number = 0, positionY:number = 0, type: string = "default"): NodeModel{
-        let $node = this.createNode(this.$nodeLayer, type);
+    addNode(positionX: number = 0, positionY: number = 0, type: string = "default"): NodeModel {
+        let nodeFactory = this.itemsFactories.getNodeFactory(type);
 
-        let nodeModel = new NodeModel($node, this.canvasModel, positionX, positionY);
+        let $node = nodeFactory.createNodeHTML(this.$nodeLayer, type);
+        let nodeModel = nodeFactory.createNodeModel($node, this.canvasModel, positionX, positionY);
+
         const {itemId: nodeId} = this.decorateDiagramItem($node);
+        nodeModel.setId(nodeId);
 
         this.canvasEventsHandler.addItem(nodeModel);
-
         this.canvasModel.addItem(nodeId, nodeModel);
-        nodeModel.setId(nodeId);
+
         return nodeModel;
     }
 
-    addGroupNode(positionX:number = 0, positionY:number = 0): GroupNodeModel {
-        let $node = this.createNode(this.$nodeLayer, "group-node");
-
-        let nodeModel = new GroupNodeModel($node, this.canvasModel, positionX, positionY);
-        const {itemId: nodeId} = this.decorateDiagramItem($node);
-
-        this.canvasEventsHandler.addItem(nodeModel);
-
-        this.canvasModel.addItem(nodeId, nodeModel);
-        nodeModel.setId(nodeId);
-        return nodeModel;
+    addGroupNode(positionX: number = 0, positionY: number = 0): GroupNodeModel {
+        return this.addNode(positionX, positionY, "group-node") as GroupNodeModel;
     }
 
-    addLink(startPortModel:PortModel, endPortModel:PortModel): void {
-        let $link = this.createLink(this.$linkLayer);
+    addLink(startPortModel: PortModel, endPortModel: PortModel, type = "default"): void {
+        let linkFactory = this.itemsFactories.getLinkFactory(type);
 
-        let linkModel = new LinkModel($link, startPortModel, endPortModel, "#666");
+        let $link = linkFactory.createLinkHTML(this.$linkLayer);
+        let linkModel = linkFactory.createLinkModel($link, startPortModel, endPortModel);
+
         const {itemId: linkID} = this.decorateDiagramItem($link);
         linkModel.setId(linkID);
 
@@ -104,7 +115,7 @@ export class CanvasEngine {
         endPortModel.addLink(linkModel);
     }
 
-    removeLink(linkModel: LinkModel):void {
+    removeLink(linkModel: LinkModel): void {
         linkModel.startPort.removeLink(linkModel);
         linkModel.endPort.removeLink(linkModel);
         this.canvasEventsHandler.removeItem(linkModel);
@@ -146,63 +157,25 @@ export class CanvasEngine {
     /**
      * @return {SVGSVGElement}
      */
-    createLinkLayer():SVGSVGElement {
+    createLinkLayer(): SVGSVGElement {
         let $linkLayer = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
         $linkLayer.classList.add("link-layer");
         return $linkLayer;
     }
 
     /**
+     * @param {HTMLElement} $container
+     * @param {string} type
      * @return {HTMLElement}
      */
-    createNode($container: HTMLElement, type: string) :HTMLElement{
-        let $node = document.createElement("div");
-        $node.classList.add("node");
-        $node.classList.add(`node-${type}`);
-
-        $node.style.backgroundColor = generateRandomColor();
-
-        $node.appendChild(this.createPortContainer(portsTypes.input));
-        $node.appendChild(this.createPortContainer(portsTypes.output));
-        $node.appendChild(this.createPortContainer(portsTypes.actionInput));
-        $node.appendChild(this.createPortContainer(portsTypes.actionOutput));
-
-        $container.appendChild($node);
-        return $node;
+    createNode($container: HTMLElement, type: string = "default"): HTMLElement {
+        return this.itemsFactories.getNodeFactory(type).createNodeHTML($container, type);
     }
 
     /**
      * @return {HTMLDivElement}
      */
-    createPortContainer(portType: string): HTMLDivElement {
-        let $portContainer = document.createElement("div");
-        $portContainer.classList.add("port-container", `port-container--${portType}`);
-        return $portContainer;
-    }
-
-    /**
-     * @return {SVGElement}
-     */
-    createLink($container: SVGElement): SVGElement {
-        let $linkGroup = createSVGElement("g");
-        let $link = createSVGElement("path");
-        let $LinkHandle = createSVGElement("path");
-
-        $linkGroup.classList.add("link__wrapper");
-        $link.classList.add("link");
-        $LinkHandle.classList.add("link-handle");
-
-        $linkGroup.appendChild($link);
-        $linkGroup.appendChild($LinkHandle);
-
-        $container.appendChild($linkGroup);
-        return $linkGroup;
-    }
-
-    /**
-     * @return {HTMLDivElement}
-     */
-    createPort($node: HTMLElement, portType: string): HTMLDivElement{
+    createPort($node: HTMLElement, portType: string): HTMLDivElement {
         let $port = document.createElement("div");
         $port.classList.add("port");
         $port.classList.add(`port-${portType}`);
