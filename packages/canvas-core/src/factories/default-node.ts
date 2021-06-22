@@ -7,7 +7,15 @@ export class DefaultNode{
         $node.classList.add("node");
         $node.classList.add(`node-${type}`);
 
+        let $nodeBody = document.createElement("div");
+        $nodeBody.classList.add("node-body");
+
+        let $nodeTitle = document.createElement("div");
+        $nodeTitle.classList.add("node-title");
+
         $node.style.backgroundColor = generateRandomColor();
+        $node.appendChild($nodeTitle);
+        $node.appendChild($nodeBody);
 
         $node.appendChild(this.createPortContainer(portsTypes.input));
         $node.appendChild(this.createPortContainer(portsTypes.output));

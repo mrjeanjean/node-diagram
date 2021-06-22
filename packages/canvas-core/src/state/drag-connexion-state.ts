@@ -13,9 +13,8 @@ export class DragConnexionState implements DragStateInterface {
         this.canvasModel = canvasModel;
         this.portOrigin = portOrigin;
 
-        const $link = this.canvasModel.getCanvasEngine().createLink(
-            this.canvasModel.getLayer("link-layer")?.getHTMLElement() as SVGElement
-        );
+        const $link = this.canvasModel.getCanvasEngine().createLink();
+
 
         if (portOrigin.isInputPort()) {
             this.placeHolderLinkModel = new PlaceholderLinkModel($link, portOrigin, "#666");

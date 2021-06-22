@@ -1,9 +1,34 @@
 $port-size: 32px;
 
+:root{
+  --font-family: 'Source Sans Pro', sans-serif;
+}
+
+// NORMALIZE
+//-----------------------------
+*,
+*:before,
+*:after{
+  box-sizing: border-box;
+}
+
+input,
+textarea{
+  font-family: inherit;
+  font-size: inherit;
+}
+
+input:focus,
+textarea:focus{
+  outline: none;
+}
+
 body {
   background-color: pink;
   margin: 0;
   padding: 0;
+  font-family: var(--font-family);
+  font-size: 16px;
 }
 
 .canvas-engine {
@@ -42,8 +67,8 @@ body {
 .node {
   background-color: deepskyblue;
   min-width: 250px;
-  min-height: 150px;
-  border-radius: 10px;
+  min-height: 100px;
+  border-radius: 5px;
   z-index: 2;
   position: absolute;
   user-select: none;
@@ -53,16 +78,39 @@ body {
   pointer-events: all;
 }
 
+.node > .node-body{
+  padding: 15px;
+}
+
+.node-body > *:not(:last-child){
+  margin-bottom: 10px;
+}
+
+.node-title {
+  padding: 10px;
+  border-bottom: 2px #fff solid;
+  font-weight: 600;
+  color: #ffffff;
+  text-transform: uppercase;
+}
+
 .node-group-node{
-  padding: 20px;
   background-color: rgba(#fff, 0.5) !important;
+}
+
+.node-group-node > .node-body{
   display: flex;
   flex-direction: column;
-  gap: 20px;
 }
 
 .node-group-node .node{
   position: relative;
+}
+
+.node-group-node > .node-title{
+  background-color: #303030;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
 }
 
 .node.is-dragging{
@@ -116,6 +164,17 @@ body {
   opacity: 1;
 }
 
+.port:after{
+  content: "";
+  position: absolute;
+  top: -10px;
+  bottom: -10px;
+  left: -10px;
+  right: -10px;
+  background-color: rgba(#fff, 0.5);
+  opacity: 0;
+}
+
 .port-container{
   position: absolute;
   top: $port-size / -2;
@@ -123,6 +182,7 @@ body {
   right: $port-size / -2;
   bottom: $port-size / -2;
   display: flex;
+  gap: 20px;
   pointer-events: none;
   z-index: 10;
   justify-content: space-around;
@@ -183,7 +243,7 @@ body {
 //-----------------------------
 /*.port-container--actionInputPort,
 .port-container--actionOutputPort{
-  top: 0;
+  top: 40px;
   bottom: 0;
   left: 0;
   right: 0;
@@ -221,6 +281,31 @@ body {
   border-radius: 50%;
   transform: translate(-50%, -50%);
 }*/
+
+// CONTROLS
+//-----------------------------
+.node-control-input,
+.node-control-textarea{
+  display: block;
+  width: 100%;
+  border-radius: 5px;
+  padding: 5px;
+  border: none;
+  background-color: #fff;
+  resize: none;
+}
+
+.node-control-textarea{
+  min-height: 150px;
+}
+
+.node-control-input:disabled,
+.node-control-textarea:disabled{
+  color: inherit;
+  background-color: #fff;
+  opacity: 0.4;
+  cursor: pointer;
+}
 
 // GUI
 //-----------------------------

@@ -2,10 +2,12 @@ import {CanvasModel} from "../models/canvas-model";
 import {NodeModel} from "../models/node-model";
 import {LinkModel} from "../models/link-model";
 import {PortModel} from "../models/port-model";
+import {CanvasEngine} from "canvas-core";
 
 export interface NodeFactory {
     createNodeHTML: ($container: HTMLElement, type: string) => HTMLElement,
-    createNodeModel: ($node: HTMLElement, canvasModel: CanvasModel, positionX: number, positionY: number) => NodeModel
+    createNodeModel: ($node: HTMLElement, canvasModel: CanvasModel, positionX: number, positionY: number) => NodeModel,
+    buildNodeBody: (nodeModel: NodeModel, canvasEngine: CanvasEngine) => void
 }
 
 export interface LinkFactory {

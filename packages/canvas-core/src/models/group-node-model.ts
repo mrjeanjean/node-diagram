@@ -4,11 +4,12 @@ export class GroupNodeModel extends NodeModel {
     nodes: Array<NodeModel> = [];
 
     addNode(type = "default") {
-        let $node = this.canvasModel.getCanvasEngine().createNode(this.getHTMLElement() as HTMLElement, type);
-
-        let nodeModel = new NodeModel($node, this.canvasModel);
-        this.canvasModel.getCanvasEngine().add(nodeModel);
-
+        let nodeModel = this.canvasModel.getCanvasEngine().addNode(0,
+            0,
+            type,
+            this.getHTMLBody() as HTMLElement,
+            false
+        );
         this.nodes.push(nodeModel);
 
         this.updateAllNodes();
