@@ -4,6 +4,6 @@ import {createTextarea} from "./textarea-control";
 
 export class TextareaNodeControl extends AbstractNodeControl<string>{
     createControl(defaultValue: string | null, callback: Function): HTMLElement {
-        return createTextarea(defaultValue, callback);
+        return createTextarea(defaultValue, callback, this.data);
     }
 }

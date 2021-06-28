@@ -1,0 +1,19 @@
+{
+  "name": "dialog-engine-core",
+  "version": "0.1.0",
+  "main": "index.js",
+  "module": "src/index.ts",
+  "description": "Dialog engine core for Trias dialog based games",
+  "author": "Gaëtan <gaetan@moveo-webdesign.com>",
+  "homepage": "",
+  "private": true,
+  "scripts": {
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "devDependencies": {
+    "typescript": "^4.3.4"
+  },
+  "dependencies": {
+    "canvas-core": "^0.1.0"
+  }
+}

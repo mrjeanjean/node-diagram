@@ -8,8 +8,6 @@ import {PortModel} from "./models/port-model";
 import {GroupNodeModel} from "./models/group-node-model";
 import {getUniqueID} from "./utils/helpers";
 import {ItemsFactories} from "./factories/items-factories";
-import {GroupNodeFactory} from "./factories/group-node-factory";
-import {DefaultNodeFactory} from "./factories/default-node-factory";
 import {NodeFactory} from "./factories/factory-interface";
 import {DefaultLinkFactory} from "./factories/default-link-factory";
 
@@ -49,8 +47,6 @@ export class CanvasEngine {
 
         // Create item factories
         this.itemsFactories = new ItemsFactories();
-        this.itemsFactories.registerNodeFactory("default", new DefaultNodeFactory());
-        this.itemsFactories.registerNodeFactory("group-node", new GroupNodeFactory());
         this.itemsFactories.registerLinkFactory("default", new DefaultLinkFactory());
 
         // Add user event handlers
@@ -82,10 +78,11 @@ export class CanvasEngine {
     ): NodeModel {
 
         let nodeFactory = this.itemsFactories.getNodeFactory(type);
+        console.log(nodeFactory);
 
         let $node = nodeFactory.createNodeHTML($container, type);
         let nodeModel = nodeFactory.createNodeModel($node, this.canvasModel, positionX, positionY);
-        nodeFactory.buildNodeBody(nodeModel);
+        nodeFactory.buildNodeBody(nodeModel, this);
 
         if(isDraggable){
             this.canvasEventsHandler.addItem(nodeModel);

@@ -5,10 +5,12 @@ export abstract class AbstractNodeControl<T> {
     nodeModel: NodeModel;
     $control: HTMLElement;
     nodeDataKey: string;
+    data: Object;
 
-    constructor(nodeModel: NodeModel, nodeDataKey: string) {
+    constructor(nodeModel: NodeModel, nodeDataKey: string, data: Object = {}) {
         this.nodeModel = nodeModel;
         this.nodeDataKey = nodeDataKey;
+        this.data = data;
         this.$control = this.createControl(this.getDataValue(), this.updateNodeData.bind(this));
     }
 

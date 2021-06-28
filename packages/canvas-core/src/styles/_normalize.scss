@@ -1,0 +1,24 @@
+// NORMALIZE
+//-----------------------------
+*,
+*:before,
+*:after{
+  box-sizing: border-box;
+}
+
+input,
+textarea,
+button{
+  font-family: inherit;
+  font-size: inherit;
+}
+
+button{
+  cursor: pointer;
+}
+
+input:focus,
+textarea:focus,
+button:focus{
+  outline: none;
+}

@@ -1,0 +1,128 @@
+// PORT
+//-----------------------------
+.port {
+  background-color: #fff;
+  z-index: -1;
+  cursor: pointer;
+  position: relative;
+  pointer-events: all;
+  opacity: 1;
+}
+
+.port:after{
+  content: "";
+  position: absolute;
+  top: -10px;
+  bottom: -10px;
+  left: -10px;
+  right: -10px;
+  background-color: rgba(#fff, 0.5);
+  opacity: 0;
+}
+
+.port-container{
+  position: absolute;
+  top: $port-size / -2;
+  left: $port-size / -2;
+  right: $port-size / -2;
+  bottom: $port-size / -2;
+  display: flex;
+  gap: 20px;
+  pointer-events: none;
+  z-index: 10;
+  justify-content: space-around;
+}
+
+.port-container--actionInputPort,
+.port-container--actionOutputPort {
+  flex-direction: column;
+  padding-top: $port-size / 2;
+  padding-bottom: $port-size / 2;
+}
+
+.port-container--inputPort,
+.port-container--outputPort {
+  padding-left: $port-size / 2;
+  padding-right: $port-size / 2;
+}
+
+.port-container--outputPort,
+.port-container--actionOutputPort{
+  align-items: flex-end;
+}
+
+.port-container--inputPort .port,
+.port-container--outputPort .port {
+  width: $port-size;
+  height: $port-size / 2;
+}
+
+.port-container--actionInputPort .port,
+.port-container--actionOutputPort .port {
+  width: $port-size / 2;
+  height: $port-size;
+}
+
+.port-container--inputPort .port{
+  border-top-left-radius: $port-size;
+  border-top-right-radius: $port-size;
+}
+
+.port-container--outputPort .port{
+  border-bottom-left-radius: $port-size;
+  border-bottom-right-radius: $port-size;
+}
+
+.port-container--actionInputPort .port{
+  border-top-left-radius: $port-size;
+  border-bottom-left-radius: $port-size;
+}
+
+.port-container--actionOutputPort .port{
+  border-top-right-radius: $port-size;
+  border-bottom-right-radius: $port-size;
+}
+
+// PORT TURNING AS DOT SLOT
+// TODO: keep or remove
+//-----------------------------
+/*.port-container--actionInputPort,
+.port-container--actionOutputPort{
+  top: 40px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 15px;
+  justify-content: flex-start;
+  gap: 15px;
+}
+
+.port-container--actionInputPort .port,
+.port-container--actionOutputPort .port{
+  border-radius: 50%;
+  width: $port-size / 2;
+  height: $port-size / 2;
+}
+
+.port-container--actionInputPort .port.port.connected .port__inner,
+.port-container--actionOutputPort .port.connected .port__inner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 50%;
+  height: 50%;
+  pointer-events: none;
+}
+
+.port-container--actionInputPort .port.connected .port__inner:before,
+.port-container--actionOutputPort .port.connected .port__inner:before {
+  content: "";
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  position: absolute;
+  background-color: #666;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}*/
