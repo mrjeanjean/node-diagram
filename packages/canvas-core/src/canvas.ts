@@ -5,9 +5,8 @@ import {LayerModel} from "./models/layer-model";
 import {CanvasEventsHandler} from "./canvas-events-handler";
 import {LinkModel} from "./models/link-model";
 import {PortModel} from "./models/port-model";
-import {portsTypes} from "./ports/ports-types";
 import {GroupNodeModel} from "./models/group-node-model";
-import {createSVGElement, generateRandomColor, getUniqueID} from "./utils/helpers";
+import {getUniqueID} from "./utils/helpers";
 import {ItemsFactories} from "./factories/items-factories";
 import {GroupNodeFactory} from "./factories/group-node-factory";
 import {DefaultNodeFactory} from "./factories/default-node-factory";
@@ -75,22 +74,25 @@ export class CanvasEngine {
         }
     }
 
-    add(itemModel: any): void {
-        const {itemId} = this.decorateDiagramItem(itemModel.getHTMLElement());
-        this.canvasModel.addItem(itemId, itemModel);
-        itemModel.setId(itemId);
-    }
+    addNode(positionX: number = 0,
+            positionY: number = 0,
+            type: string = "default",
+            $container: HTMLElement = this.$nodeLayer,
+            isDraggable: boolean = true
+    ): NodeModel {
 
-    addNode(positionX: number = 0, positionY: number = 0, type: string = "default"): NodeModel {
         let nodeFactory = this.itemsFactories.getNodeFactory(type);
 
-        let $node = nodeFactory.createNodeHTML(this.$nodeLayer, type);
+        let $node = nodeFactory.createNodeHTML($container, type);
         let nodeModel = nodeFactory.createNodeModel($node, this.canvasModel, positionX, positionY);
+        nodeFactory.buildNodeBody(nodeModel);
+
+        if(isDraggable){
+            this.canvasEventsHandler.addItem(nodeModel);
+        }
 
         const {itemId: nodeId} = this.decorateDiagramItem($node);
         nodeModel.setId(nodeId);
-
-        this.canvasEventsHandler.addItem(nodeModel);
         this.canvasModel.addItem(nodeId, nodeModel);
 
         return nodeModel;
@@ -163,13 +165,8 @@ export class CanvasEngine {
         return $linkLayer;
     }
 
-    /**
-     * @param {HTMLElement} $container
-     * @param {string} type
-     * @return {HTMLElement}
-     */
-    createNode($container: HTMLElement, type: string = "default"): HTMLElement {
-        return this.itemsFactories.getNodeFactory(type).createNodeHTML($container, type);
+    createLink(type = "default"): SVGElement {
+        return this.itemsFactories.getLinkFactory(type).createLinkHTML(this.$linkLayer);
     }
 
     /**

@@ -12,6 +12,7 @@ export class NodeModel extends ItemModel implements DraggableInterface{
     positionY: number;
     initialX: number;
     initialY: number;
+    data: any = {};
 
     constructor($diagramItem: HTMLElement, canvasModel: CanvasModel, positionX: number = 0, positionY: number = 0
     ) {
@@ -27,6 +28,10 @@ export class NodeModel extends ItemModel implements DraggableInterface{
 
     addPort(portModel: PortModel): void {
         this.ports.push(portModel);
+    }
+
+    setHTMLTitle(title: string): void{
+        this.getHTMLTitle().innerText = title;
     }
 
     resetInitialPosition(): void {
@@ -48,5 +53,21 @@ export class NodeModel extends ItemModel implements DraggableInterface{
     draw(): void {
         this.$diagramItem.style.left = `${this.positionX}px`;
         this.$diagramItem.style.top = `${this.positionY}px`;
+    }
+
+    getHTMLBody(): HTMLElement{
+        return this.getHTMLElement().querySelector(".node-body") as HTMLElement;
+    }
+
+    getHTMLTitle(): HTMLElement{
+        return this.getHTMLElement().querySelector(".node-title") as HTMLElement;
+    }
+
+    getData():any{
+        return this.data;
+    }
+
+    setData(data:any): void{
+        this.data = data;
     }
 }
