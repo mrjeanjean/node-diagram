@@ -56,11 +56,11 @@ export class NodeModel extends ItemModel implements DraggableInterface{
     }
 
     getHTMLBody(): HTMLElement{
-        return this.getHTMLElement().querySelector(".node-body") as HTMLElement;
+        return this.getHTMLElement().querySelector(".node__body") as HTMLElement;
     }
 
     getHTMLTitle(): HTMLElement{
-        return this.getHTMLElement().querySelector(".node-title") as HTMLElement;
+        return this.getHTMLElement().querySelector(".node__title") as HTMLElement;
     }
 
     getData():any{

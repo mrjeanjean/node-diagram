@@ -1,0 +1,35 @@
+// LINK
+//-----------------------------
+.link__wrapper{
+  pointer-events: all;
+  cursor: pointer;
+}
+
+.link__wrapper:not(.on-connection):hover .link-handle{
+  opacity: 0.2;
+}
+
+.link__wrapper.on-connection {
+  pointer-events: none;
+}
+
+.link {
+  cursor: pointer;
+  fill: transparent;
+  pointer-events: all;
+  stroke: #666;
+  stroke-width: 4px;
+}
+
+.link-handle{
+  fill: transparent;
+  pointer-events: all;
+  stroke: deepskyblue;
+  stroke-width: 30px;
+  opacity: 0;
+  transition: opacity 200ms;
+}
+
+.link.selected {
+  stroke: red;
+}

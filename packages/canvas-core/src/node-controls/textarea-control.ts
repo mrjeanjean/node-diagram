@@ -1,10 +1,15 @@
-export const createTextarea = (defaultValue: string | null, onInput: Function): HTMLElement => {
+export const createTextarea = (
+    defaultValue: string | null,
+    onInput: Function,
+    data: { placeholder ?: string } = {}): HTMLElement => {
+
     const $controlWrapper = document.createElement("div");
     const $controlInput = document.createElement("textarea");
 
     $controlInput.classList.add("node-control", "node-control-textarea");
     $controlInput.value = defaultValue ?? "";
     $controlInput.disabled = true;
+    $controlInput.placeholder = data.placeholder ?? "";
 
     const onDisable = () => {
         $controlInput.disabled = true;
@@ -22,6 +27,14 @@ export const createTextarea = (defaultValue: string | null, onInput: Function): 
 
     $controlInput.addEventListener("input", (e) => {
         onInput($controlInput.value);
+    })
+
+    $controlInput.addEventListener("wheel", (e)=>{
+        if($controlInput.disabled){
+            e.preventDefault();
+        }else{
+            e.stopPropagation();
+        }
     })
 
     $controlWrapper.appendChild($controlInput)

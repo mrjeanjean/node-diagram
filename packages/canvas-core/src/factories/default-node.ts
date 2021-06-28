@@ -5,13 +5,13 @@ export class DefaultNode{
     createNode($container: HTMLElement, type: string) :HTMLElement{
         let $node = document.createElement("div");
         $node.classList.add("node");
-        $node.classList.add(`node-${type}`);
+        $node.classList.add(`node--${type}`);
 
         let $nodeBody = document.createElement("div");
-        $nodeBody.classList.add("node-body");
+        $nodeBody.classList.add("node__body");
 
         let $nodeTitle = document.createElement("div");
-        $nodeTitle.classList.add("node-title");
+        $nodeTitle.classList.add("node__title");
 
         $node.style.backgroundColor = generateRandomColor();
         $node.appendChild($nodeTitle);
