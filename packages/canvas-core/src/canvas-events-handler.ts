@@ -90,7 +90,6 @@ export class CanvasEventsHandler {
 
     onDrag(data: any): void {
         this.currentState?.onDrag(data);
-
     }
 
     endDrag(data: any): void {

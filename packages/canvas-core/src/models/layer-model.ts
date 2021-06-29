@@ -31,4 +31,11 @@ export class LayerModel extends ItemModel implements DraggableInterface{
         this.$diagramItem.style.left = `${this.positionX}px`;
         this.$diagramItem.style.top = `${this.positionY}px`;
     }
+
+    getPosition(){
+        return {
+            x: this.positionX,
+            y: this.positionY,
+        }
+    }
 }

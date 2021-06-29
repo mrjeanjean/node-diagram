@@ -6,7 +6,7 @@ import {
     GroupNodeFactory,
     portsTypes
 } from "canvas-core";
-import {DialogQuoteListModel} from "./dialog-quote-list-model";
+import {DialogQuoteListModel} from "../dialog-quote-list/dialog-quote-list-model";
 import {DialogChoiceListModel} from "./dialog-choice-list-model";
 
 export class DialogChoiceListFactory extends GroupNodeFactory {

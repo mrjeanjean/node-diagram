@@ -1,0 +1,26 @@
+// CONTROLS
+//-----------------------------
+.node-control-input,
+.node-control-textarea{
+  display: block;
+  width: 100%;
+  border-radius: 8px;
+  padding: 10px;
+  border: none;
+  background-color: #fff;
+  resize: none;
+  font-style: italic;
+  font-size: 18px;
+}
+
+.node-control-textarea{
+  min-height: 80px;
+}
+
+.node-control-input:disabled,
+.node-control-textarea:disabled{
+  background-color: rgba(#fff, 0.03);
+  opacity: 1;
+  color: #ffffff;
+  cursor: pointer;
+}

@@ -6,6 +6,8 @@ let canvasEngine = createCanvasEngine($root);
 canvasEngine.addNode(10, 10, "dialog-quote");
 canvasEngine.addNode(800, 300, "dialog-quote-list");
 canvasEngine.addNode(400, 300, "dialog-choice-list");
+canvasEngine.addNode(800, 600, "activate");
+canvasEngine.addNode(800, 800, "rename");
 
 
 const $addNodeButton = document.querySelector(".add-node") as HTMLElement;

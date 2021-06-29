@@ -1,5 +1,5 @@
 import {CanvasModel, GroupNodeModel, NodeModel} from "canvas-core";
-import {DialogQuoteModel} from "./dialog-quote-model";
+import {DialogQuoteModel} from "../dialog-quote/dialog-quote-model";
 
 export class DialogChoiceListModel extends GroupNodeModel {
     addDialogQuote():void{

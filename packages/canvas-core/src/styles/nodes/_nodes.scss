@@ -1,10 +1,10 @@
 // NODE
 //-----------------------------
 .node {
-  background-color: deepskyblue;
-  min-width: 250px;
+  background-color: var(--node-color);
+  min-width: 280px;
   min-height: 100px;
-  border-radius: 5px;
+  border-radius: var(--node-border-radius);
   z-index: 2;
   position: absolute;
   user-select: none;
@@ -12,6 +12,8 @@
   -webkit-touch-callout: none; /* iOS Safari */
   cursor: move;
   pointer-events: all;
+  box-shadow: rgba(#0e0b17, 0.2) 0 0 10px 5px ;
+  border: 1px var(--color-blue) solid;
 }
 
 .node.is-dragging{
@@ -28,9 +30,55 @@
 }
 
 .node__title {
-  padding: 10px;
-  border-bottom: 2px #fff solid;
+  padding: 15px 20px;
+  top: -1px;
+  font-size: 16px;
+  background-color: var(--color-blue);
   font-weight: 600;
   color: #ffffff;
-  text-transform: uppercase;
+  border-top-left-radius: var(--node-border-radius);
+  border-top-right-radius: var(--node-border-radius);
+  //text-transform: uppercase;
+  position: relative;
+  //text-shadow: var(--background-color-shadow) 0 1px 2px;
+}
+
+.node__title:after{
+  //content: "";
+  height: 1px;
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  right: 0;
+  background-color: rgba(#fff, 0.05);
+}
+
+// ACTIVATE NODE
+//-----------------------------
+.node--activate{
+  border-color: var(--color-red);
+  min-height: auto;
+}
+
+.node--activate .node__title{
+  background-color: var(--color-red);
+  border-radius: var(--node-border-radius);
+  margin-bottom: -1px;
+  min-height: 90px;
+  //display: flex;
+  //align-items: center;
+}
+
+.node--activate .node__body{
+  display: none;
+}
+
+.node--activate .port-container--actionOutputPort{
+  @extend %port-container--actionOutputPort;
+}
+
+// RENAME NODE
+//-----------------------------
+.node--rename .port-container--actionOutputPort{
+  @extend %port-container--actionOutputPort;
 }

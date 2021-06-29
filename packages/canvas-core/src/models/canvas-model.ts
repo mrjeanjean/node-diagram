@@ -33,6 +33,10 @@ export class CanvasModel {
         this.updateZoom();
     }
 
+    setPosition():void{
+
+    }
+
     updateZoom(): void {
         this.layers.forEach(layer => {
             const $layer = layer.getHTMLElement();
@@ -72,6 +76,15 @@ export class CanvasModel {
             x: (x / this.getZoom() - linkLayerRealX / this.getZoom()),
             y: (y / this.getZoom() - linkLayerRealY / this.getZoom())
         }
+    }
 
+    getPosition(layerName: string = "node-layer"):Point{
+        let linkLayer = this.getLayer(layerName);
+
+        if (!linkLayer) {
+            throw new Error(`Layer with name '${layerName}' is not defined`);
+        }
+
+        return linkLayer.getPosition();
     }
 }

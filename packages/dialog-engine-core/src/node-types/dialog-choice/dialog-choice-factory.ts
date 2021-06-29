@@ -5,14 +5,14 @@ import {
     portsTypes,
     TextareaNodeControl
 } from "canvas-core";
-import {DialogQuoteModel} from "./dialog-quote-model";
+import {DialogChoiceModel} from "./dialog-choice-model";
 
 export class DialogChoiceFactory extends AbstractNodeFactory {
-    createNodeModel($node: HTMLElement, canvasModel: CanvasModel, positionX: number, positionY: number): DialogQuoteModel {
-        return new DialogQuoteModel($node, canvasModel, positionX, positionY);
+    createNodeModel($node: HTMLElement, canvasModel: CanvasModel, positionX: number, positionY: number): DialogChoiceModel {
+        return new DialogChoiceModel($node, canvasModel, positionX, positionY);
     }
 
-    buildNodeBody(nodeModel: DialogQuoteModel, canvasEngine: CanvasEngine) {
+    buildNodeBody(nodeModel: DialogChoiceModel, canvasEngine: CanvasEngine) {
         nodeModel.setHTMLTitle("Mon Node");
         const inputControl1 = new TextareaNodeControl(
             nodeModel,

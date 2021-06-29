@@ -78,7 +78,6 @@ export class CanvasEngine {
     ): NodeModel {
 
         let nodeFactory = this.itemsFactories.getNodeFactory(type);
-        console.log(nodeFactory);
 
         let $node = nodeFactory.createNodeHTML($container, type);
         let nodeModel = nodeFactory.createNodeModel($node, this.canvasModel, positionX, positionY);

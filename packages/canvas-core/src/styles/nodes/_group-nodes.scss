@@ -1,6 +1,9 @@
 
 .node--group-node{
-  background-color: rgba(#fff, 0.5) !important;
+  background-color: rgba(#000, 0.1) !important;
+  border: 1px var(--color-green) solid;
+  // width + padding + border * 2
+  min-width: 312px;
 }
 
 .node--group-node > .node__body{
@@ -15,9 +18,8 @@
 }
 
 .node--group-node > .node__title{
-  background-color: #303030;
-  border-top-left-radius: 5px;
-  border-top-right-radius: 5px;
+  background-color: var(--color-green);
+  color: #fff;
 }
 
 .node-list-buttons{
@@ -31,7 +33,7 @@
 
 .node-list-buttons button{
   border-radius: 50%;
-  line-height: 1;
+  line-height: 25px;
   border: none;
   background-color: rgba(#fff, 0.4);
   color: #ffffff;

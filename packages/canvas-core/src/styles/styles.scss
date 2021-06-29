@@ -1,18 +1,28 @@
-$port-size: 32px;
+$port-size: 40px;
+$port-action-size: 15px;
 
 :root{
   --font-family: 'Source Sans Pro', sans-serif;
+  //--font-family: 'Questrial', sans-serif;
+  --background-color: #29323f;
+  --background-color-shadow: #201a2d;
+  --node-color: #323440;
+  --node-border-radius: 15px;
+  --color-red: #e44758;
+  --color-blue: #3a9eda;
+  --color-green: #22c17b;
 }
 
 @import "normalize";
 @import "ports";
 @import "links";
+@import "controls";
 
 @import "nodes/nodes";
 @import "nodes/group-nodes";
 
 body {
-  background-color: pink;
+  background-color: var(--background-color);
   margin: 0;
   padding: 0;
   font-family: var(--font-family);
@@ -27,6 +37,15 @@ body {
   -webkit-user-select: none;
   -webkit-touch-callout: none; /* iOS Safari */
   cursor: move;
+
+  background-size: 50px 50px;
+  background-position: 0 0;
+
+  background-image:linear-gradient(
+                  0deg
+          , transparent 24%, rgba(255, 255, 255, 0.05) 25%, rgba(255, 255, 255, 0.05) 26%, transparent 27%, transparent 74%, rgba(255, 255, 255, 0.05) 75%, rgba(255, 255, 255, 0.05) 76%, transparent 77%, transparent), linear-gradient(
+                  90deg
+          , transparent 24%, rgba(255, 255, 255, 0.05) 25%, rgba(255, 255, 255, 0.05) 26%, transparent 27%, transparent 74%, rgba(255, 255, 255, 0.05) 75%, rgba(255, 255, 255, 0.05) 76%, transparent 77%, transparent);;
 }
 
 .node-layer,
@@ -38,7 +57,6 @@ body {
 }
 
 .node-layer {
-  background-color: rgba(255, 255, 255, 0.2);
   z-index: 1;
   pointer-events: none;
 }
@@ -48,32 +66,6 @@ body {
   background-color: transparent;
   pointer-events: none;
   z-index: 0;
-}
-
-
-// CONTROLS
-//-----------------------------
-.node-control-input,
-.node-control-textarea{
-  display: block;
-  width: 100%;
-  border-radius: 5px;
-  padding: 5px;
-  border: none;
-  background-color: #fff;
-  resize: none;
-}
-
-.node-control-textarea{
-  min-height: 80px;
-}
-
-.node-control-input:disabled,
-.node-control-textarea:disabled{
-  color: inherit;
-  background-color: #fff;
-  opacity: 0.4;
-  cursor: pointer;
 }
 
 // GUI

@@ -13,7 +13,6 @@ export class DefaultNode{
         let $nodeTitle = document.createElement("div");
         $nodeTitle.classList.add("node__title");
 
-        $node.style.backgroundColor = generateRandomColor();
         $node.appendChild($nodeTitle);
         $node.appendChild($nodeBody);
 

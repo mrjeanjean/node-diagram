@@ -1,10 +1,15 @@
-export const createInput = (defaultValue: string | null, onInput: Function): HTMLElement => {
+export const createInput = (
+    defaultValue: string | null,
+    onInput: Function,
+    data: { placeholder ?: string } = {}
+): HTMLElement => {
     const $controlWrapper = document.createElement("div");
     const $controlInput = document.createElement("input");
 
     $controlInput.classList.add("node-control", "node-control-input");
     $controlInput.value = defaultValue ?? "";
     $controlInput.disabled = true;
+    $controlInput.placeholder = data.placeholder ?? "";
 
     const onDisable = () => {
         $controlInput.disabled = true;
