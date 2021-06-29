@@ -15,8 +15,8 @@ export class ActivateFactory extends AbstractNodeFactory {
         nodeModel.setHTMLTitle("Activate");
         canvasEngine.addPort(nodeModel, portsTypes.output);
         canvasEngine.addPort(nodeModel, portsTypes.input);
-        canvasEngine.addPort(nodeModel, portsTypes.actionOutput);
-        canvasEngine.addPort(nodeModel, portsTypes.actionOutput);
-        canvasEngine.addPort(nodeModel, portsTypes.actionOutput);
+        canvasEngine.addPort(nodeModel, portsTypes.actionOutput, "activate");
+        canvasEngine.addPort(nodeModel, portsTypes.actionOutput, "deactivate");
+        canvasEngine.addPort(nodeModel, portsTypes.actionOutput, "toggleActivation");
     }
 }

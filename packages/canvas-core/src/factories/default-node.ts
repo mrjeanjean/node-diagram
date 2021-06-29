@@ -18,6 +18,7 @@ export class DefaultNode{
 
         $node.appendChild(this.createPortContainer(portsTypes.input));
         $node.appendChild(this.createPortContainer(portsTypes.output));
+        $node.appendChild(this.createPortContainer(portsTypes.outputRight));
         $node.appendChild(this.createPortContainer(portsTypes.actionInput));
         $node.appendChild(this.createPortContainer(portsTypes.actionOutput));
 

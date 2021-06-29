@@ -10,6 +10,11 @@ import {getUniqueID} from "./utils/helpers";
 import {ItemsFactories} from "./factories/items-factories";
 import {NodeFactory} from "./factories/factory-interface";
 import {DefaultLinkFactory} from "./factories/default-link-factory";
+import {portsTypes} from "./ports/ports-types";
+import {PortNameAdapter} from "./ports/port-name-adapter";
+import {DefaultPortNameAdapter} from "./ports/default-port-name-adapter";
+import {canBeActivated} from "./interfaces/activatable-interface";
+import {canBeRenamed} from "./interfaces/renamable-interface";
 
 export class CanvasEngine {
     $canvas: HTMLElement;
@@ -18,6 +23,7 @@ export class CanvasEngine {
     canvasModel: CanvasModel;
     canvasEventsHandler: CanvasEventsHandler;
     itemsFactories: ItemsFactories;
+    portNameAdapter: PortNameAdapter;
 
     constructor($container: HTMLElement) {
         // Create HTML elements
@@ -53,6 +59,9 @@ export class CanvasEngine {
         this.canvasEventsHandler = new CanvasEventsHandler(this.canvasModel);
         ZoomableItem.makeZoomable(this.canvasModel);
 
+        // Port name adapter
+        this.portNameAdapter = new DefaultPortNameAdapter();
+
         this.canvasModel.updateZoom();
     }
 
@@ -83,7 +92,15 @@ export class CanvasEngine {
         let nodeModel = nodeFactory.createNodeModel($node, this.canvasModel, positionX, positionY);
         nodeFactory.buildNodeBody(nodeModel, this);
 
-        if(isDraggable){
+        if(canBeActivated(nodeModel)){
+            this.addPort(nodeModel, portsTypes.actionInput, "activation");
+        }
+
+        if(canBeRenamed(nodeModel)){
+            this.addPort(nodeModel, portsTypes.actionInput, "rename");
+        }
+
+        if (isDraggable) {
             this.canvasEventsHandler.addItem(nodeModel);
         }
 
@@ -120,9 +137,12 @@ export class CanvasEngine {
         linkModel.getHTMLElement().remove();
     }
 
-    addPort(nodeModel: NodeModel, portType: string) {
-        let $portContainer = nodeModel.getHTMLElement().querySelector(`:scope > .port-container--${portType}`) as HTMLElement;
-        let $port = this.createPort($portContainer, portType);
+    addPort(nodeModel: NodeModel, portType: string, portName: string = "") {
+        let $portContainer = nodeModel
+            .getHTMLElement()
+            .querySelector(`:scope > .port-container--${portType}`) as HTMLElement;
+
+        let $port = this.createPort($portContainer, portType, portName);
 
         let portModel = new PortModel($port, portType, nodeModel, this.canvasModel);
         const {itemId: portID} = this.decorateDiagramItem($port);
@@ -168,17 +188,26 @@ export class CanvasEngine {
     /**
      * @return {HTMLDivElement}
      */
-    createPort($node: HTMLElement, portType: string): HTMLDivElement {
+    createPort($node: HTMLElement, portType: string, portName: string = ""): HTMLDivElement {
         let $port = document.createElement("div");
         $port.classList.add("port");
         $port.classList.add(`port-${portType}`);
 
-        let $innerPort = document.createElement("div");
-        $innerPort.classList.add("port__inner");
+        if (portType === portsTypes.actionInput || portType === portsTypes.actionOutput) {
+            let $portTitle = this.portNameAdapter.createPortNameHtml(portName);
+            $port.appendChild($portTitle);
+        }
 
+        let $innerPort = document.createElement("div");
+
+        $innerPort.classList.add("port__inner");
         $port.appendChild($innerPort);
         $node.appendChild($port);
 
         return $port;
+    }
+
+    setPortNameAdapter(portNameAdapter:PortNameAdapter):void{
+        this.portNameAdapter = portNameAdapter;
     }
 }

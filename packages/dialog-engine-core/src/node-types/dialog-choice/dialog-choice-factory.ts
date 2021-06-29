@@ -13,7 +13,7 @@ export class DialogChoiceFactory extends AbstractNodeFactory {
     }
 
     buildNodeBody(nodeModel: DialogChoiceModel, canvasEngine: CanvasEngine) {
-        nodeModel.setHTMLTitle("Mon Node");
+        nodeModel.setHTMLTitle("Héros");
         const inputControl1 = new TextareaNodeControl(
             nodeModel,
             "quote",
@@ -21,6 +21,6 @@ export class DialogChoiceFactory extends AbstractNodeFactory {
         );
         nodeModel.getHTMLBody().appendChild(inputControl1.getHTMLElement());
 
-        canvasEngine.addPort(nodeModel, portsTypes.actionOutput);
+        canvasEngine.addPort(nodeModel, portsTypes.outputRight);
     }
 }

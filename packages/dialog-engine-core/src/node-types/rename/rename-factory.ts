@@ -23,6 +23,6 @@ export class RenameFactory extends AbstractNodeFactory {
 
         canvasEngine.addPort(nodeModel, portsTypes.output);
         canvasEngine.addPort(nodeModel, portsTypes.input);
-        canvasEngine.addPort(nodeModel, portsTypes.actionOutput);
+        canvasEngine.addPort(nodeModel, portsTypes.actionOutput, "rename");
     }
 }

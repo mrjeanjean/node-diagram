@@ -30,6 +30,7 @@
 }
 
 .node__title {
+  text-align: center;
   padding: 15px 20px;
   top: -1px;
   font-size: 16px;
@@ -38,9 +39,10 @@
   color: #ffffff;
   border-top-left-radius: var(--node-border-radius);
   border-top-right-radius: var(--node-border-radius);
-  //text-transform: uppercase;
   position: relative;
-  //text-shadow: var(--background-color-shadow) 0 1px 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .node__title:after {
@@ -79,10 +81,6 @@
   min-height: 90px;
 }
 
-.node--activate .port-container--actionOutputPort {
-  @extend %port-container--actionOutputPort;
-}
-
 // RENAME NODE
 //-----------------------------
 .node--rename {
@@ -91,10 +89,6 @@
 
 .node--rename .node__title {
   background-color: var(--color-purple);
-}
-
-.node--rename .port-container--actionOutputPort {
-  @extend %port-container--actionOutputPort;
 }
 
 // ENTRY NODE

@@ -22,3 +22,13 @@ body {
     flex-direction: column;
     gap: 10px;
 }
+
+#logo--main{
+    position: fixed;
+    bottom: 1rem;
+    right: 1rem;
+    display: block;
+    pointer-events: none;
+    opacity: 0.25;
+    width: 120px;
+}
