@@ -5,6 +5,11 @@ import {DialogChoiceFactory} from "./node-types/dialog-choice/dialog-choice-fact
 import {DialogChoiceListFactory} from "./node-types/dialog-choice-list/dialog-choice-list-factory";
 import {ActivateFactory} from "./node-types/activate/activate-factory";
 import {RenameFactory} from "./node-types/rename/rename-factory";
+import {EntryFactory} from "./node-types/entry/entry-factory";
+import {StartGameFactory} from "./node-types/start-game/start-game-factory";
+import {EndDialogFactory} from "./node-types/end-dialog/end-dialog-factory";
+import {EndGameFactory} from "./node-types/end-game/end-game-factory";
+
 
 export class DefaultNodeRegister {
     canvasEngine: CanvasEngine
@@ -24,5 +29,9 @@ export class DefaultNodeRegister {
         this.register("dialog-choice-list", new DialogChoiceListFactory());
         this.register("activate", new ActivateFactory());
         this.register("rename", new RenameFactory());
+        this.register("entry", new EntryFactory());
+        this.register("start-game", new StartGameFactory());
+        this.register("end-game", new EndGameFactory());
+        this.register("end-dialog", new EndDialogFactory());
     }
 }

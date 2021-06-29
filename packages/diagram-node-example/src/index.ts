@@ -1,3 +1,5 @@
+import './styles.css';
+
 import {getRandom} from "./helpers";
 import {createCanvasEngine} from "dialog-engine-core";
 const $root = document.getElementById("node-diagram") as HTMLElement;
@@ -6,8 +8,8 @@ let canvasEngine = createCanvasEngine($root);
 canvasEngine.addNode(10, 10, "dialog-quote");
 canvasEngine.addNode(800, 300, "dialog-quote-list");
 canvasEngine.addNode(400, 300, "dialog-choice-list");
-canvasEngine.addNode(800, 600, "activate");
-canvasEngine.addNode(800, 800, "rename");
+canvasEngine.addNode(800, 600, "start-game");
+canvasEngine.addNode(800, 800, "end-dialog");
 
 
 const $addNodeButton = document.querySelector(".add-node") as HTMLElement;

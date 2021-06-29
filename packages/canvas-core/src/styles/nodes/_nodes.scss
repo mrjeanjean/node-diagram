@@ -12,20 +12,20 @@
   -webkit-touch-callout: none; /* iOS Safari */
   cursor: move;
   pointer-events: all;
-  box-shadow: rgba(#0e0b17, 0.2) 0 0 10px 5px ;
+  box-shadow: rgba(#0e0b17, 0.2) 0 0 10px 5px;
   border: 1px var(--color-blue) solid;
 }
 
-.node.is-dragging{
+.node.is-dragging {
   z-index: 3;
 }
 
-.node > .node__body{
+.node > .node__body {
   padding: 15px;
   position: relative;
 }
 
-.node__body > *:not(:last-child){
+.node__body > *:not(:last-child) {
   margin-bottom: 10px;
 }
 
@@ -43,7 +43,7 @@
   //text-shadow: var(--background-color-shadow) 0 1px 2px;
 }
 
-.node__title:after{
+.node__title:after {
   //content: "";
   height: 1px;
   position: absolute;
@@ -53,32 +53,85 @@
   background-color: rgba(#fff, 0.05);
 }
 
-// ACTIVATE NODE
-//-----------------------------
-.node--activate{
-  border-color: var(--color-red);
+%node--without-body {
   min-height: auto;
 }
 
-.node--activate .node__title{
-  background-color: var(--color-red);
+%node--without-body .node__title {
   border-radius: var(--node-border-radius);
   margin-bottom: -1px;
-  min-height: 90px;
-  //display: flex;
-  //align-items: center;
 }
 
-.node--activate .node__body{
+%node--without-body .node__body {
   display: none;
 }
 
-.node--activate .port-container--actionOutputPort{
+// ACTIVATE NODE
+//-----------------------------
+.node--activate {
+  @extend %node--without-body;
+  border-color: var(--color-red);
+}
+
+.node--activate .node__title {
+  background-color: var(--color-red);
+  border-radius: var(--node-border-radius);
+  min-height: 90px;
+}
+
+.node--activate .port-container--actionOutputPort {
   @extend %port-container--actionOutputPort;
 }
 
 // RENAME NODE
 //-----------------------------
-.node--rename .port-container--actionOutputPort{
+.node--rename {
+  border-color: var(--color-purple);
+}
+
+.node--rename .node__title {
+  background-color: var(--color-purple);
+}
+
+.node--rename .port-container--actionOutputPort {
   @extend %port-container--actionOutputPort;
+}
+
+// ENTRY NODE
+//-----------------------------
+.node--entry {
+  border-color: var(--color-green-light);
+}
+
+.node--entry .node__title {
+  background-color: var(--color-green-light);
+}
+
+// START GAME NODE
+//-----------------------------
+.node--start-game,
+.node--end-game{
+  @extend %node--without-body;
+  border-color: var(--color-pink);
+  min-width: 100px;
+}
+
+.node--start-game .node__title,
+.node--end-game .node__title{
+  border-radius: var(--node-border-radius);
+  background-color: var(--color-pink);
+  height: 90px;
+  display: flex;
+  align-items: center;
+}
+
+// END DIALOG NODE
+//-----------------------------
+.node--end-dialog {
+  @extend %node--without-body;
+  border-color: var(--color-orange);
+}
+
+.node--end-dialog .node__title {
+  background-color: var(--color-orange);
 }

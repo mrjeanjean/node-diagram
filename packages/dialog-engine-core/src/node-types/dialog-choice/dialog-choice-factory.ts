@@ -19,7 +19,6 @@ export class DialogChoiceFactory extends AbstractNodeFactory {
             "quote",
             {placeholder: "Insert choice dialog quote..."}
         );
-
         nodeModel.getHTMLBody().appendChild(inputControl1.getHTMLElement());
 
         canvasEngine.addPort(nodeModel, portsTypes.actionOutput);

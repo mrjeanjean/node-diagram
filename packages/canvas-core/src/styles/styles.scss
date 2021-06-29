@@ -1,7 +1,7 @@
 $port-size: 40px;
 $port-action-size: 15px;
 
-:root{
+:root {
   --font-family: 'Source Sans Pro', sans-serif;
   //--font-family: 'Questrial', sans-serif;
   --background-color: #29323f;
@@ -11,6 +11,10 @@ $port-action-size: 15px;
   --color-red: #e44758;
   --color-blue: #3a9eda;
   --color-green: #22c17b;
+  --color-green-light: #8fdb4c;
+  --color-purple: #ad35d9;
+  --color-pink: #d9358a;
+  --color-orange: #d9a235;
 }
 
 @import "normalize";
@@ -41,11 +45,29 @@ body {
   background-size: 50px 50px;
   background-position: 0 0;
 
-  background-image:linear-gradient(
-                  0deg
-          , transparent 24%, rgba(255, 255, 255, 0.05) 25%, rgba(255, 255, 255, 0.05) 26%, transparent 27%, transparent 74%, rgba(255, 255, 255, 0.05) 75%, rgba(255, 255, 255, 0.05) 76%, transparent 77%, transparent), linear-gradient(
-                  90deg
-          , transparent 24%, rgba(255, 255, 255, 0.05) 25%, rgba(255, 255, 255, 0.05) 26%, transparent 27%, transparent 74%, rgba(255, 255, 255, 0.05) 75%, rgba(255, 255, 255, 0.05) 76%, transparent 77%, transparent);;
+  background-image: linear-gradient(
+                  0deg,
+                  transparent 24%,
+                  rgba(255, 255, 255, 0.05) 25%,
+                  rgba(255, 255, 255, 0.05) 26%,
+                  transparent 27%,
+                  transparent 74%,
+                  rgba(255, 255, 255, 0.05) 75%,
+                  rgba(255, 255, 255, 0.05) 76%,
+                  transparent 77%,
+                  transparent
+  ), linear-gradient(
+                  90deg,
+                  transparent 24%,
+                  rgba(255, 255, 255, 0.05) 25%,
+                  rgba(255, 255, 255, 0.05) 26%,
+                  transparent 27%,
+                  transparent 74%,
+                  rgba(255, 255, 255, 0.05) 75%,
+                  rgba(255, 255, 255, 0.05) 76%,
+                  transparent 77%,
+                  transparent
+  );
 }
 
 .node-layer,
@@ -66,27 +88,4 @@ body {
   background-color: transparent;
   pointer-events: none;
   z-index: 0;
-}
-
-// GUI
-//-----------------------------
-#diagram-infos {
-  position: fixed;
-  top: 0;
-  right: 0;
-  background-color: rgba(0, 0, 0, 0.2);
-  padding: 10px;
-  color: #ffffff;
-}
-
-#diagram-menu {
-  position: fixed;
-  top: 50px;
-  right: 0;
-  background-color: rgba(0, 0, 0, 0.2);
-  padding: 10px;
-  color: #ffffff;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
 }

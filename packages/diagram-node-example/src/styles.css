@@ -1,6 +1,24 @@
-body{
+body {
     margin: 0;
 }
 
-.six-admin{
+#diagram-infos {
+    position: fixed;
+    top: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.2);
+    padding: 10px;
+    color: #ffffff;
+}
+
+#diagram-menu {
+    position: fixed;
+    top: 50px;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.2);
+    padding: 10px;
+    color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
