@@ -10,7 +10,6 @@ import {StartGameFactory} from "./node-types/start-game/start-game-factory";
 import {EndDialogFactory} from "./node-types/end-dialog/end-dialog-factory";
 import {EndGameFactory} from "./node-types/end-game/end-game-factory";
 
-
 export class DefaultNodeRegister {
     canvasEngine: CanvasEngine
 
@@ -18,20 +17,37 @@ export class DefaultNodeRegister {
         this.canvasEngine = canvasEngine;
     }
 
-    register(name: string, nodeFactory: AbstractNodeFactory) {
+    registerNodeFactory(name: string, nodeFactory: AbstractNodeFactory): void {
         this.canvasEngine.registerNodeFactory(name, nodeFactory);
     }
 
-    registerAllDefault() {
-        this.register("dialog-quote", new DialogQuoteFactory());
-        this.register("dialog-quote-list", new DialogQuoteListFactory());
-        this.register("dialog-choice", new DialogChoiceFactory());
-        this.register("dialog-choice-list", new DialogChoiceListFactory());
-        this.register("activate", new ActivateFactory());
-        this.register("rename", new RenameFactory());
-        this.register("entry", new EntryFactory());
-        this.register("start-game", new StartGameFactory());
-        this.register("end-game", new EndGameFactory());
-        this.register("end-dialog", new EndDialogFactory());
+    registerContextMenuItem(name: string, itemMenuTitle: string = "_default"): void {
+        this.canvasEngine.registerContextMenuItem(name, itemMenuTitle);
+    }
+
+    registerAllFactories() {
+        this.registerNodeFactory("dialog-quote", new DialogQuoteFactory());
+        this.registerNodeFactory("dialog-quote-list", new DialogQuoteListFactory());
+        this.registerNodeFactory("dialog-choice", new DialogChoiceFactory());
+        this.registerNodeFactory("dialog-choice-list", new DialogChoiceListFactory());
+        this.registerNodeFactory("activate", new ActivateFactory());
+        this.registerNodeFactory("rename", new RenameFactory());
+        this.registerNodeFactory("entry", new EntryFactory());
+        this.registerNodeFactory("start-game", new StartGameFactory());
+        this.registerNodeFactory("end-game", new EndGameFactory());
+        this.registerNodeFactory("end-dialog", new EndDialogFactory());
+    }
+
+    registerAllContextMenuItems() {
+        this.registerContextMenuItem("start-game", "Start Game");
+        this.registerContextMenuItem("entry", "Entry");
+        this.registerContextMenuItem("dialog-quote", "Dialog quote");
+        this.registerContextMenuItem("dialog-quote-list", "Dialog quotes list");
+        this.registerContextMenuItem("dialog-choice", "Dialog choice");
+        this.registerContextMenuItem("dialog-choice-list", "Dialog choices list");
+        this.registerContextMenuItem("activate", "Activation");
+        this.registerContextMenuItem("rename", "Rename");
+        this.registerContextMenuItem("end-game", "End game");
+        this.registerContextMenuItem("end-dialog", "End dialog");
     }
 }

@@ -15,6 +15,7 @@ import {PortNameAdapter} from "./ports/port-name-adapter";
 import {DefaultPortNameAdapter} from "./ports/default-port-name-adapter";
 import {canBeActivated} from "./interfaces/activatable-interface";
 import {canBeRenamed} from "./interfaces/renamable-interface";
+import {ContextMenu} from "./context-menu/context-menu";
 
 export class CanvasEngine {
     $canvas: HTMLElement;
@@ -24,6 +25,7 @@ export class CanvasEngine {
     canvasEventsHandler: CanvasEventsHandler;
     itemsFactories: ItemsFactories;
     portNameAdapter: PortNameAdapter;
+    contextMenu: ContextMenu;
 
     constructor($container: HTMLElement) {
         // Create HTML elements
@@ -62,11 +64,27 @@ export class CanvasEngine {
         // Port name adapter
         this.portNameAdapter = new DefaultPortNameAdapter();
 
+        // Add node menu constructor
+        this.contextMenu = new ContextMenu(this, this.$canvas);
+        document.addEventListener("contextmenu", (event:MouseEvent)=>{
+            event.preventDefault();
+            this.contextMenu.show({
+                x: event.clientX,
+                y: event.clientY
+            }, (data:any)=>{
+                this.addNode(data.position.x, data.position.y, data.nodeName)
+            })
+        });
+
         this.canvasModel.updateZoom();
     }
 
     registerNodeFactory(type: string, nodeFactory: NodeFactory) {
         this.itemsFactories.registerNodeFactory(type, nodeFactory);
+    }
+
+    registerContextMenuItem(type: string, itemMenuTitle: string) {
+        this.contextMenu.add(type, itemMenuTitle);
     }
 
     decorateDiagramItem($item: HTMLElement | SVGElement): { $item: HTMLElement | SVGElement, itemId: string } {
@@ -92,11 +110,11 @@ export class CanvasEngine {
         let nodeModel = nodeFactory.createNodeModel($node, this.canvasModel, positionX, positionY);
         nodeFactory.buildNodeBody(nodeModel, this);
 
-        if(canBeActivated(nodeModel)){
+        if (canBeActivated(nodeModel)) {
             this.addPort(nodeModel, portsTypes.actionInput, "activation");
         }
 
-        if(canBeRenamed(nodeModel)){
+        if (canBeRenamed(nodeModel)) {
             this.addPort(nodeModel, portsTypes.actionInput, "rename");
         }
 
@@ -207,7 +225,11 @@ export class CanvasEngine {
         return $port;
     }
 
-    setPortNameAdapter(portNameAdapter:PortNameAdapter):void{
+    setPortNameAdapter(portNameAdapter: PortNameAdapter): void {
         this.portNameAdapter = portNameAdapter;
+    }
+
+    getContextMenu():ContextMenu {
+        return this.contextMenu;
     }
 }

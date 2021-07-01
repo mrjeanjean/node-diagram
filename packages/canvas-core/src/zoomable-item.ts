@@ -1,7 +1,5 @@
 import {clamp} from "./utils/helpers";
 import {CanvasModel} from "./models/canvas-model";
-import {DraggableItem} from "./draggable-item";
-import {DraggableInterface} from "./interfaces/draggable-interface";
 
 export class ZoomableItem {
     zoom: number;
@@ -17,7 +15,7 @@ export class ZoomableItem {
 
     onMouseWheel(event: WheelEvent): void {
         this.zoom += (event.deltaY * -1) / 800;
-        this.zoom = clamp(this.zoom, 0.1, 4);
+        this.zoom = clamp(this.zoom, 0.05, 3);
         this.model.setZoom(this.zoom);
     }
 

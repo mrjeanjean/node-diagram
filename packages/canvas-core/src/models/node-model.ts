@@ -3,6 +3,7 @@ import {CanvasModel} from "./canvas-model";
 import {PortModel} from "./port-model";
 import {DraggableInterface} from "../interfaces/draggable-interface";
 import {ItemModel} from "./item-model";
+import {Point} from "../types";
 
 export class NodeModel extends ItemModel implements DraggableInterface{
     canvasModel: CanvasModel;
@@ -24,6 +25,13 @@ export class NodeModel extends ItemModel implements DraggableInterface{
         this.positionY = this.initialY = positionY;
 
         this.draw();
+    }
+
+    getPosition():Point{
+        return {
+            x: this.positionX,
+            y: this.positionY
+        }
     }
 
     addPort(portModel: PortModel): void {

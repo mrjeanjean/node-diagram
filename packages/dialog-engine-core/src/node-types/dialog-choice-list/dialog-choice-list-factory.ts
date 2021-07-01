@@ -21,9 +21,7 @@ export class DialogChoiceListFactory extends GroupNodeFactory {
 
     buildNodeBody(nodeModel: DialogChoiceListModel, canvasEngine: CanvasEngine) {
         nodeModel.setHTMLTitle("Choice list");
-        createGroupNodeActions(nodeModel, ()=>{
-            nodeModel.addDialogQuote();
-        });
+        createGroupNodeActions(nodeModel, canvasEngine);
         canvasEngine.addPort(nodeModel, portsTypes.input);
     }
 }

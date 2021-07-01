@@ -19,11 +19,9 @@ export class DialogQuoteListFactory extends GroupNodeFactory {
     }
 
     buildNodeBody(nodeModel: DialogQuoteListModel, canvasEngine: CanvasEngine) {
-        nodeModel.setHTMLTitle("Quote list");
+        nodeModel.setHTMLTitle("Dialog quote list");
 
-        createGroupNodeActions(nodeModel, ()=>{
-            nodeModel.addDialogQuote();
-        });
+        createGroupNodeActions(nodeModel, canvasEngine);
 
         canvasEngine.addPort(nodeModel, portsTypes.output);
         canvasEngine.addPort(nodeModel, portsTypes.input);
