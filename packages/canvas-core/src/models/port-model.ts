@@ -54,12 +54,16 @@ export class PortModel implements PortInterface {
         this.links = this.links.filter(linkModel => {
             return link.getId() !== linkModel.getId()
         });
+
+        if(this.links.length <= 0){
+            this.getHTMLElement().classList.remove("connected");
+        }
     }
 
     updateLinks(): void{
         this.links.forEach(link => {
             link.draw();
-        })
+        });
     }
 
     getHTMLElement(): HTMLElement {

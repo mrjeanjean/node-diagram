@@ -16,5 +16,4 @@ export {createGroupNodeActions} from './node-controls/group-node-actions';
 
 export {FontAwesomePortNameAdapter} from './ports/font-awesome-port-name-adapter';
 
-export * from './interfaces/renamable-interface';
 export * from './interfaces/activatable-interface';

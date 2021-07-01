@@ -115,6 +115,14 @@ $port-action-size: 12px;
   top: -3px;
 }
 
+.port-container--actionInputPort .port:after{
+  left: -25px;
+}
+
+.port-container--actionOutputPort .port:after{
+  right: -25px;
+}
+
 .port-container--actionInputPort .port.port.connected .port__inner,
 .port-container--actionOutputPort .port.connected .port__inner {
   position: absolute;

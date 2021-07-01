@@ -1,4 +1,4 @@
-import {ActivatableInterface, CanvasModel, NodeModel, RenamableInterface} from "canvas-core";
+import {ActivatableInterface, CanvasModel, NodeModel} from "canvas-core";
 
 export class DialogChoiceModel extends NodeModel implements ActivatableInterface{
     name: string = "";

@@ -24,7 +24,12 @@ export class PlaceholderLinkModel {
     }
 
     draw(): void {
-        const path = generateCurvedPath(this.portOrigin.getPosition(), this.endPosition, !this.portOrigin.isActionType());
+        let path:string;
+        if(this.portOrigin.isInputPort()){
+            path = generateCurvedPath(this.endPosition, this.portOrigin.getPosition(), !this.portOrigin.isActionType());
+        }else{
+            path = generateCurvedPath(this.portOrigin.getPosition(), this.endPosition, !this.portOrigin.isActionType());
+        }
 
         this.$link.querySelectorAll("path").forEach($path => {
             $path.setAttribute('d', path);

@@ -15,12 +15,7 @@ export class DragConnexionState implements DragStateInterface {
 
         const $link = this.canvasModel.getCanvasEngine().createLink();
 
-
-        if (portOrigin.isInputPort()) {
-            this.placeHolderLinkModel = new PlaceholderLinkModel($link, portOrigin, "#666");
-        } else {
-            this.placeHolderLinkModel = new PlaceholderLinkModel($link, portOrigin, "#666");
-        }
+        this.placeHolderLinkModel = new PlaceholderLinkModel($link, portOrigin, "#666");
     }
 
     startDrag(data: any) {
@@ -41,11 +36,7 @@ export class DragConnexionState implements DragStateInterface {
     endDrag() {
         this.placeHolderLinkModel.getHTMLElement().remove();
 
-
         if (!this.portTarget || !this.portTarget.accept(this.portOrigin)) return;
-
-
-        console.log(this.portTarget, this.portTarget?.accept(this.portOrigin))
 
         if (this.portOrigin.isInputPort()) {
             this.canvasModel.getCanvasEngine().addLink(this.portTarget, this.portOrigin);
