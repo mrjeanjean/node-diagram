@@ -13,8 +13,11 @@ export class PortModel implements PortInterface {
     links: Array<LinkModel> = [];
     data:any = {};
     canvasModel;
-    constructor($port:
-                    HTMLElement, portType: string, nodeModel: NodeModel, canvasModel: CanvasModel) {
+    constructor($port: HTMLElement,
+                portType: string,
+                nodeModel: NodeModel,
+                canvasModel: CanvasModel
+    ) {
         this.$port = $port;
         this.portType = portType;
         this.node = nodeModel;
@@ -43,6 +46,10 @@ export class PortModel implements PortInterface {
 
     getPortType(): string {
         return this.portType;
+    }
+
+    remove(){
+        this.getHTMLElement().remove();
     }
 
     addLink(link: LinkModel): void {

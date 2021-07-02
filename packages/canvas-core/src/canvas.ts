@@ -15,6 +15,7 @@ import {PortNameAdapter} from "./ports/port-name-adapter";
 import {DefaultPortNameAdapter} from "./ports/default-port-name-adapter";
 import {canBeActivated} from "./interfaces/activatable-interface";
 import {canBeRenamed} from "./interfaces/renamable-interface";
+import {ContextMenuManager} from "./context-menu/context-menu-manager";
 import {ContextMenu} from "./context-menu/context-menu";
 
 export class CanvasEngine {
@@ -25,7 +26,7 @@ export class CanvasEngine {
     canvasEventsHandler: CanvasEventsHandler;
     itemsFactories: ItemsFactories;
     portNameAdapter: PortNameAdapter;
-    contextMenu: ContextMenu;
+    contextMenuManager: ContextMenuManager;
 
     constructor($container: HTMLElement) {
         // Create HTML elements
@@ -65,15 +66,23 @@ export class CanvasEngine {
         this.portNameAdapter = new DefaultPortNameAdapter();
 
         // Add node menu constructor
-        this.contextMenu = new ContextMenu(this, this.$canvas);
-        document.addEventListener("contextmenu", (event:MouseEvent)=>{
+        this.contextMenuManager = new ContextMenuManager(this, this.$canvas);
+        document.addEventListener("contextmenu", (event: MouseEvent) => {
             event.preventDefault();
-            this.contextMenu.show({
+            let contextMenu = new ContextMenu({
                 x: event.clientX,
                 y: event.clientY
-            }, (data:any)=>{
-                this.addNode(data.position.x, data.position.y, data.nodeName)
-            })
+            }, {
+                onItemSelect: (data: any) => {
+                    this.addNode(data.position.x, data.position.y, data.nodeName)
+                }
+            });
+
+            contextMenu.addItemsFilter((itemsList: Map<string, string>)=>{
+                return itemsList;
+            });
+
+            this.contextMenuManager.show(contextMenu);
         });
 
         this.canvasModel.updateZoom();
@@ -84,7 +93,7 @@ export class CanvasEngine {
     }
 
     registerContextMenuItem(type: string, itemMenuTitle: string) {
-        this.contextMenu.add(type, itemMenuTitle);
+        this.contextMenuManager.add(type, itemMenuTitle);
     }
 
     decorateDiagramItem($item: HTMLElement | SVGElement): { $item: HTMLElement | SVGElement, itemId: string } {
@@ -129,10 +138,6 @@ export class CanvasEngine {
         return nodeModel;
     }
 
-    addGroupNode(positionX: number = 0, positionY: number = 0): GroupNodeModel {
-        return this.addNode(positionX, positionY, "group-node") as GroupNodeModel;
-    }
-
     addLink(startPortModel: PortModel, endPortModel: PortModel, type = "default"): void {
         let linkFactory = this.itemsFactories.getLinkFactory(type);
 
@@ -155,7 +160,7 @@ export class CanvasEngine {
         linkModel.getHTMLElement().remove();
     }
 
-    addPort(nodeModel: NodeModel, portType: string, portName: string = "") {
+    addPort(nodeModel: NodeModel, portType: string, portName: string = ""): PortModel {
         let $portContainer = nodeModel
             .getHTMLElement()
             .querySelector(`:scope > .port-container--${portType}`) as HTMLElement;
@@ -229,7 +234,7 @@ export class CanvasEngine {
         this.portNameAdapter = portNameAdapter;
     }
 
-    getContextMenu():ContextMenu {
-        return this.contextMenu;
+    getContextMenu(): ContextMenuManager {
+        return this.contextMenuManager;
     }
 }

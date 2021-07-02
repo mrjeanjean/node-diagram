@@ -21,5 +21,8 @@ export class DialogQuoteFactory extends AbstractNodeFactory {
         );
 
         nodeModel.getHTMLBody().appendChild(inputControl1.getHTMLElement());
+
+        canvasEngine.addPort(nodeModel, portsTypes.input);
+        canvasEngine.addPort(nodeModel, portsTypes.output);
     }
 }

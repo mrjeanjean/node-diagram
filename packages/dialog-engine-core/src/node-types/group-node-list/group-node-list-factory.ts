@@ -6,20 +6,20 @@ import {
     GroupNodeFactory,
     portsTypes
 } from "canvas-core";
-import {DialogQuoteListModel} from "./dialog-quote-list-model";
+import {GroupNodeListModel} from "./group-node-list-model";
 
-export class DialogQuoteListFactory extends GroupNodeFactory {
+export class GroupNodeListFactory extends GroupNodeFactory {
     createNodeModel(
         $node: HTMLElement,
         canvasModel: CanvasModel,
         positionX: number,
         positionY: number
-    ): DialogQuoteListModel {
-        return new DialogQuoteListModel($node, canvasModel, positionX, positionY);
+    ): GroupNodeListModel {
+        return new GroupNodeListModel($node, canvasModel, positionX, positionY);
     }
 
-    buildNodeBody(nodeModel: DialogQuoteListModel, canvasEngine: CanvasEngine) {
-        nodeModel.setHTMLTitle("Dialog quote list");
+    buildNodeBody(nodeModel: GroupNodeListModel, canvasEngine: CanvasEngine) {
+        nodeModel.setHTMLTitle("Group node");
 
         createGroupNodeActions(nodeModel, canvasEngine);
 

@@ -1,32 +1,27 @@
-import {CanvasEngine} from "canvas-core";
 import {Point} from "../types";
+import {CanvasEngine} from "canvas-core";
 
 export class ContextMenu {
-    $canvas: HTMLElement;
-    canvasEngine: CanvasEngine;
     $contextMenu: HTMLElement | null = null;
-    nodesItems: Map<string, string>;
+    onItemSelect: (data: any) => void;
+    position: Point;
+    itemsFilters: Array<(itemList:Map<string, string>) => Map<string, string>>;
 
-    constructor(canvasEngine: CanvasEngine, $canvas: HTMLElement) {
-        this.canvasEngine = canvasEngine;
-        this.$canvas = $canvas;
-        this.nodesItems = new Map<string, string>();
-
-        this.show = this.show.bind(this);
-        this.onClickOutside = this.onClickOutside.bind(this);
-        document.addEventListener("mousedown", this.onClickOutside);
+    constructor(position: Point, data: { onItemSelect: (data: any) => void }) {
+        this.onItemSelect = data.onItemSelect;
+        this.position = position;
+        this.itemsFilters = new Array<() => Map<string, string>>();
     }
 
-    add(type: string, itemMenuTitle: string): void {
-        this.nodesItems.set(type, itemMenuTitle);
+    addItemsFilter(filter: (itemsList: Map<string, string>) => Map<string, string>): void {
+        this.itemsFilters.push(filter);
     }
 
-    show(position:Point, onSelect:Function): void {
-
-        let $contextMenu = document.createElement("div");
-        $contextMenu.classList.add('context-menu');
-        $contextMenu.style.left = `${position.x}px`;
-        $contextMenu.style.top = `${position.y}px`;
+    createContextMenuHTML() {
+        this.$contextMenu = document.createElement("div");
+        this.$contextMenu.classList.add('context-menu');
+        this.$contextMenu.style.left = `${this.position.x}px`;
+        this.$contextMenu.style.top = `${this.position.y}px`;
 
         let $contextMenuHeader = document.createElement("div");
         let $contextMenuBody = document.createElement("div");
@@ -34,49 +29,46 @@ export class ContextMenu {
         $contextMenuBody.classList.add("context-menu__body");
 
         $contextMenuHeader.innerText = "Add node";
-        this.getItemsHTML($contextMenuBody, position, onSelect);
 
-        $contextMenu.appendChild($contextMenuHeader);
-        $contextMenu.appendChild($contextMenuBody);
-        this.$canvas.appendChild($contextMenu);
+        this.$contextMenu.appendChild($contextMenuHeader);
+        this.$contextMenu.appendChild($contextMenuBody);
 
-        this.$contextMenu = $contextMenu;
-        this.$contextMenu.addEventListener("mousedown", e=>{
+        this.$contextMenu.addEventListener("mousedown", e => {
             e.stopPropagation();
         });
-        this.$contextMenu.addEventListener("wheel", e=>{
+        this.$contextMenu.addEventListener("wheel", e => {
             e.stopPropagation();
         })
 
-        setTimeout(()=>{
-            $contextMenu.classList.add("transition-enter");
+        setTimeout(() => {
+            this.$contextMenu?.classList.add("transition-enter");
         }, 10);
+
+        return this.$contextMenu;
     }
 
-    hide():void{
-        if(this.$contextMenu){
-            this.$contextMenu.remove();
-        }
-    }
-
-    onClickOutside(e: Event):void{
-        this.hide();
-    }
-
-    getItemsHTML($container: HTMLElement, position: Point, onSelect:Function): void {
-        this.nodesItems.forEach((itemMenuName:string, nodeName:string) => {
+    addMenuItemsHTML(nodesItems: Map<string, string>, canvasEngine:CanvasEngine) {
+        let nodeItemsFiltered = nodesItems;
+        nodeItemsFiltered.forEach((itemMenuName:string, nodeName:string) => {
             const $contextMenuItem = document.createElement("div");
             $contextMenuItem.classList.add("context-menu__item");
             $contextMenuItem.innerText = itemMenuName;
-            const relativePosition = this.canvasEngine.canvasModel.getRelativePosition(position.x, position.y);
+            const relativePosition = canvasEngine.canvasModel.getRelativePosition(this.position.x, this.position.y);
             $contextMenuItem.addEventListener("click", () => {
-                onSelect({
+                this.onItemSelect({
                     position: relativePosition,
                     nodeName: nodeName
                 });
-                this.hide();
-            })
-            $container.appendChild($contextMenuItem);
+                this.remove();
+            });
+
+            this.$contextMenu?.querySelector(".context-menu__body")?.appendChild($contextMenuItem);
         })
+    }
+
+    remove() {
+        if (this.$contextMenu) {
+            this.$contextMenu.remove();
+        }
     }
 }

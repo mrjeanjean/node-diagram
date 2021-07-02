@@ -38,6 +38,11 @@ export class NodeModel extends ItemModel implements DraggableInterface{
         this.ports.push(portModel);
     }
 
+    removeIOPorts(): void{
+        this.ports.filter((port:PortModel)=>!port.isActionType()).forEach((portModel: PortModel)=>portModel.remove())
+        this.ports = this.ports.filter((port:PortModel)=>port.isActionType());
+    }
+
     setHTMLTitle(title: string): void{
         this.getHTMLTitle().innerText = title;
     }
