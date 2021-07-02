@@ -5,7 +5,6 @@ import {LayerModel} from "./models/layer-model";
 import {CanvasEventsHandler} from "./canvas-events-handler";
 import {LinkModel} from "./models/link-model";
 import {PortModel} from "./models/port-model";
-import {GroupNodeModel} from "./models/group-node-model";
 import {getUniqueID} from "./utils/helpers";
 import {ItemsFactories} from "./factories/items-factories";
 import {NodeFactory} from "./factories/factory-interface";
@@ -78,7 +77,7 @@ export class CanvasEngine {
                 }
             });
 
-            contextMenu.addItemsFilter((itemsList: Map<string, string>)=>{
+            contextMenu.addItemsFilter((itemsList: Map<string, NodeFactory>)=>{
                 return itemsList;
             });
 
@@ -92,8 +91,8 @@ export class CanvasEngine {
         this.itemsFactories.registerNodeFactory(type, nodeFactory);
     }
 
-    registerContextMenuItem(type: string, itemMenuTitle: string) {
-        this.contextMenuManager.add(type, itemMenuTitle);
+    registerContextMenuItem(type: string, nodeFactory: NodeFactory) {
+        this.contextMenuManager.add(type, nodeFactory);
     }
 
     decorateDiagramItem($item: HTMLElement | SVGElement): { $item: HTMLElement | SVGElement, itemId: string } {

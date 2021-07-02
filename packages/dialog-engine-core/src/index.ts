@@ -7,6 +7,5 @@ export const createCanvasEngine = ($root:HTMLElement) =>{
     canvasEngine = new CanvasEngine($root);
     const defaultNodeRegister = new DefaultNodeRegister(canvasEngine);
     defaultNodeRegister.registerAllFactories();
-    defaultNodeRegister.registerAllContextMenuItems();
     return canvasEngine;
 }

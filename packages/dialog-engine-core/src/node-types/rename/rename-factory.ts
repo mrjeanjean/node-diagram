@@ -1,7 +1,7 @@
 import {
     AbstractNodeFactory,
     CanvasEngine,
-    CanvasModel,
+    CanvasModel, contextTypes,
     InputNodeControl,
     portsTypes,
 } from "canvas-core";
@@ -24,5 +24,13 @@ export class RenameFactory extends AbstractNodeFactory {
         canvasEngine.addPort(nodeModel, portsTypes.output);
         canvasEngine.addPort(nodeModel, portsTypes.input);
         canvasEngine.addPort(nodeModel, portsTypes.actionOutput, "rename");
+    }
+
+    getMenuItemName(): string {
+        return "Rename";
+    }
+
+    displayOnContextMenu(context: string): boolean {
+        return context === contextTypes.main || context === contextTypes.group;
     }
 }

@@ -12,7 +12,6 @@ export class EntryFactory extends AbstractNodeFactory {
     }
 
     buildNodeBody(nodeModel: EntryModel, canvasEngine: CanvasEngine) {
-        nodeModel.setHTMLTitle("Entry");
         const inputControl1 = new InputNodeControl(
             nodeModel,
             "entryName",
@@ -21,5 +20,9 @@ export class EntryFactory extends AbstractNodeFactory {
         nodeModel.getHTMLBody().appendChild(inputControl1.getHTMLElement());
         canvasEngine.addPort(nodeModel, portsTypes.output);
         canvasEngine.addPort(nodeModel, portsTypes.input);
+    }
+
+    getMenuItemName(): string {
+        return "Entry";
     }
 }

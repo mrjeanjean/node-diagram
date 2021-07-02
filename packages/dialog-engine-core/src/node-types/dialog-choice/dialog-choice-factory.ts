@@ -1,7 +1,7 @@
 import {
     AbstractNodeFactory,
     CanvasEngine,
-    CanvasModel,
+    CanvasModel, contextTypes,
     portsTypes,
     TextareaNodeControl
 } from "canvas-core";
@@ -13,7 +13,6 @@ export class DialogChoiceFactory extends AbstractNodeFactory {
     }
 
     buildNodeBody(nodeModel: DialogChoiceModel, canvasEngine: CanvasEngine) {
-        nodeModel.setHTMLTitle("Héros");
         const inputControl1 = new TextareaNodeControl(
             nodeModel,
             "quote",
@@ -22,5 +21,13 @@ export class DialogChoiceFactory extends AbstractNodeFactory {
         nodeModel.getHTMLBody().appendChild(inputControl1.getHTMLElement());
 
         canvasEngine.addPort(nodeModel, portsTypes.outputRight);
+    }
+
+    getMenuItemName(): string {
+        return "Question";
+    }
+
+    displayOnContextMenu(context: string): boolean {
+        return context === contextTypes.choices;
     }
 }

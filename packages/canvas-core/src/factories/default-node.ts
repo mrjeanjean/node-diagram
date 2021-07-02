@@ -1,29 +1,30 @@
-import {generateRandomColor} from "../utils/helpers";
 import {portsTypes} from "../ports/ports-types";
 
 export class DefaultNode{
-    createNode($container: HTMLElement, type: string) :HTMLElement{
-        let $node = document.createElement("div");
-        $node.classList.add("node");
-        $node.classList.add(`node--${type}`);
+    $node: HTMLElement;
+    $nodeTitle: HTMLElement;
+
+    constructor($container: HTMLElement, type: string) {
+        this.$node = document.createElement("div");
+        this.$node.classList.add("node");
+        this.$node.classList.add(`node--${type}`);
 
         let $nodeBody = document.createElement("div");
         $nodeBody.classList.add("node__body");
 
-        let $nodeTitle = document.createElement("div");
-        $nodeTitle.classList.add("node__title");
+        this.$nodeTitle = document.createElement("div");
+        this.$nodeTitle.classList.add("node__title");
 
-        $node.appendChild($nodeTitle);
-        $node.appendChild($nodeBody);
+        this.$node.appendChild(this.$nodeTitle);
+        this.$node.appendChild($nodeBody);
 
-        $node.appendChild(this.createPortContainer(portsTypes.input));
-        $node.appendChild(this.createPortContainer(portsTypes.output));
-        $node.appendChild(this.createPortContainer(portsTypes.outputRight));
-        $node.appendChild(this.createPortContainer(portsTypes.actionInput));
-        $node.appendChild(this.createPortContainer(portsTypes.actionOutput));
+        this.$node.appendChild(this.createPortContainer(portsTypes.input));
+        this.$node.appendChild(this.createPortContainer(portsTypes.output));
+        this.$node.appendChild(this.createPortContainer(portsTypes.outputRight));
+        this.$node.appendChild(this.createPortContainer(portsTypes.actionInput));
+        this.$node.appendChild(this.createPortContainer(portsTypes.actionOutput));
 
-        $container.appendChild($node);
-        return $node;
+        $container.appendChild(this.$node);
     }
 
     /**
@@ -33,5 +34,16 @@ export class DefaultNode{
         let $portContainer = document.createElement("div");
         $portContainer.classList.add("port-container", `port-container--${portType}`);
         return $portContainer;
+    }
+
+    /**
+     * @return {HTMLElement}
+     */
+    getHTMLElement():HTMLElement{
+        return this.$node;
+    }
+
+    setHTMLTitle(title:string):void{
+        this.$nodeTitle.innerText = title;
     }
 }

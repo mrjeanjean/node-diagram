@@ -3,7 +3,8 @@ import {ContextMenu} from "../context-menu/context-menu";
 
 export const createGroupNodeActions = (
     groupNodeModel: GroupNodeModel,
-    canvasEngine: CanvasEngine
+    canvasEngine: CanvasEngine,
+    context: string | null
 ) => {
     const $listButtons = document.createElement("div");
     $listButtons.classList.add("node-list-buttons");
@@ -26,7 +27,8 @@ export const createGroupNodeActions = (
             {
                 onItemSelect: (data) => {
                     groupNodeModel.addNode(data.nodeName)
-                }
+                },
+                context
             });
         canvasEngine.getContextMenu().show(contextMenu);
     });

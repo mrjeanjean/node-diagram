@@ -1,7 +1,7 @@
 import {
     AbstractNodeFactory,
     CanvasEngine,
-    CanvasModel,
+    CanvasModel, contextTypes,
     createGroupNodeActions,
     GroupNodeFactory,
     portsTypes
@@ -19,11 +19,13 @@ export class GroupNodeListFactory extends GroupNodeFactory {
     }
 
     buildNodeBody(nodeModel: GroupNodeListModel, canvasEngine: CanvasEngine) {
-        nodeModel.setHTMLTitle("Group node");
-
-        createGroupNodeActions(nodeModel, canvasEngine);
+        createGroupNodeActions(nodeModel, canvasEngine, contextTypes.group);
 
         canvasEngine.addPort(nodeModel, portsTypes.output);
         canvasEngine.addPort(nodeModel, portsTypes.input);
+    }
+
+    getMenuItemName(): string {
+        return "Group node";
     }
 }

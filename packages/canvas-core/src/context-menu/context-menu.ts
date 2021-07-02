@@ -1,20 +1,37 @@
 import {Point} from "../types";
-import {CanvasEngine} from "canvas-core";
+import {CanvasEngine} from "./../canvas";
+import {contextTypes} from "./context-types";
+import {NodeFactory} from "../factories/factory-interface";
 
 export class ContextMenu {
     $contextMenu: HTMLElement | null = null;
     onItemSelect: (data: any) => void;
     position: Point;
-    itemsFilters: Array<(itemList:Map<string, string>) => Map<string, string>>;
+    itemsFilters: Array<(itemList:Map<string, NodeFactory>) => Map<string, NodeFactory>>;
+    context: string;
 
-    constructor(position: Point, data: { onItemSelect: (data: any) => void }) {
+    constructor(position: Point, data: { onItemSelect: (data: any) => void, context?: string | null }) {
         this.onItemSelect = data.onItemSelect;
+        this.context = data.context ?? contextTypes.main;
         this.position = position;
-        this.itemsFilters = new Array<() => Map<string, string>>();
+        this.itemsFilters = new Array<() => Map<string, NodeFactory>>();
+        this.addItemsFilter(this.filterItemsByContext);
     }
 
-    addItemsFilter(filter: (itemsList: Map<string, string>) => Map<string, string>): void {
+    addItemsFilter(filter: (itemsList: Map<string, NodeFactory>) => Map<string, NodeFactory>): void {
         this.itemsFilters.push(filter);
+    }
+
+    filterItemsByContext(itemsList: Map<string, NodeFactory>):Map<string, NodeFactory>{
+        const itemsFiltered = new Map<string, NodeFactory>(itemsList);
+        itemsFiltered.forEach((nodeFactory:NodeFactory, nodeName:string)=>{
+
+            if(!nodeFactory.displayOnContextMenu(this.context)){
+                itemsFiltered.delete(nodeName);
+            }
+        });
+
+        return itemsFiltered;
     }
 
     createContextMenuHTML() {
@@ -47,14 +64,24 @@ export class ContextMenu {
         return this.$contextMenu;
     }
 
-    addMenuItemsHTML(nodesItems: Map<string, string>, canvasEngine:CanvasEngine) {
-        let nodeItemsFiltered = nodesItems;
-        nodeItemsFiltered.forEach((itemMenuName:string, nodeName:string) => {
-            const $contextMenuItem = document.createElement("div");
-            $contextMenuItem.classList.add("context-menu__item");
-            $contextMenuItem.innerText = itemMenuName;
+    createItemHTML(itemName:string):HTMLElement{
+        const $menuItem = document.createElement("div");
+        $menuItem.classList.add("context-menu__item");
+        $menuItem.innerText = itemName;
+
+        return $menuItem
+    }
+
+    addMenuItemsHTML(nodesItems: Map<string, NodeFactory>, canvasEngine:CanvasEngine) {
+        let nodeItemsFiltered = this.filterItemsByContext(nodesItems);
+
+
+        nodeItemsFiltered.forEach((nodeFactory:NodeFactory, nodeName:string) => {
+
             const relativePosition = canvasEngine.canvasModel.getRelativePosition(this.position.x, this.position.y);
-            $contextMenuItem.addEventListener("click", () => {
+            const $menuItem = this.createItemHTML(nodeFactory.getMenuItemName());
+
+            $menuItem.addEventListener("click", () => {
                 this.onItemSelect({
                     position: relativePosition,
                     nodeName: nodeName
@@ -62,7 +89,7 @@ export class ContextMenu {
                 this.remove();
             });
 
-            this.$contextMenu?.querySelector(".context-menu__body")?.appendChild($contextMenuItem);
+            this.$contextMenu?.querySelector(".context-menu__body")?.appendChild($menuItem);
         })
     }
 

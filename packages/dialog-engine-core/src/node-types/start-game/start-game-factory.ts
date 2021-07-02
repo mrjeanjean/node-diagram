@@ -12,7 +12,10 @@ export class StartGameFactory extends AbstractNodeFactory {
     }
 
     buildNodeBody(nodeModel: StartGameModel, canvasEngine: CanvasEngine) {
-        nodeModel.setHTMLTitle("Start game");
         canvasEngine.addPort(nodeModel, portsTypes.output);
+    }
+
+    getMenuItemName(): string {
+        return "Start game";
     }
 }

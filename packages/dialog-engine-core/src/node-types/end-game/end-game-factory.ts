@@ -12,7 +12,10 @@ export class EndGameFactory extends AbstractNodeFactory {
     }
 
     buildNodeBody(nodeModel: EndGameModel, canvasEngine: CanvasEngine) {
-        nodeModel.setHTMLTitle("End game");
         canvasEngine.addPort(nodeModel, portsTypes.input);
+    }
+
+    getMenuItemName(): string {
+        return "End game";
     }
 }

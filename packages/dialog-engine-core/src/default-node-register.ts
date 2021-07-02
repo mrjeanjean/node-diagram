@@ -19,10 +19,7 @@ export class DefaultNodeRegister {
 
     registerNodeFactory(name: string, nodeFactory: AbstractNodeFactory): void {
         this.canvasEngine.registerNodeFactory(name, nodeFactory);
-    }
-
-    registerContextMenuItem(name: string, itemMenuTitle: string = "_default"): void {
-        this.canvasEngine.registerContextMenuItem(name, itemMenuTitle);
+        this.canvasEngine.registerContextMenuItem(name, nodeFactory);
     }
 
     registerAllFactories() {
@@ -36,18 +33,5 @@ export class DefaultNodeRegister {
         this.registerNodeFactory("start-game", new StartGameFactory());
         this.registerNodeFactory("end-game", new EndGameFactory());
         this.registerNodeFactory("end-dialog", new EndDialogFactory());
-    }
-
-    registerAllContextMenuItems() {
-        this.registerContextMenuItem("start-game", "Start Game");
-        this.registerContextMenuItem("entry", "Entry");
-        this.registerContextMenuItem("dialog-quote", "Dialog quote");
-        this.registerContextMenuItem("group-node-list", "Group node");
-        this.registerContextMenuItem("dialog-choice", "Dialog choice");
-        this.registerContextMenuItem("dialog-choice-list", "Dialog choices list");
-        this.registerContextMenuItem("activate", "Activation");
-        this.registerContextMenuItem("rename", "Rename");
-        this.registerContextMenuItem("end-game", "End game");
-        this.registerContextMenuItem("end-dialog", "End dialog");
     }
 }
