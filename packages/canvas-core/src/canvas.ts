@@ -5,7 +5,6 @@ import {LayerModel} from "./models/layer-model";
 import {CanvasEventsHandler} from "./canvas-events-handler";
 import {LinkModel} from "./models/link-model";
 import {PortModel} from "./models/port-model";
-import {GroupNodeModel} from "./models/group-node-model";
 import {getUniqueID} from "./utils/helpers";
 import {ItemsFactories} from "./factories/items-factories";
 import {NodeFactory} from "./factories/factory-interface";
@@ -15,6 +14,8 @@ import {PortNameAdapter} from "./ports/port-name-adapter";
 import {DefaultPortNameAdapter} from "./ports/default-port-name-adapter";
 import {canBeActivated} from "./interfaces/activatable-interface";
 import {canBeRenamed} from "./interfaces/renamable-interface";
+import {ContextMenuManager} from "./context-menu/context-menu-manager";
+import {ContextMenu} from "./context-menu/context-menu";
 
 export class CanvasEngine {
     $canvas: HTMLElement;
@@ -24,6 +25,7 @@ export class CanvasEngine {
     canvasEventsHandler: CanvasEventsHandler;
     itemsFactories: ItemsFactories;
     portNameAdapter: PortNameAdapter;
+    contextMenuManager: ContextMenuManager;
 
     constructor($container: HTMLElement) {
         // Create HTML elements
@@ -62,11 +64,35 @@ export class CanvasEngine {
         // Port name adapter
         this.portNameAdapter = new DefaultPortNameAdapter();
 
+        // Add node menu constructor
+        this.contextMenuManager = new ContextMenuManager(this, this.$canvas);
+        document.addEventListener("contextmenu", (event: MouseEvent) => {
+            event.preventDefault();
+            let contextMenu = new ContextMenu({
+                x: event.clientX,
+                y: event.clientY
+            }, {
+                onItemSelect: (data: any) => {
+                    this.addNode(data.position.x, data.position.y, data.nodeName)
+                }
+            });
+
+            contextMenu.addItemsFilter((itemsList: Map<string, NodeFactory>)=>{
+                return itemsList;
+            });
+
+            this.contextMenuManager.show(contextMenu);
+        });
+
         this.canvasModel.updateZoom();
     }
 
     registerNodeFactory(type: string, nodeFactory: NodeFactory) {
         this.itemsFactories.registerNodeFactory(type, nodeFactory);
+    }
+
+    registerContextMenuItem(type: string, nodeFactory: NodeFactory) {
+        this.contextMenuManager.add(type, nodeFactory);
     }
 
     decorateDiagramItem($item: HTMLElement | SVGElement): { $item: HTMLElement | SVGElement, itemId: string } {
@@ -92,11 +118,11 @@ export class CanvasEngine {
         let nodeModel = nodeFactory.createNodeModel($node, this.canvasModel, positionX, positionY);
         nodeFactory.buildNodeBody(nodeModel, this);
 
-        if(canBeActivated(nodeModel)){
+        if (canBeActivated(nodeModel)) {
             this.addPort(nodeModel, portsTypes.actionInput, "activation");
         }
 
-        if(canBeRenamed(nodeModel)){
+        if (canBeRenamed(nodeModel)) {
             this.addPort(nodeModel, portsTypes.actionInput, "rename");
         }
 
@@ -109,10 +135,6 @@ export class CanvasEngine {
         this.canvasModel.addItem(nodeId, nodeModel);
 
         return nodeModel;
-    }
-
-    addGroupNode(positionX: number = 0, positionY: number = 0): GroupNodeModel {
-        return this.addNode(positionX, positionY, "group-node") as GroupNodeModel;
     }
 
     addLink(startPortModel: PortModel, endPortModel: PortModel, type = "default"): void {
@@ -137,7 +159,7 @@ export class CanvasEngine {
         linkModel.getHTMLElement().remove();
     }
 
-    addPort(nodeModel: NodeModel, portType: string, portName: string = "") {
+    addPort(nodeModel: NodeModel, portType: string, portName: string = ""): PortModel {
         let $portContainer = nodeModel
             .getHTMLElement()
             .querySelector(`:scope > .port-container--${portType}`) as HTMLElement;
@@ -207,7 +229,11 @@ export class CanvasEngine {
         return $port;
     }
 
-    setPortNameAdapter(portNameAdapter:PortNameAdapter):void{
+    setPortNameAdapter(portNameAdapter: PortNameAdapter): void {
         this.portNameAdapter = portNameAdapter;
+    }
+
+    getContextMenu(): ContextMenuManager {
+        return this.contextMenuManager;
     }
 }

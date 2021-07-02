@@ -1,12 +1,10 @@
 import {
-    AbstractNodeFactory,
     CanvasEngine,
-    CanvasModel,
+    CanvasModel, contextTypes,
     createGroupNodeActions,
     GroupNodeFactory,
     portsTypes
 } from "canvas-core";
-import {DialogQuoteListModel} from "../dialog-quote-list/dialog-quote-list-model";
 import {DialogChoiceListModel} from "./dialog-choice-list-model";
 
 export class DialogChoiceListFactory extends GroupNodeFactory {
@@ -20,10 +18,11 @@ export class DialogChoiceListFactory extends GroupNodeFactory {
     }
 
     buildNodeBody(nodeModel: DialogChoiceListModel, canvasEngine: CanvasEngine) {
-        nodeModel.setHTMLTitle("Choice list");
-        createGroupNodeActions(nodeModel, ()=>{
-            nodeModel.addDialogQuote();
-        });
+        createGroupNodeActions(nodeModel, canvasEngine, contextTypes.choices);
         canvasEngine.addPort(nodeModel, portsTypes.input);
+    }
+
+    getMenuItemName(): string {
+        return "Choice list";
     }
 }

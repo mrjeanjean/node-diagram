@@ -11,13 +11,20 @@
   --color-green-light: #8fdb4c;
   --color-purple: #ad35d9;
   --color-pink: #d9358a;
-  --color-orange: #d9a235;
+  --color-orange: #ffba34;
+  --color-yellow: #ffcd37;
 }
+
+$ease-bounce: cubic-bezier(0.19, 1, 0.22, 1);
+$ease-elastic: cubic-bezier(0.3, -1, 0.7, 2);
+$ease-in-quart: cubic-bezier(0.165, 0.840, 0.440, 1.000);
+$ease-out-quart: cubic-bezier( 0.895,  0.030,  0.685,  0.220 );
 
 @import "normalize";
 @import "ports";
 @import "links";
 @import "controls";
+@import "context-menu";
 
 @import "nodes/nodes";
 @import "nodes/group-nodes";

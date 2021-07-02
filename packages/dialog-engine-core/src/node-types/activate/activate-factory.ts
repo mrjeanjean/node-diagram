@@ -1,7 +1,7 @@
 import {
     AbstractNodeFactory,
     CanvasEngine,
-    CanvasModel,
+    CanvasModel, contextTypes,
     portsTypes,
 } from "canvas-core";
 import {ActivateModel} from "./activate-model";
@@ -12,11 +12,18 @@ export class ActivateFactory extends AbstractNodeFactory {
     }
 
     buildNodeBody(nodeModel: ActivateModel, canvasEngine: CanvasEngine) {
-        nodeModel.setHTMLTitle("Activate");
         canvasEngine.addPort(nodeModel, portsTypes.output);
         canvasEngine.addPort(nodeModel, portsTypes.input);
         canvasEngine.addPort(nodeModel, portsTypes.actionOutput, "activate");
         canvasEngine.addPort(nodeModel, portsTypes.actionOutput, "deactivate");
         canvasEngine.addPort(nodeModel, portsTypes.actionOutput, "toggleActivation");
+    }
+
+    getMenuItemName(): string {
+        return "Activate";
+    }
+
+    displayOnContextMenu(context: string): boolean {
+        return context === contextTypes.main || context === contextTypes.group;
     }
 }

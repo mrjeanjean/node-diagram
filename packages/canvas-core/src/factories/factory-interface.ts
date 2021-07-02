@@ -7,7 +7,9 @@ import {CanvasEngine} from "canvas-core";
 export interface NodeFactory {
     createNodeHTML: ($container: HTMLElement, type: string) => HTMLElement,
     createNodeModel: ($node: HTMLElement, canvasModel: CanvasModel, positionX: number, positionY: number) => NodeModel,
-    buildNodeBody: (nodeModel: NodeModel, canvasEngine: CanvasEngine) => void
+    buildNodeBody: (nodeModel: NodeModel, canvasEngine: CanvasEngine) => void,
+    displayOnContextMenu: (context: string) => boolean,
+    getMenuItemName: () => string
 }
 
 export interface LinkFactory {

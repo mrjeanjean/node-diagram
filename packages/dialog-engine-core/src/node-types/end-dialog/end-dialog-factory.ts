@@ -12,7 +12,10 @@ export class EndDialogFactory extends AbstractNodeFactory {
     }
 
     buildNodeBody(nodeModel: EndDialogModel, canvasEngine: CanvasEngine) {
-        nodeModel.setHTMLTitle("End dialog");
         canvasEngine.addPort(nodeModel, portsTypes.input);
+    }
+
+    getMenuItemName(): string {
+        return "End dialog";
     }
 }

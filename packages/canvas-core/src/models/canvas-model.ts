@@ -1,6 +1,6 @@
 import {diagramInfos} from "../diagram-infos";
 import {LayerModel} from "./layer-model";
-import {CanvasEngine} from "canvas-core";
+import {CanvasEngine, NodeModel} from "canvas-core";
 import {Point} from "../types";
 import {ItemModel} from "./item-model";
 
@@ -33,7 +33,7 @@ export class CanvasModel {
         this.updateZoom();
     }
 
-    setPosition():void{
+    setPosition(): void {
 
     }
 
@@ -78,7 +78,7 @@ export class CanvasModel {
         }
     }
 
-    getPosition(layerName: string = "node-layer"):Point{
+    getPosition(layerName: string = "node-layer"): Point {
         let linkLayer = this.getLayer(layerName);
 
         if (!linkLayer) {
@@ -86,5 +86,21 @@ export class CanvasModel {
         }
 
         return linkLayer.getPosition();
+    }
+
+    getNodeAbsolutePosition(nodeModel: NodeModel): Point {
+        const position = nodeModel.getHTMLElement().getBoundingClientRect();
+        return {
+            x: position.x,
+            y: position.y,
+        }
+    }
+
+    getNodeSize(nodeModel: NodeModel): { width: number, height: number } {
+        const boundaries = nodeModel.getHTMLElement().getBoundingClientRect();
+        return {
+            width: boundaries.width,
+            height: boundaries.height
+        }
     }
 }
