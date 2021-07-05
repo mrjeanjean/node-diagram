@@ -67,6 +67,12 @@ export class PortModel implements PortInterface {
         }
     }
 
+    removeAllLinks(){
+        this.links.forEach((linkModel: LinkModel)=>{
+            linkModel.remove();
+        })
+    }
+
     updateLinks(): void{
         this.links.forEach(link => {
             link.draw();

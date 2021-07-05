@@ -20,6 +20,10 @@
   z-index: 3;
 }
 
+.node.selected{
+  box-shadow: #00e3ff 0 0 10px 2px;
+}
+
 .node > .node__body {
   padding: 15px;
   position: relative;

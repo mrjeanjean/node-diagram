@@ -58,6 +58,10 @@ export class CanvasModel {
         this.diagramItems.set(itemId, itemModel);
     }
 
+    removeItem(itemId: string): void{
+        this.diagramItems.delete(itemId);
+    }
+
     getHTMLElement(): HTMLElement {
         return this.$canvas;
     }

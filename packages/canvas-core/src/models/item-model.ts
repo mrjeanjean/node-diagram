@@ -17,4 +17,6 @@ export class ItemModel {
     getId(): string | null {
         return this.itemId;
     }
+
+    remove(){}
 }

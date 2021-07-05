@@ -5,7 +5,7 @@
   cursor: pointer;
 }
 
-.link__wrapper:not(.on-connection):hover .link-handle{
+.link__wrapper:not(.on-connection):not(.selected):hover .link-handle{
   opacity: 0.2;
 }
 
@@ -25,11 +25,12 @@
   fill: transparent;
   pointer-events: all;
   stroke: deepskyblue;
-  stroke-width: 30px;
+  stroke-width: 20px;
   opacity: 0;
   transition: opacity 200ms;
 }
 
-.link.selected {
-  stroke: red;
+.link__wrapper.selected .link-handle{
+  opacity: 0.4;
+  filter: blur(4px);
 }

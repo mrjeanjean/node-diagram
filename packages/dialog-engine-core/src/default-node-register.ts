@@ -23,8 +23,8 @@ export class DefaultNodeRegister {
     }
 
     registerAllFactories() {
-        this.registerNodeFactory("dialog-quote", new DialogQuoteFactory());
         this.registerNodeFactory("group-node-list", new GroupNodeListFactory());
+        this.registerNodeFactory("dialog-quote", new DialogQuoteFactory());
         this.registerNodeFactory("dialog-choice", new DialogChoiceFactory());
         this.registerNodeFactory("dialog-choice-list", new DialogChoiceListFactory());
         this.registerNodeFactory("activate", new ActivateFactory());

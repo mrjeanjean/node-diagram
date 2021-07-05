@@ -7,13 +7,17 @@ import {DragConnexionState} from "./state/drag-connexion-state";
 import {DragCanvasState} from "./state/drag-canvas-state";
 import {DragStateInterface} from "./state/drag-state-interface";
 import {DragNodeState} from "./state/drag-node-state";
-import {DraggableInterface} from "./interfaces/draggable-interface";
+import {ItemModel} from "./models/item-model";
+import {SelectItemState} from "./state/select-item-state";
+import {SelectableItem} from "./selectable-item";
+import {DragSelectedNodeState} from "./state/drag-selected-node-state";
 
 export class CanvasEventsHandler {
     canvasModel: CanvasModel;
-    itemsMousedDown:Set<any> = new Set();
-    itemsMousedOver:Set<any> = new Set();
+    itemsMousedDown: Set<any> = new Set();
+    itemsMousedOver: Set<any> = new Set();
     currentState: DragStateInterface | null = null;
+    selectItemState: SelectItemState;
 
     constructor(canvasModel: CanvasModel) {
         this.canvasModel = canvasModel;
@@ -25,12 +29,19 @@ export class CanvasEventsHandler {
         draggableCanvas.events.add("endDrag", this.endDrag.bind(this));
 
         this.canvasModel.getHTMLElement().addEventListener("mousemove", this.onMouseMove.bind(this));
+        this.canvasModel.getHTMLElement().addEventListener("click", this.onClick.bind(this));
+
+        this.selectItemState = new SelectItemState();
     }
 
     addItem(itemModel: any): void {
-        if(itemModel instanceof NodeModel){
+        if (itemModel instanceof NodeModel) {
             itemModel.getHTMLElement().addEventListener("mousedown", () => {
                 this.onItemMouseDown(itemModel);
+            });
+
+            new SelectableItem(itemModel.getHTMLElement(), () => {
+                this.selectItem(itemModel);
             });
         }
 
@@ -48,14 +59,14 @@ export class CanvasEventsHandler {
             });
         }
 
-        if(itemModel instanceof LinkModel){
-            itemModel.getHTMLElement().addEventListener("click", () => {
+        if (itemModel instanceof LinkModel) {
+            new SelectableItem(itemModel.getHTMLElement(), () => {
                 this.selectItem(itemModel);
             });
         }
     }
 
-    removeItem(itemModel: any): void{
+    removeItem(itemModel: any): void {
         // TODO: do something, like removing events
     }
 
@@ -71,7 +82,7 @@ export class CanvasEventsHandler {
         this.itemsMousedOver.delete(itemModel);
     }
 
-    startDrag(data:any): void {
+    startDrag(data: any): void {
         this.itemsMousedDown.add(this.canvasModel);
 
         // TODO: change this to handle all children list
@@ -79,10 +90,16 @@ export class CanvasEventsHandler {
 
         if (currentSelectedItemModel instanceof PortModel) {
             this.currentState = new DragConnexionState(currentSelectedItemModel as PortModel, this.canvasModel);
-        } else if(currentSelectedItemModel instanceof CanvasModel) {
+        } else if (currentSelectedItemModel instanceof CanvasModel) {
             this.currentState = new DragCanvasState(this.canvasModel);
-        }else if(currentSelectedItemModel instanceof NodeModel){
-            this.currentState = new DragNodeState(currentSelectedItemModel as NodeModel, this.canvasModel);
+        } else if (currentSelectedItemModel instanceof NodeModel) {
+            let selectedItems = this.selectItemState.getSelectedItems(currentSelectedItemModel);
+
+            if(selectedItems.length <= 0){
+                this.currentState = new DragNodeState(currentSelectedItemModel as NodeModel, this.canvasModel);
+            }else{
+                this.currentState = new DragSelectedNodeState(selectedItems, this.canvasModel);
+            }
         }
 
         this.currentState?.startDrag(data);
@@ -103,7 +120,12 @@ export class CanvasEventsHandler {
         this.currentState?.onHover(currentHoveredItem);
     }
 
-    selectItem(itemModel: LinkModel): void {
-        this.canvasModel.getCanvasEngine().removeLink(itemModel);
+    onClick(): void {
+        this.selectItemState.unselectAll();
+    }
+
+    selectItem(itemModel: ItemModel): void {
+        this.selectItemState.onSelectionChanged(itemModel);
+        //this.canvasModel.getCanvasEngine().removeLink(itemModel as LinkModel);
     }
 }

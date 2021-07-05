@@ -17,7 +17,7 @@ export const createGroupNodeActions = (
         e.stopPropagation();
     })
 
-    $addButton.addEventListener("click", () => {
+    $addButton.addEventListener("click", (e) => {
         let contextMenuPosition = canvasEngine.canvasModel.getNodeAbsolutePosition(groupNodeModel);
         let nodeWidth = canvasEngine.canvasModel.getNodeSize(groupNodeModel);
         contextMenuPosition.x += nodeWidth.width;
@@ -31,6 +31,7 @@ export const createGroupNodeActions = (
                 context
             });
         canvasEngine.getContextMenu().show(contextMenu);
+        e.stopPropagation();
     });
 
     $listButtons.appendChild($addButton);

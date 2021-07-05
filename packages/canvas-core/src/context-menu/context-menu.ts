@@ -42,13 +42,27 @@ export class ContextMenu {
 
         let $contextMenuHeader = document.createElement("div");
         let $contextMenuBody = document.createElement("div");
+
+        let $contextMenuClose = document.createElement("button");
+        let $contextMenuCloseIcon = document.createElement("i");
+
+        $contextMenuClose.classList.add("context-menu__button-close");
+        $contextMenuCloseIcon.classList.add("fas", "fa-times")
+
         $contextMenuHeader.classList.add("context-menu__header");
         $contextMenuBody.classList.add("context-menu__body");
 
         $contextMenuHeader.innerText = "Add node";
 
+        $contextMenuClose.appendChild($contextMenuCloseIcon);
+        $contextMenuHeader.appendChild($contextMenuClose);
+
         this.$contextMenu.appendChild($contextMenuHeader);
         this.$contextMenu.appendChild($contextMenuBody);
+
+        $contextMenuClose.addEventListener("click", ()=>{
+            this.remove();
+        })
 
         this.$contextMenu.addEventListener("mousedown", e => {
             e.stopPropagation();
@@ -57,6 +71,7 @@ export class ContextMenu {
             e.stopPropagation();
         })
 
+        // TODO: move to effects helpers
         setTimeout(() => {
             this.$contextMenu?.classList.add("transition-enter");
         }, 10);

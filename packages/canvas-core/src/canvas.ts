@@ -134,6 +134,12 @@ export class CanvasEngine {
         nodeModel.setId(nodeId);
         this.canvasModel.addItem(nodeId, nodeModel);
 
+        nodeModel.events.add("node-removed", (data:any)=>{
+            console.log("ON REMOVE UN TRUC", data);
+            console.log("ON REMOVE UN TRUC NE PAS OUBLIER DE REMOVE LES PORTS", data);
+            this.canvasModel.removeItem(data.nodeModel.getId());
+        })
+
         return nodeModel;
     }
 

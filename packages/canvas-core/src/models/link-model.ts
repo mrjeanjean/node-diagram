@@ -41,4 +41,8 @@ export class LinkModel extends ItemModel implements LinkInterface{
     getEndPort(): PortModel {
         return this.endPort;
     }
+
+    remove(){
+        this.getHTMLElement().remove();
+    }
 }
