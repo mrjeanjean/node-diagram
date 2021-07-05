@@ -135,8 +135,6 @@ export class CanvasEngine {
         this.canvasModel.addItem(nodeId, nodeModel);
 
         nodeModel.events.add("node-removed", (data:any)=>{
-            console.log("ON REMOVE UN TRUC", data);
-            console.log("ON REMOVE UN TRUC NE PAS OUBLIER DE REMOVE LES PORTS", data);
             this.canvasModel.removeItem(data.nodeModel.getId());
         })
 
@@ -154,15 +152,12 @@ export class CanvasEngine {
 
         this.canvasEventsHandler.addItem(linkModel);
 
+        linkModel.events.add("link-removed", (data: any)=>{
+            this.canvasModel.removeItem(data.linkModel.getId());
+        })
+
         startPortModel.addLink(linkModel);
         endPortModel.addLink(linkModel);
-    }
-
-    removeLink(linkModel: LinkModel): void {
-        linkModel.startPort.removeLink(linkModel);
-        linkModel.endPort.removeLink(linkModel);
-        this.canvasEventsHandler.removeItem(linkModel);
-        linkModel.getHTMLElement().remove();
     }
 
     addPort(nodeModel: NodeModel, portType: string, portName: string = ""): PortModel {

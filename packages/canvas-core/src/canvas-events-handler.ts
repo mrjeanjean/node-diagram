@@ -66,10 +66,6 @@ export class CanvasEventsHandler {
         }
     }
 
-    removeItem(itemModel: any): void {
-        // TODO: do something, like removing events
-    }
-
     onItemMouseDown(itemModel: any): void {
         this.itemsMousedDown.add(itemModel);
     }

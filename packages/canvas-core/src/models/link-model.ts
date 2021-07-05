@@ -2,11 +2,13 @@ import {generateCurvedPath, generateRandomColor} from "../utils/helpers";
 import {LinkInterface} from "../interfaces/link-interface";
 import {PortModel} from "./port-model";
 import {ItemModel} from "./item-model";
+import {EventDispatcher} from "../utils/event-dispatcher";
 
 export class LinkModel extends ItemModel implements LinkInterface{
     startPort: PortModel;
     endPort: PortModel;
     $link: SVGElement;
+    events: EventDispatcher;
 
     constructor($link: SVGElement, startPort: PortModel, endPort: PortModel, color: string|null = null) {
 
@@ -15,6 +17,7 @@ export class LinkModel extends ItemModel implements LinkInterface{
         this.$link = $link;
         this.startPort = startPort;
         this.endPort = endPort;
+        this.events = new EventDispatcher();
 
         this.draw();
     }
@@ -43,6 +46,12 @@ export class LinkModel extends ItemModel implements LinkInterface{
     }
 
     remove(){
+        this.startPort.removeLink(this);
+        this.endPort.removeLink(this);
+
+        this.events.fire("link-removed", {
+            linkModel: this
+        });
         this.getHTMLElement().remove();
     }
 }
