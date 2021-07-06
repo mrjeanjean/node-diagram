@@ -41,8 +41,4 @@ export class DialogQuoteBuilderFactory extends AbstractNodeFactory {
     getMenuItemName(): string {
         return this.characterName;
     }
-
-    getMenuGroup(): string {
-        return "character";
-    }
 }

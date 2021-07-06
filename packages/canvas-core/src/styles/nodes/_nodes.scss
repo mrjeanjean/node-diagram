@@ -13,7 +13,7 @@
   cursor: move;
   pointer-events: all;
   box-shadow: rgba(#0e0b17, 0.2) 0 0 10px 5px;
-  border: 1px var(--color-blue) solid;
+  border: 1px var(--color-gray) solid;
 }
 
 .node.is-dragging {
@@ -38,7 +38,7 @@
   padding: 15px 20px;
   top: -1px;
   font-size: 16px;
-  background-color: var(--color-blue);
+  background-color: var(--color-gray);
   font-weight: 600;
   color: #ffffff;
   border-top-left-radius: var(--node-border-radius);
@@ -132,4 +132,14 @@
 
 .node--end-dialog .node__title {
   background-color: var(--color-orange);
+}
+
+// CHOICE
+//-----------------------------
+.node--dialog-choice{
+  border-color: var(--color-blue-light);
+}
+
+.node--dialog-choice .node__title{
+  background-color: var(--color-blue-light);
 }

@@ -2,7 +2,6 @@
 .node--group-node{
   background-color: rgba(#000, 0.1) !important;
   border: 1px var(--color-green) solid;
-  // width + padding + border * 2
   min-width: 312px;
 }
 
@@ -45,4 +44,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.node--dialog-choice-list{
+  border-color: var(--color-blue);
+}
+
+.node--dialog-choice-list > .node__title{
+  background-color: var(--color-blue);
 }

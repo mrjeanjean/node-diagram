@@ -1,7 +1,7 @@
 // CONTROLS
 //-----------------------------
-.node-control-input,
-.node-control-textarea{
+.node-control--input,
+.node-control--textarea{
   display: block;
   width: 100%;
   border-radius: 8px;
@@ -13,14 +13,66 @@
   font-size: 18px;
 }
 
-.node-control-textarea{
+.node-control--textarea{
   min-height: 80px;
 }
 
-.node-control-input:disabled,
-.node-control-textarea:disabled{
+.node-control--input:disabled,
+.node-control--textarea:disabled{
   background-color: rgba(#fff, 0.03);
   opacity: 1;
   color: #ffffff;
   cursor: pointer;
+}
+
+// TOGGLE VISIBILITY
+//-----------------------------
+.node-control--toggle__wrapper{
+  position: absolute;
+  top: 15px;
+  right: 10px;
+}
+
+.node-control--toggle{
+  display: block;
+  width: 32px;
+  height: 18px;
+  position: relative;
+  cursor: pointer;
+  border-radius: 15px;
+  overflow: hidden;
+}
+
+.node-control--toggle:before{
+  content: "";
+  display: block;
+  position: absolute;
+  top: 1px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background-color: #ffffff;
+  left: 0;
+  transition: transform 200ms $ease-in-quart;
+  box-shadow: rgba(#000, 0.2)  0 0 5px;
+  z-index: 2;
+}
+
+.node-control--toggle:after{
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 15px;
+  background-color: rgba(#fff, 0.6);
+}
+
+.node-control--toggle__wrapper input{
+  display: none;
+}
+
+.node-control--toggle__wrapper input:checked + .node-control--toggle:before{
+  transform: translateX(100%);
 }

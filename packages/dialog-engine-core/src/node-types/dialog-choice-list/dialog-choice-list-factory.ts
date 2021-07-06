@@ -25,4 +25,8 @@ export class DialogChoiceListFactory extends GroupNodeFactory {
     getMenuItemName(): string {
         return "Choice list";
     }
+
+    getMenuGroup(): string {
+        return "dialog";
+    }
 }

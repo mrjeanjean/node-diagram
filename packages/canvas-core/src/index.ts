@@ -16,6 +16,7 @@ export * from './factories/factory-interface';
 export {InputNodeControl} from './node-controls/input-node-control';
 export {TextareaNodeControl} from './node-controls/textarea-node-control';
 export {createGroupNodeActions} from './node-controls/group-node-actions';
+export {VisibilityNodeControl} from './node-controls/visibility-node-control';
 
 export {FontAwesomePortNameAdapter} from './ports/font-awesome-port-name-adapter';
 

@@ -28,4 +28,8 @@ export class GroupNodeListFactory extends GroupNodeFactory {
     getMenuItemName(): string {
         return "Group node";
     }
+
+    getMenuGroup(): string {
+        return "";
+    }
 }

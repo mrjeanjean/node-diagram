@@ -3,7 +3,7 @@ import {
     CanvasEngine,
     CanvasModel, contextTypes,
     portsTypes,
-    TextareaNodeControl
+    TextareaNodeControl, VisibilityNodeControl
 } from "canvas-core";
 import {DialogChoiceModel} from "./dialog-choice-model";
 
@@ -18,16 +18,28 @@ export class DialogChoiceFactory extends AbstractNodeFactory {
             "quote",
             {placeholder: "Insert choice dialog quote..."}
         );
+
         nodeModel.getHTMLBody().appendChild(inputControl1.getHTMLElement());
+
+        const toggleVisibility = new VisibilityNodeControl(
+            nodeModel,
+            "visibility"
+        )
+
+        nodeModel.getHTMLTitle().appendChild(toggleVisibility.getHTMLElement());
 
         canvasEngine.addPort(nodeModel, portsTypes.outputRight);
     }
 
     getMenuItemName(): string {
-        return "Question";
+        return "Choice";
     }
 
     displayOnContextMenu(context: string): boolean {
         return context === contextTypes.choices;
+    }
+
+    getMenuGroup(): string {
+        return "dialog";
     }
 }

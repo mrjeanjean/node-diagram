@@ -6,7 +6,7 @@ export const createTextarea = (
     const $controlWrapper = document.createElement("div");
     const $controlInput = document.createElement("textarea");
 
-    $controlInput.classList.add("node-control", "node-control-textarea");
+    $controlInput.classList.add("node-control", "node-control--textarea");
     $controlInput.value = defaultValue ?? "";
     $controlInput.disabled = true;
     $controlInput.placeholder = data.placeholder ?? "";

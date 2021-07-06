@@ -38,7 +38,7 @@ export class ContextMenuManager {
         // Default group
         this.groups.push({
             slug: "root",
-            name: "All"
+            name: "Others"
         })
 
         this.currentContextMenu.addMenuGroupsHTML(this.groups);

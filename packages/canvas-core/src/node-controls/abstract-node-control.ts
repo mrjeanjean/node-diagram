@@ -23,7 +23,7 @@ export abstract class AbstractNodeControl<T> {
         return null;
     }
 
-    private updateNodeData(value: string) {
+    private updateNodeData(value: T) {
         this.nodeModel.setData(this.nodeDataKey, value);
     }
 

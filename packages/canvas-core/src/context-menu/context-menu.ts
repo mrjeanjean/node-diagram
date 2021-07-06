@@ -142,6 +142,7 @@ export class ContextMenu {
 
     addMenuItemsHTML(nodesItems: Map<string, NodeFactory>, canvasEngine:CanvasEngine) {
         let nodeItemsFiltered = this.filterItemsByContext(nodesItems);
+        console.log(nodeItemsFiltered);
         let $contextMenuBody = this.$contextMenu?.querySelector(".context-menu__body") as HTMLElement;
 
         if(!$contextMenuBody){

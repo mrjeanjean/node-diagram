@@ -23,7 +23,7 @@ export class DefaultNodeRegister {
     }
 
     registerAllFactories() {
-        this.canvasEngine.registerContextMenuGroup("character", "Characters");
+        this.canvasEngine.registerContextMenuGroup("dialog", "Dialog");
         this.canvasEngine.registerContextMenuGroup("navigation", "Navigation");
         this.canvasEngine.registerContextMenuGroup("actions", "Actions");
 
