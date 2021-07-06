@@ -1,4 +1,4 @@
-import {generateCurvedPath, generateRandomColor} from "../utils/helpers";
+import {generateCurvedPath} from "../utils/helpers";
 import {LinkInterface} from "../interfaces/link-interface";
 import {PortModel} from "./port-model";
 import {ItemModel} from "./item-model";

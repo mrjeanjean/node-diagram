@@ -9,7 +9,8 @@ export interface NodeFactory {
     createNodeModel: ($node: HTMLElement, canvasModel: CanvasModel, positionX: number, positionY: number) => NodeModel,
     buildNodeBody: (nodeModel: NodeModel, canvasEngine: CanvasEngine) => void,
     displayOnContextMenu: (context: string) => boolean,
-    getMenuItemName: () => string
+    getMenuItemName: () => string,
+    getMenuGroup: () => string,
 }
 
 export interface LinkFactory {

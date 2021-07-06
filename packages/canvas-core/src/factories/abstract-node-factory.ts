@@ -22,4 +22,8 @@ export abstract class AbstractNodeFactory implements NodeFactory{
 
     abstract getMenuItemName(): string;
     abstract createNodeModel($node: HTMLElement, canvasModel: CanvasModel, positionX: number, positionY: number):NodeModel;
+
+    getMenuGroup(): string {
+        return "root";
+    }
 }

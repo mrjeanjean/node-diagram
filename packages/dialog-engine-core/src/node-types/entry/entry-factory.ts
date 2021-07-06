@@ -25,4 +25,8 @@ export class EntryFactory extends AbstractNodeFactory {
     getMenuItemName(): string {
         return "Entry";
     }
+
+    getMenuGroup(): string {
+        return "navigation";
+    }
 }

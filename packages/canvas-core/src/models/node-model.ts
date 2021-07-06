@@ -91,7 +91,7 @@ export class NodeModel extends ItemModel implements DraggableInterface{
         return this.data;
     }
 
-    setData(data:any): void{
-        this.data = data;
+    setData(key:string, value: any): void{
+        this.data[key] = value;
     }
 }

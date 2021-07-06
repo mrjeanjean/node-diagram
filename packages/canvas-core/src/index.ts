@@ -1,5 +1,6 @@
 'use strict';
 import './styles/styles.scss';
+
 export {CanvasEngine} from './canvas';
 export {CanvasModel} from './models/canvas-model';
 export {portsTypes} from './ports/ports-types';
@@ -20,3 +21,4 @@ export {FontAwesomePortNameAdapter} from './ports/font-awesome-port-name-adapter
 
 export * from './interfaces/activatable-interface';
 
+export {getRandomColor} from './utils/helpers';

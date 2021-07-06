@@ -33,4 +33,11 @@ export class GroupNodeModel extends NodeModel {
             node.update();
         });
     }
+
+    remove() {
+        this.nodes.forEach(node => {
+            node.remove();
+        })
+        super.remove();
+    }
 }

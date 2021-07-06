@@ -39,8 +39,9 @@ export function getRandom(min: number, max: number): number {
  * Generate random hexadecimal color
  * @return {string} - random color
  */
-export function generateRandomColor(): string {
-    return '#' + Math.random().toString(16).substr(-6);
+export const getRandomColor = (): string => {
+    return "hsl(" + Math.random() * 180 + ", 100%, 75%)";
+    // Normal color: return '#' + Math.random().toString(16).substr(-6);
 }
 
 /**

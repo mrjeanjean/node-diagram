@@ -24,12 +24,7 @@ export abstract class AbstractNodeControl<T> {
     }
 
     private updateNodeData(value: string) {
-        let nodeData = {...this.nodeModel.getData()};
-
-        if (nodeData.hasOwnProperty(this.nodeDataKey)) {
-            nodeData[this.nodeDataKey] = value;
-            this.nodeModel.setData(nodeData);
-        }
+        this.nodeModel.setData(this.nodeDataKey, value);
     }
 
     getHTMLElement(){

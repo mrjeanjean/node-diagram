@@ -7,15 +7,24 @@ export class ContextMenuManager {
     canvasEngine: CanvasEngine;
     currentContextMenu: ContextMenu | null = null;
     nodesItems: Map<string, NodeFactory>;
+    groups: Array<{slug:string, name: string}>
 
     constructor(canvasEngine: CanvasEngine, $canvas: HTMLElement) {
         this.canvasEngine = canvasEngine;
         this.$canvas = $canvas;
         this.nodesItems = new Map<string, NodeFactory>();
+        this.groups = new Array<{slug: string; name: string}>()
 
         this.onClickOutside = this.onClickOutside.bind(this);
         document.addEventListener("mousedown", this.onClickOutside);
         document.addEventListener("wheel", this.onClickOutside);
+    }
+
+    addGroup(groupSlug: string, groupName: string):void{
+        this.groups.push({
+            slug: groupSlug,
+            name: groupName,
+        })
     }
 
     add(type: string, nodeFactory: NodeFactory): void {
@@ -26,6 +35,13 @@ export class ContextMenuManager {
         this.hide();
         this.currentContextMenu = contextMenu;
         const $contextMenu = this.currentContextMenu.createContextMenuHTML();
+        // Default group
+        this.groups.push({
+            slug: "root",
+            name: "All"
+        })
+
+        this.currentContextMenu.addMenuGroupsHTML(this.groups);
         this.currentContextMenu.addMenuItemsHTML(this.nodesItems, this.canvasEngine);
         this.$canvas.appendChild($contextMenu);
     }

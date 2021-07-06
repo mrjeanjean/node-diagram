@@ -1,4 +1,4 @@
-import {generateCurvedPath, generateRandomColor} from "../utils/helpers";
+import {generateCurvedPath, getRandomColor} from "../utils/helpers";
 import {PortModel} from "../models/port-model";
 import {Point} from "../types";
 
@@ -11,7 +11,7 @@ export class PlaceholderLinkModel {
     constructor($link: SVGElement, portOrigin: PortModel, color: string | null = null) {
         this.$link = $link;
         this.portOrigin = portOrigin;
-        this.lineColor = color ?? generateRandomColor();
+        this.lineColor = color ?? getRandomColor();
         this.$link.classList.add("on-connection");
         this.endPosition = this.portOrigin.getPosition() ?? {x: 0, y: 0};
 

@@ -18,4 +18,8 @@ export class EndGameFactory extends AbstractNodeFactory {
     getMenuItemName(): string {
         return "End game";
     }
+
+    getMenuGroup(): string {
+        return "navigation";
+    }
 }

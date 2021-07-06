@@ -95,6 +95,10 @@ export class CanvasEngine {
         this.contextMenuManager.add(type, nodeFactory);
     }
 
+    registerContextMenuGroup(groupSlug: string, groupName: string){
+        this.contextMenuManager.addGroup(groupSlug, groupName);
+    }
+
     decorateDiagramItem($item: HTMLElement | SVGElement): { $item: HTMLElement | SVGElement, itemId: string } {
         const itemId = getUniqueID();
         $item.dataset.diagramItemId = itemId;

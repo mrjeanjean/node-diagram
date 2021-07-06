@@ -33,4 +33,8 @@ export class RenameFactory extends AbstractNodeFactory {
     displayOnContextMenu(context: string): boolean {
         return context === contextTypes.main || context === contextTypes.group;
     }
+
+    getMenuGroup(): string {
+        return "actions";
+    }
 }

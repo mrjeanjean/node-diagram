@@ -3,7 +3,8 @@ import {ActivatableInterface, CanvasModel, NodeModel} from "canvas-core";
 export class DialogQuoteModel extends NodeModel implements ActivatableInterface{
     name: string = "";
     data: any = {
-        quote: ""
+        quote: "",
+        character: ""
     }
 
     constructor($diagramItem: HTMLElement, canvasModel: CanvasModel, positionX: number, positionY: number) {

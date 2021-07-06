@@ -18,4 +18,8 @@ export class EndDialogFactory extends AbstractNodeFactory {
     getMenuItemName(): string {
         return "End dialog";
     }
+
+    getMenuGroup(): string {
+        return "navigation";
+    }
 }

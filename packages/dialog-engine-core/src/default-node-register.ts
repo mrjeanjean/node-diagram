@@ -23,15 +23,19 @@ export class DefaultNodeRegister {
     }
 
     registerAllFactories() {
+        this.canvasEngine.registerContextMenuGroup("character", "Characters");
+        this.canvasEngine.registerContextMenuGroup("navigation", "Navigation");
+        this.canvasEngine.registerContextMenuGroup("actions", "Actions");
+
         this.registerNodeFactory("group-node-list", new GroupNodeListFactory());
-        this.registerNodeFactory("dialog-quote", new DialogQuoteFactory());
+        //this.registerNodeFactory("dialog-quote", new DialogQuoteFactory());
         this.registerNodeFactory("dialog-choice", new DialogChoiceFactory());
         this.registerNodeFactory("dialog-choice-list", new DialogChoiceListFactory());
         this.registerNodeFactory("activate", new ActivateFactory());
         this.registerNodeFactory("rename", new RenameFactory());
         this.registerNodeFactory("entry", new EntryFactory());
+        this.registerNodeFactory("end-dialog", new EndDialogFactory());
         this.registerNodeFactory("start-game", new StartGameFactory());
         this.registerNodeFactory("end-game", new EndGameFactory());
-        this.registerNodeFactory("end-dialog", new EndDialogFactory());
     }
 }
