@@ -1,9 +1,8 @@
 import {NodeModel} from "./models/node-model";
-import {ZoomableItem} from "./zoomable-item";
+import {ZoomableItem} from "./node-transform/zoomable-item";
 import {CanvasModel} from "./models/canvas-model";
 import {LayerModel} from "./models/layer-model";
 import {CanvasEventsHandler} from "./canvas-events-handler";
-import {LinkModel} from "./models/link-model";
 import {PortModel} from "./models/port-model";
 import {getUniqueID} from "./utils/helpers";
 import {ItemsFactories} from "./factories/items-factories";
@@ -16,6 +15,7 @@ import {canBeActivated} from "./interfaces/activatable-interface";
 import {canBeRenamed} from "./interfaces/renamable-interface";
 import {ContextMenuManager} from "./context-menu/context-menu-manager";
 import {ContextMenu} from "./context-menu/context-menu";
+import {ActivatableItem} from "./node-transform/activatable-item";
 
 export class CanvasEngine {
     $canvas: HTMLElement;
@@ -124,6 +124,8 @@ export class CanvasEngine {
 
         if (canBeActivated(nodeModel)) {
             this.addPort(nodeModel, portsTypes.actionInput, "activation");
+            const activatableItem = ActivatableItem.makeActivatable(nodeModel);
+            nodeModel.getHTMLTitle().appendChild(activatableItem.getToggleHTML());
         }
 
         if (canBeRenamed(nodeModel)) {

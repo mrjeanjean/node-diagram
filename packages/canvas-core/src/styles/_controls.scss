@@ -66,7 +66,8 @@
   right: 0;
   bottom: 0;
   border-radius: 15px;
-  background-color: rgba(#fff, 0.6);
+  background-color: rgba(#000, 0.2);
+  transition: background-color 200ms;
 }
 
 .node-control--toggle__wrapper input{
@@ -75,4 +76,8 @@
 
 .node-control--toggle__wrapper input:checked + .node-control--toggle:before{
   transform: translateX(100%);
+}
+
+.node-control--toggle__wrapper input:checked + .node-control--toggle:after{
+  background-color: rgba(#fff, 0.6);
 }

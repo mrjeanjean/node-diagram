@@ -1,5 +1,6 @@
 import {v4 as uuid} from 'uuid';
 import {Point} from "../types";
+import {themeColors} from "./theme-colors";
 
 /**
  * Clamp number between in and max value
@@ -40,8 +41,16 @@ export function getRandom(min: number, max: number): number {
  * @return {string} - random color
  */
 export const getRandomColor = (): string => {
-    return "hsl(" + Math.random() * 180 + ", 100%, 75%)";
-    // Normal color: return '#' + Math.random().toString(16).substr(-6);
+    return '#' + Math.random().toString(16).substr(-6);
+}
+
+/**
+ * Generate random hexadecimal color
+ * @return {string} - random color
+ */
+export const getRandomThemeColor = (): string => {
+    console.log(Object.values(themeColors));
+    return Object.values(themeColors)[Math.floor(Math.random() * Object.values(themeColors).length)];
 }
 
 /**

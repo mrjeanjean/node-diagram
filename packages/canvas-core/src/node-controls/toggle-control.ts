@@ -16,7 +16,11 @@ export const createToggle = (defaultValue: boolean, onChange: Function):HTMLElem
         defaultValue = !defaultValue;
         toggleSwitch();
         onChange(defaultValue);
-    })
+    });
+
+    $controlWrapper.addEventListener("mousedown", (e) => {
+        e.stopPropagation();
+    });
 
     toggleSwitch();
 

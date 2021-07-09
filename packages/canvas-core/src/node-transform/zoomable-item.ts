@@ -1,5 +1,5 @@
-import {clamp} from "./utils/helpers";
-import {CanvasModel} from "./models/canvas-model";
+import {clamp} from "../utils/helpers";
+import {CanvasModel} from "../models/canvas-model";
 
 export class ZoomableItem {
     zoom: number;

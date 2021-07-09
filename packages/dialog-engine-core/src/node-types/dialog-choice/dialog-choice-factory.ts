@@ -3,7 +3,7 @@ import {
     CanvasEngine,
     CanvasModel, contextTypes,
     portsTypes,
-    TextareaNodeControl, VisibilityNodeControl
+    TextareaNodeControl
 } from "canvas-core";
 import {DialogChoiceModel} from "./dialog-choice-model";
 
@@ -16,17 +16,10 @@ export class DialogChoiceFactory extends AbstractNodeFactory {
         const inputControl1 = new TextareaNodeControl(
             nodeModel,
             "quote",
-            {placeholder: "Insert choice dialog quote..."}
+            {placeholder: "Insert choice quote..."}
         );
 
         nodeModel.getHTMLBody().appendChild(inputControl1.getHTMLElement());
-
-        const toggleVisibility = new VisibilityNodeControl(
-            nodeModel,
-            "visibility"
-        )
-
-        nodeModel.getHTMLTitle().appendChild(toggleVisibility.getHTMLElement());
 
         canvasEngine.addPort(nodeModel, portsTypes.outputRight);
     }

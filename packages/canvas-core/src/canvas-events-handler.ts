@@ -9,7 +9,7 @@ import {DragStateInterface} from "./state/drag-state-interface";
 import {DragNodeState} from "./state/drag-node-state";
 import {ItemModel} from "./models/item-model";
 import {SelectItemState} from "./state/select-item-state";
-import {SelectableItem} from "./selectable-item";
+import {SelectableItem} from "./node-transform/selectable-item";
 import {DragSelectedNodeState} from "./state/drag-selected-node-state";
 
 export class CanvasEventsHandler {

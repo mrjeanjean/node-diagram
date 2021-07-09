@@ -2,6 +2,7 @@ import {ActivatableInterface, CanvasModel, NodeModel} from "canvas-core";
 
 export class DialogQuoteModel extends NodeModel implements ActivatableInterface{
     name: string = "";
+    active: boolean = true;
     data: any = {
         quote: "",
         character: ""
@@ -12,9 +13,10 @@ export class DialogQuoteModel extends NodeModel implements ActivatableInterface{
     }
 
     isActive(): boolean {
-        return false;
+        return this.active;
     }
 
     setActive(active: boolean): void {
+        this.active = active;
     }
 }

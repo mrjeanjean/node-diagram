@@ -22,6 +22,10 @@ export const createTextarea = (
         $controlInput.select();
     }
 
+    $controlWrapper.addEventListener("mousedown", (e) => {
+        e.stopPropagation();
+    })
+
     $controlWrapper.addEventListener("dblclick", onActive);
     $controlInput.addEventListener("blur", onDisable);
 

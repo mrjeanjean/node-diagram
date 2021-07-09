@@ -1,4 +1,11 @@
-import {AbstractNodeFactory, CanvasEngine, CanvasModel, contextTypes, getRandomColor} from "canvas-core";
+import {
+    AbstractNodeFactory,
+    CanvasEngine,
+    CanvasModel,
+    contextTypes,
+    getRandomColor,
+    getRandomThemeColor
+} from "canvas-core";
 import {DialogQuoteModel} from "./dialog-quote-model";
 import {DialogQuoteFactory} from "./dialog-quote-factory";
 
@@ -10,7 +17,7 @@ export class DialogQuoteBuilderFactory extends AbstractNodeFactory {
     constructor(characterName: string, color?: string) {
         super();
         this.characterName = characterName;
-        this.color = getRandomColor();
+        this.color = getRandomThemeColor();
         this.dialogQuoteFactory = new DialogQuoteFactory();
     }
 
@@ -35,10 +42,14 @@ export class DialogQuoteBuilderFactory extends AbstractNodeFactory {
     }
 
     displayOnContextMenu(context: string): boolean {
-        return context === contextTypes.main || context === contextTypes.group;
+        return context === contextTypes.main || context === contextTypes.group || context === contextTypes.choices;
     }
 
     getMenuItemName(): string {
         return this.characterName;
+    }
+
+    getMenuGroup(): string {
+        return "dialog";
     }
 }

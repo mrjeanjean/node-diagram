@@ -2,9 +2,9 @@ import {ActivatableInterface, CanvasModel, NodeModel} from "canvas-core";
 
 export class DialogChoiceModel extends NodeModel implements ActivatableInterface{
     name: string = "";
+    active: boolean = true;
     data: any = {
-        quote: "",
-        visibility: true
+        quote: ""
     }
 
     constructor($diagramItem: HTMLElement, canvasModel: CanvasModel, positionX: number, positionY: number) {
@@ -12,9 +12,10 @@ export class DialogChoiceModel extends NodeModel implements ActivatableInterface
     }
 
     isActive(): boolean {
-        return false;
+        return this.active;
     }
 
     setActive(active: boolean): void {
+        this.active = active;
     }
 }
