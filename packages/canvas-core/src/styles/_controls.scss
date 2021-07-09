@@ -81,3 +81,113 @@
 .node-control--toggle__wrapper input:checked + .node-control--toggle:after{
   background-color: rgba(#fff, 0.6);
 }
+
+// SELECT
+//-----------------------------
+.node-control--select__wrapper{
+  display: flex;
+  cursor: pointer;
+  position: relative;
+  z-index: 10;
+  font-size: 16px;
+}
+
+.node-control--select{
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  flex: 1 0;
+  color: #ffffff;
+  position: relative;
+  font-weight: 600;
+  font-style: italic;
+}
+
+.node-control--select span{
+  font-weight: 300;
+  display: inline-block;
+  margin-right: 8px;
+  font-size: 80%;
+  opacity: 0.6;
+}
+
+.node-control--select:before{
+  content: "";
+  position: absolute;
+  background-color: var(--color-blue-shadow);
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  z-index: -1;
+}
+
+.node-control--select:after{
+  content: "";
+  position: absolute;
+  right: 0.75rem;
+  top: 50%;
+  margin-top: -2px;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 6px 6px 0 6px;
+  border-color: #fff transparent transparent transparent;
+  opacity: 0.6;
+  transition: transform 400ms $ease-in-quart;
+}
+
+.node-control--select.active + .node-control--options{
+  opacity: 1;
+}
+
+.node-control--options{
+  opacity: 0;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  font-style: italic;
+  color: #ffffff;
+  border-top: 1px #989898 solid;
+  background-color: var(--node-color);
+  box-shadow: var(--background-color-shadow) 0 10px 10px;
+  border-radius: 0 0 var(--node-border-radius) var(--node-border-radius);
+}
+
+.node-control--options > div{
+  padding: 0.75rem 1.5rem;
+}
+
+.node-control--options > div:hover{
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.node-control--options > div:not(:last-child){
+  border-bottom: #989898 1px solid;
+}
+
+// SPINNER
+//-----------------------------
+.node-control--spinner{
+  display: flex;
+  width: 100%;
+  gap: 1px;
+}
+
+.node-control--spinner button{
+  width: 40px;
+  border-radius: 0;
+  border: none;
+  background-color: var(--color-blue-shadow);
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.node-control--spinner input{
+  width: 100%;
+  text-align: right;
+  font-size: 16px;
+  border-radius: 0;
+  border: none;
+  padding-right: 10px;
+}

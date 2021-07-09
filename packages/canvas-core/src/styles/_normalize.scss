@@ -13,12 +13,15 @@ button{
   font-size: inherit;
 }
 
-button{
+button,
+select,
+option{
   cursor: pointer;
 }
 
 input:focus,
 textarea:focus,
-button:focus{
+button:focus,
+select:focus{
   outline: none;
 }

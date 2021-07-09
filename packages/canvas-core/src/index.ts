@@ -16,9 +16,11 @@ export * from './factories/factory-interface';
 export {InputNodeControl} from './node-controls/input-node-control';
 export {TextareaNodeControl} from './node-controls/textarea-node-control';
 export {createGroupNodeActions} from './node-controls/group-node-actions';
+export {createGroupNodeFilters} from './node-controls/group-node-filters';
 
 export {FontAwesomePortNameAdapter} from './ports/font-awesome-port-name-adapter';
 
 export * from './interfaces/activatable-interface';
+export * from './interfaces/group-filterable-interface';
 
 export {getRandomColor, getRandomThemeColor} from './utils/helpers';

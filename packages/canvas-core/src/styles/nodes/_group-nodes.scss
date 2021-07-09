@@ -53,3 +53,32 @@
 .node--dialog-choice-list > .node__title{
   background-color: var(--color-blue);
 }
+
+// GROUP FILTERS
+//-----------------------------
+.node-filters__wrapper{
+  display: flex;
+  position: relative;
+  top: -1px;
+  //flex-direction: column;
+}
+
+.node-filters__wrapper .node-control--spinner{
+  width: 120px;
+}
+
+.node-filters__wrapper .node-control--select__wrapper{
+  flex: 1 0;
+}
+
+.node-filters__wrapper .node-control--spinner input{
+  background-color: var(--node-color);
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 600;
+  width: 50px;
+}
+
+.node-filters__wrapper .node-control--spinner.hidden{
+  display: none;
+}

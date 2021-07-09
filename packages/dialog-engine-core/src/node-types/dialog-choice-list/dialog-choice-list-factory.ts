@@ -1,7 +1,7 @@
 import {
     CanvasEngine,
     CanvasModel, contextTypes,
-    createGroupNodeActions,
+    createGroupNodeActions, createGroupNodeFilters,
     GroupNodeFactory,
     portsTypes
 } from "canvas-core";
@@ -19,6 +19,7 @@ export class DialogChoiceListFactory extends GroupNodeFactory {
 
     buildNodeBody(nodeModel: DialogChoiceListModel, canvasEngine: CanvasEngine) {
         createGroupNodeActions(nodeModel, canvasEngine, contextTypes.choices);
+        createGroupNodeFilters(nodeModel, canvasEngine);
         canvasEngine.addPort(nodeModel, portsTypes.input);
     }
 

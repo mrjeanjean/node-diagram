@@ -240,6 +240,10 @@ export class CanvasEngine {
         this.portNameAdapter = portNameAdapter;
     }
 
+    getPortNameAdapter(): PortNameAdapter{
+        return this.portNameAdapter;
+    }
+
     getContextMenu(): ContextMenuManager {
         return this.contextMenuManager;
     }

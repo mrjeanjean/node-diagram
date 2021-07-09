@@ -49,7 +49,6 @@ export const getRandomColor = (): string => {
  * @return {string} - random color
  */
 export const getRandomThemeColor = (): string => {
-    console.log(Object.values(themeColors));
     return Object.values(themeColors)[Math.floor(Math.random() * Object.values(themeColors).length)];
 }
 
