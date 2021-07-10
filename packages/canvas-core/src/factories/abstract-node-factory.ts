@@ -26,4 +26,8 @@ export abstract class AbstractNodeFactory implements NodeFactory{
     getMenuGroup(): string {
         return "root";
     }
+
+    editMenuItemHTML($menuItem: HTMLElement): HTMLElement {
+        return $menuItem;
+    }
 }

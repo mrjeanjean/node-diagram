@@ -16,6 +16,10 @@
   position: relative;
 }
 
+.node--group-node .node:before{
+  content: none;
+}
+
 .node--group-node > .node__title{
   background-color: var(--color-green);
   color: #fff;

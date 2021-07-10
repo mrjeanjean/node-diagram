@@ -11,6 +11,7 @@ export interface NodeFactory {
     displayOnContextMenu: (context: string) => boolean,
     getMenuItemName: () => string,
     getMenuGroup: () => string,
+    editMenuItemHTML: ($menuItem: HTMLElement) => HTMLElement
 }
 
 export interface LinkFactory {

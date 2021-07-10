@@ -2,6 +2,7 @@ import {Point} from "../types";
 import {CanvasEngine} from "./../canvas";
 import {contextTypes} from "./context-types";
 import {NodeFactory} from "../factories/factory-interface";
+import {itemTransitionHelper} from "../utils/helpers";
 
 export class ContextMenu {
     $contextMenu: HTMLElement | null = null;
@@ -88,7 +89,7 @@ export class ContextMenu {
     }
 
     createContextMenuHTML() {
-        this.$contextMenu = document.createElement("div");
+        this.$contextMenu = document.createElement("div") as HTMLElement;
         this.$contextMenu.classList.add('context-menu');
         this.$contextMenu.style.left = `${this.position.x}px`;
         this.$contextMenu.style.top = `${this.position.y}px`;
@@ -124,10 +125,7 @@ export class ContextMenu {
             e.stopPropagation();
         })
 
-        // TODO: move to effects helpers
-        setTimeout(() => {
-            this.$contextMenu?.classList.add("transition-enter");
-        }, 10);
+        itemTransitionHelper(this.$contextMenu, "enter");
 
         return this.$contextMenu;
     }
@@ -142,7 +140,6 @@ export class ContextMenu {
 
     addMenuItemsHTML(nodesItems: Map<string, NodeFactory>, canvasEngine:CanvasEngine) {
         let nodeItemsFiltered = this.filterItemsByContext(nodesItems);
-        console.log(nodeItemsFiltered);
         let $contextMenuBody = this.$contextMenu?.querySelector(".context-menu__body") as HTMLElement;
 
         if(!$contextMenuBody){
@@ -151,7 +148,7 @@ export class ContextMenu {
 
         nodeItemsFiltered.forEach((nodeFactory:NodeFactory, nodeName:string) => {
             const relativePosition = canvasEngine.canvasModel.getRelativePosition(this.position.x, this.position.y);
-            const $menuItem = this.createItemHTML(nodeFactory.getMenuItemName());
+            let $menuItem = this.createItemHTML(nodeFactory.getMenuItemName());
             const $groupItem = this.itemsGroups.get(nodeFactory.getMenuGroup());
 
             $menuItem.addEventListener("click", () => {
@@ -161,6 +158,8 @@ export class ContextMenu {
                 });
                 this.remove();
             });
+
+            $menuItem = nodeFactory.editMenuItemHTML($menuItem);
 
             if($groupItem){
                 $groupItem?.querySelector(".context-menu__group__list")?.appendChild($menuItem);

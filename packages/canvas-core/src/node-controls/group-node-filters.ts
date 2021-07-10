@@ -9,6 +9,12 @@ export const createGroupNodeFilters = (
     canvasEngine: CanvasEngine
 ) => {
 
+    const groupNodeFilters = {
+        "all": "Display all",
+        "pickup": "Pick up some",
+        "one-by-one": "One by one"
+    }
+
     const $nodeFilters = document.createElement("div");
     $nodeFilters.classList.add("node-filters__wrapper");
 
@@ -28,12 +34,6 @@ export const createGroupNodeFilters = (
     }
 
     update();
-
-    const groupNodeFilters = {
-        "all": "Display all",
-        "pickup": "Pick up some",
-        "one-by-one": "One by one"
-    }
 
     const $select = createSelect("all", groupNodeFilters, (value: string)=>{
         groupNodeModel.setFilter(value);

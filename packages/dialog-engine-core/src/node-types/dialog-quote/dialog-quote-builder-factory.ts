@@ -52,4 +52,9 @@ export class DialogQuoteBuilderFactory extends AbstractNodeFactory {
     getMenuGroup(): string {
         return "dialog";
     }
+
+    editMenuItemHTML($menuItem: HTMLElement): HTMLElement {
+        $menuItem.style.color = this.color;
+        return $menuItem;
+    }
 }

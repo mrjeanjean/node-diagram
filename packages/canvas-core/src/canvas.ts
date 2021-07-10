@@ -4,7 +4,7 @@ import {CanvasModel} from "./models/canvas-model";
 import {LayerModel} from "./models/layer-model";
 import {CanvasEventsHandler} from "./canvas-events-handler";
 import {PortModel} from "./models/port-model";
-import {getUniqueID} from "./utils/helpers";
+import {getUniqueID, itemTransitionHelper} from "./utils/helpers";
 import {ItemsFactories} from "./factories/items-factories";
 import {NodeFactory} from "./factories/factory-interface";
 import {DefaultLinkFactory} from "./factories/default-link-factory";
@@ -140,11 +140,24 @@ export class CanvasEngine {
         nodeModel.setId(nodeId);
         this.canvasModel.addItem(nodeId, nodeModel);
 
+        itemTransitionHelper($node, "enter");
+
         nodeModel.events.add("node-removed", (data:any)=>{
             this.canvasModel.removeItem(data.nodeModel.getId());
         })
 
         return nodeModel;
+    }
+
+    addNodeWithTransition(positionX: number = 0,
+                          positionY: number = 0,
+                          type: string = "default",
+                          $container: HTMLElement = this.$nodeLayer,
+                          isDraggable: boolean = true
+    ): NodeModel {
+        let nodeModel = this.addNode(positionX, positionY, type, $container);
+        itemTransitionHelper(nodeModel.getHTMLElement(), "enter");
+        return nodeModel
     }
 
     addLink(startPortModel: PortModel, endPortModel: PortModel, type = "default"): void {

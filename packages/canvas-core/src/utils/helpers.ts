@@ -96,3 +96,12 @@ export function generateCurvedPath(startPoint: Point, endPoint: Point, isVertica
         return `M ${x1} ${y1} C ${x1} ${hy1} ${x2} ${hy2} ${x2} ${y2}`;
     }
 }
+
+/**
+ *
+ */
+export function itemTransitionHelper($element:HTMLElement | SVGElement, transitionType:string, duration:number = 10){
+    setTimeout(() => {
+        $element.classList.add(`transition-${transitionType}`);
+    }, duration);
+}

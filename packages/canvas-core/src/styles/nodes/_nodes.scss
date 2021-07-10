@@ -76,6 +76,26 @@
   display: none;
 }
 
+// ANIMATION
+//-----------------------------
+.node{
+  transform: scale(0.75);
+  opacity: 0;
+  transform-origin: 50% 50%;
+  transition: transform 200ms $ease-in-quart, opacity 150ms;
+}
+
+.node:where(.transition-enter){
+  transform: scale(1);
+  opacity: 1;
+}
+
+.node.transition-enter:before{
+  transform: scale(1.5);
+  opacity: 0;
+  border-width: 30px;
+}
+
 // ACTIVATE NODE
 //-----------------------------
 .node--activate {

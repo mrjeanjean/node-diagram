@@ -1,6 +1,7 @@
 import {ActivatableInterface, CanvasModel, NodeModel} from "canvas-core";
 
 export class EntryModel extends NodeModel implements ActivatableInterface{
+    active: boolean = true;
     data:any = {
         entryName: ""
     }
@@ -10,9 +11,10 @@ export class EntryModel extends NodeModel implements ActivatableInterface{
     }
 
     isActive(): boolean {
-        return false;
+        return this.active;
     }
 
     setActive(active: boolean): void {
+        this.active = active;
     }
 }

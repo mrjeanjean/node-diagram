@@ -35,11 +35,6 @@ export class ContextMenuManager {
         this.hide();
         this.currentContextMenu = contextMenu;
         const $contextMenu = this.currentContextMenu.createContextMenuHTML();
-        // Default group
-        this.groups.push({
-            slug: "root",
-            name: "Others"
-        })
 
         this.currentContextMenu.addMenuGroupsHTML(this.groups);
         this.currentContextMenu.addMenuItemsHTML(this.nodesItems, this.canvasEngine);
