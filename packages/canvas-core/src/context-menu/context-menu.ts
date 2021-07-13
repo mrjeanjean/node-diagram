@@ -169,6 +169,25 @@ export class ContextMenu {
         })
     }
 
+    shakeItems() {
+        const $contextMenuBody = this.$contextMenu?.querySelector(".context-menu__body");
+        this.itemsGroups.forEach($group=>{
+            let subItemsList = $group.querySelectorAll(".context-menu__group__list .context-menu__item");
+            if(subItemsList.length <= 0){
+                $group.remove();
+            }
+        });
+
+        const cleanedItemList = $contextMenuBody?.querySelectorAll(".context-menu__group");
+        if(cleanedItemList && cleanedItemList.length <= 1){
+            cleanedItemList[0].querySelectorAll(".context-menu__group__list .context-menu__item").forEach($item=>{
+                $contextMenuBody?.appendChild($item);
+            });
+            cleanedItemList[0].remove();
+        }
+
+    }
+
     remove() {
         if (this.$contextMenu) {
             this.$contextMenu.remove();

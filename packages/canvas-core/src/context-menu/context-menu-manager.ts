@@ -38,6 +38,8 @@ export class ContextMenuManager {
 
         this.currentContextMenu.addMenuGroupsHTML(this.groups);
         this.currentContextMenu.addMenuItemsHTML(this.nodesItems, this.canvasEngine);
+        this.currentContextMenu.shakeItems();
+
         this.$canvas.appendChild($contextMenu);
     }
 
