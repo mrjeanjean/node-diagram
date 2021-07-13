@@ -1,4 +1,4 @@
-import {DraggableItem} from "./draggable-item";
+import {DraggableItem} from "./node-transform/draggable-item";
 import {PortModel} from "./models/port-model";
 import {NodeModel} from "./models/node-model";
 import {LinkModel} from "./models/link-model";

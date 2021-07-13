@@ -1,4 +1,4 @@
-import {EventDispatcher} from "./utils/event-dispatcher";
+import {EventDispatcher} from "../utils/event-dispatcher";
 
 export class DraggableItem {
     isDragging: boolean = false;
@@ -33,6 +33,7 @@ export class DraggableItem {
         this.events.fire('startDrag', {
             initialX: this.initialX,
             initialY: this.initialY,
+            event
         })
 
         this.isDragging = true;

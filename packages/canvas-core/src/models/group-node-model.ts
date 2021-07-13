@@ -1,5 +1,6 @@
 import {NodeModel} from "./node-model";
 import {CanvasModel} from "./canvas-model";
+import {SortableItem} from "../node-transform/sortable-item";
 
 export class GroupNodeModel extends NodeModel {
     nodes: Array<NodeModel> = [];
@@ -20,6 +21,8 @@ export class GroupNodeModel extends NodeModel {
         this.nodes.push(nodeModel);
 
         this.update();
+
+        SortableItem.makeSortable(nodeModel, this.canvasModel);
         return nodeModel;
     }
 

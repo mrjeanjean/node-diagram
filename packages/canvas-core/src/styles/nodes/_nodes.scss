@@ -20,6 +20,11 @@
   z-index: 3;
 }
 
+.node.is-sorting{
+  z-index: 3;
+  transform: translate(10px, -10px);
+}
+
 .node.selected{
   box-shadow: #00e3ff 0 0 10px 2px;
 }
