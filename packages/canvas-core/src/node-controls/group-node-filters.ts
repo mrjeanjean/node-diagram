@@ -35,10 +35,12 @@ export const createGroupNodeFilters = (
 
     update();
 
-    const $select = createSelect("all", groupNodeFilters, (value: string)=>{
+    const {$select, close} = createSelect("all", groupNodeFilters, (value: string)=>{
         groupNodeModel.setFilter(value);
         update();
     }, "Filter");
+
+    console.log($select)
 
     $nodeFilters.appendChild($select);
     $nodeFilters.appendChild($input);
@@ -46,6 +48,10 @@ export const createGroupNodeFilters = (
 
     $nodeFilters.addEventListener("mousedown", (e) => {
         e.stopPropagation();
+    })
+
+    document.addEventListener("mousedown", ()=>{
+        close();
     })
 
     return $nodeFilters;

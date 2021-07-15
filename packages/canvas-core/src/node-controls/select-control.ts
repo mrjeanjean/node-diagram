@@ -2,7 +2,7 @@ export const createSelect = (
     defaultValue: string,
     optionsList:  {[key: string]: string},
     onInput: Function,
-    prefix: string): HTMLElement => {
+    prefix: string): {$select: HTMLElement, close: Function} => {
 
     const $controlWrapper = document.createElement("div");
     $controlWrapper.classList.add("node-control", "node-control--select__wrapper");
@@ -19,7 +19,11 @@ export const createSelect = (
 
     $select.addEventListener("click", ()=>{
         $select.classList.toggle("active");
-    })
+    });
+
+    const close = ()=>{
+        $select.classList.remove("active");
+    }
 
     Object.entries(optionsList).forEach(entry => {
         const $controlThemedOption = document.createElement("div");
@@ -37,5 +41,8 @@ export const createSelect = (
 
     updateSelect(defaultValue);
 
-    return $controlWrapper;
+    return {
+        $select: $controlWrapper,
+        close
+    };
 }

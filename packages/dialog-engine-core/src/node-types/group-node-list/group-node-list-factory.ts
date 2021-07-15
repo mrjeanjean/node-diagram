@@ -2,7 +2,7 @@ import {
     AbstractNodeFactory,
     CanvasEngine,
     CanvasModel, contextTypes,
-    createGroupNodeActions,
+    createGroupNodeActions, createGroupNodeFilters,
     GroupNodeFactory,
     portsTypes
 } from "canvas-core";
@@ -20,6 +20,7 @@ export class GroupNodeListFactory extends GroupNodeFactory {
 
     buildNodeBody(nodeModel: GroupNodeListModel, canvasEngine: CanvasEngine) {
         createGroupNodeActions(nodeModel, canvasEngine, contextTypes.group);
+        createGroupNodeFilters(nodeModel, canvasEngine);
 
         canvasEngine.addPort(nodeModel, portsTypes.output);
         canvasEngine.addPort(nodeModel, portsTypes.input);

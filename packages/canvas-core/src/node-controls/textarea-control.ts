@@ -29,6 +29,12 @@ export const createTextarea = (
     $controlWrapper.addEventListener("dblclick", onActive);
     $controlInput.addEventListener("blur", onDisable);
 
+    $controlInput.addEventListener("keypress", (e: KeyboardEvent) => {
+        if (e.key === "Enter" && !e.shiftKey) {
+            onDisable();
+            e.preventDefault();
+        }
+    });
     $controlInput.addEventListener("input", (e) => {
         onInput($controlInput.value);
     })

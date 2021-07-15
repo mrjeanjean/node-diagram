@@ -25,6 +25,11 @@
   color: #fff;
 }
 
+.node--group-node-list .node-control--select:before,
+.node--group-node-list .node-control--spinner button{
+  background-color: var(--color-green-shadow);
+}
+
 .node-list-buttons{
   position: absolute;
   z-index: 10;
