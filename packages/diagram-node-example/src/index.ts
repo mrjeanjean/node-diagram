@@ -14,4 +14,5 @@ canvasEngine.addNode(800, 600, "rename");
 canvasEngine.addNode(800, 800, "activate");
 
 groupNode.addNode("dialog-choice");
-groupNode.addNode("dialog-choice");
+groupNode.addNode("michel");
+groupNode.addNode("heros");

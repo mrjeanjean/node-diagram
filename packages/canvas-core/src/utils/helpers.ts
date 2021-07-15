@@ -98,10 +98,36 @@ export function generateCurvedPath(startPoint: Point, endPoint: Point, isVertica
 }
 
 /**
- *
+ * Add css class for transition
+ * @param {HTMLElement | SVGElement} $element
+ * @param {string} transitionType
+ * @param {number} duration
  */
-export function itemTransitionHelper($element:HTMLElement | SVGElement, transitionType:string, duration:number = 10){
+export function itemTransitionHelper($element:HTMLElement | SVGElement, transitionType:string, duration:number = 10):void{
     setTimeout(() => {
         $element.classList.add(`transition-${transitionType}`);
     }, duration);
+}
+
+
+export function rectIntersectPointY(rect:{top:number, bottom:number}, point:Point): boolean {
+    return (point.y > rect.top && point.y < rect.bottom);
+}
+
+export function swapHTMLElements($node1: HTMLElement|null, $node2:HTMLElement|null):void {
+    if(!$node1 || !$node2){
+        return;
+    }
+    // create marker element and insert it where obj1 is
+    const $temp = document.createElement("div");
+    $node1.parentNode?.insertBefore($temp, $node1);
+
+    // move $node1 to right before obj2
+    $node2.parentNode?.insertBefore($node1, $node2);
+
+    // move $node2 to right before where $node1 used to be
+    $temp.parentNode?.insertBefore($node2, $temp);
+
+    // remove $temporary marker node
+    $temp.parentNode?.removeChild($temp);
 }

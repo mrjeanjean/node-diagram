@@ -22,7 +22,7 @@ export class GroupNodeModel extends NodeModel {
 
         this.update();
 
-        SortableItem.makeSortable(nodeModel, this.canvasModel);
+        SortableItem.makeSortable(nodeModel, this.canvasModel, this);
         return nodeModel;
     }
 
@@ -42,5 +42,23 @@ export class GroupNodeModel extends NodeModel {
             node.remove();
         })
         super.remove();
+    }
+
+    swapNodes(nodeModel1: NodeModel, nodeModel2: NodeModel) {
+        nodeModel1.update();
+        nodeModel2.update();
+        const nodeModel1Index = this.nodes.indexOf(nodeModel1);
+        const nodeModel2Index = this.nodes.indexOf(nodeModel2);
+
+        // Sorcery: used for swap 2 array elements
+        this.nodes.splice(
+            nodeModel1Index,
+            1,
+            this.nodes.splice(
+                nodeModel2Index,
+                1,
+                this.nodes[nodeModel1Index]
+            )[0]
+        );
     }
 }

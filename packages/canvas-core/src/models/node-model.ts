@@ -3,7 +3,7 @@ import {CanvasModel} from "./canvas-model";
 import {PortModel} from "./port-model";
 import {DraggableInterface} from "../interfaces/draggable-interface";
 import {ItemModel} from "./item-model";
-import {Point} from "../types";
+import {Point, Size} from "../types";
 
 export class NodeModel extends ItemModel implements DraggableInterface{
     canvasModel: CanvasModel;

@@ -1,7 +1,7 @@
 import {diagramInfos} from "../diagram-infos";
 import {LayerModel} from "./layer-model";
 import {CanvasEngine, NodeModel} from "canvas-core";
-import {Point} from "../types";
+import {Point, Size} from "../types";
 import {ItemModel} from "./item-model";
 
 export class CanvasModel {
@@ -100,11 +100,23 @@ export class CanvasModel {
         }
     }
 
-    getNodeSize(nodeModel: NodeModel): { width: number, height: number } {
+    getNodeSize(nodeModel: NodeModel): Size {
         const boundaries = nodeModel.getHTMLElement().getBoundingClientRect();
         return {
             width: boundaries.width,
             height: boundaries.height
         }
+    }
+
+    getNodeRelativeSize(nodeModel: NodeModel):Size{
+        const size = this.getNodeSize(nodeModel);
+        return {
+            width: size.width / this.getZoom(),
+            height: size.height / this.getZoom()
+        }
+    }
+
+    getRelativeValue(offsetTop: number) {
+        return offsetTop * this.getZoom();
     }
 }
