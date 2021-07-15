@@ -30,7 +30,7 @@ export class SelectableItem {
 
     }
 
-    handleSelect(): void {
+    handleSelect(event:Event): void {
         if (this.isReadyToTrigger) {
             this.onSelect();
             this.isReadyToTrigger = false;
@@ -47,4 +47,9 @@ export class SelectableItem {
         }
         this.timeout = null;
     }
+
+    static makeSelectable($item: HTMLElement | SVGElement, onSelect:Function, sensitivity = 0.2):SelectableItem{
+        return new SelectableItem($item, onSelect, sensitivity);
+    }
+
 }

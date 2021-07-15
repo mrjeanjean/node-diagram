@@ -1,6 +1,7 @@
 import {CanvasModel, GroupNodeModel, NodeModel} from "canvas-core";
 import {DraggableItem} from "./draggable-item";
 import {rectIntersectPointY, swapHTMLElements} from "../utils/helpers";
+import {SelectableItem} from "./selectable-item";
 
 export class SortableItem {
     private nodeModel: NodeModel;
@@ -16,10 +17,13 @@ export class SortableItem {
         this.canvasModel = canvasModel;
         this.$node = nodeModel.getHTMLElement() as HTMLElement;
 
-        let draggableItem = DraggableItem.makeDraggable(nodeModel.getHTMLTitle());
+        this.startDrag = this.startDrag.bind(this);
         this.onDrag = this.onDrag.bind(this);
         this.endDrag = this.endDrag.bind(this);
-        this.startDrag = this.startDrag.bind(this);
+        this.onSelect = this.onSelect.bind(this);
+
+        let draggableItem = DraggableItem.makeDraggable(nodeModel.getHTMLTitle() as HTMLElement);
+        this.canvasModel.getCanvasEngine().getCanvasHandler().addSelectableItem(this.nodeModel, this.nodeModel.getHTMLTitle());
 
         draggableItem.events.add("startDrag", this.startDrag);
         draggableItem.events.add("onDrag", this.onDrag);
@@ -61,11 +65,11 @@ export class SortableItem {
 
     moveElement(positionY: number = 0): void {
         positionY = positionY + this.canvasModel.getRelativeValue(this.offsetTop);
-        const marginTop = this.canvasModel.getRelativeValue(10);
-        positionY = (positionY <= marginTop) ? marginTop : positionY;
+        const offset = this.canvasModel.getRelativeValue(15);
+        positionY = (positionY <= offset) ? offset : positionY;
         const maxHeight =
             this.parentGroupModel.getHTMLBody().getBoundingClientRect().height -
-            this.$node.getBoundingClientRect().height;
+            this.$node.getBoundingClientRect().height - offset;
         positionY = (positionY >= maxHeight) ? maxHeight : positionY;
         this.nodeModel.moveTo(this.nodeModel.getPosition().x, positionY);
     }
@@ -83,11 +87,15 @@ export class SortableItem {
 
     endDrag(data: any): void {
         data.event.stopPropagation();
+
         this.nodeModel.moveTo(0, 0);
         this.$node.classList.remove("is-sorting");
         this.$node.style.position = '';
         this.$placeholder?.remove();
         this.nodeModel.update();
+    }
+
+    onSelect(): void {
     }
 
     static makeSortable(model: any, canvasModel: CanvasModel, parentGroupModel: GroupNodeModel) {

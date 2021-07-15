@@ -40,7 +40,7 @@ export class CanvasEventsHandler {
                 this.onItemMouseDown(itemModel);
             });
 
-            new SelectableItem(itemModel.getHTMLElement(), () => {
+            SelectableItem.makeSelectable(itemModel.getHTMLElement(), () => {
                 this.selectItem(itemModel);
             });
         }
@@ -64,6 +64,13 @@ export class CanvasEventsHandler {
                 this.selectItem(itemModel);
             });
         }
+    }
+
+    addSelectableItem(itemModel: any, $targetHTML:HTMLElement | null = null): void{
+        $targetHTML = $targetHTML ?? itemModel.getHTMLElement() as HTMLElement;
+        SelectableItem.makeSelectable($targetHTML, () => {
+            this.selectItem(itemModel);
+        });
     }
 
     onItemMouseDown(itemModel: any): void {

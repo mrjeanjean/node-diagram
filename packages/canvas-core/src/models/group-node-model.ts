@@ -16,17 +16,22 @@ export class GroupNodeModel extends NodeModel {
             0,
             type,
             this.getHTMLBody() as HTMLElement,
-            false
+            true
         );
-        this.nodes.push(nodeModel);
 
+        this.update = this.update.bind(this);
+        this.nodes.push(nodeModel);
         this.update();
 
         SortableItem.makeSortable(nodeModel, this.canvasModel, this);
+
+        nodeModel.events.add("node-removed", this.update);
+
         return nodeModel;
     }
 
     update(): void {
+        console.log(this)
         super.update();
         this.updateAllNodes();
     }

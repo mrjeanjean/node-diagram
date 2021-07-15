@@ -260,4 +260,8 @@ export class CanvasEngine {
     getContextMenu(): ContextMenuManager {
         return this.contextMenuManager;
     }
+
+    getCanvasHandler():CanvasEventsHandler{
+        return this.canvasEventsHandler;
+    }
 }
