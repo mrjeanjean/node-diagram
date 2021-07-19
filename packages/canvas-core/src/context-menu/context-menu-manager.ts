@@ -50,6 +50,7 @@ export class ContextMenuManager {
     }
 
     onClickOutside(e: Event):void{
+        this.currentContextMenu?.events.fire("context-menu-close", {});
         this.hide();
     }
 }

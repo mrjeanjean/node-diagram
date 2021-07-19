@@ -7,7 +7,7 @@ import {ItemModel} from "./item-model";
 export class CanvasModel {
     layers: Map<string, LayerModel> = new Map();
     diagramItems: Map<string, ItemModel> = new Map();
-    zoom: number = 1;
+    zoom: number = 0.5;
     $canvas: HTMLElement;
     canvasEngine: CanvasEngine;
 
@@ -79,6 +79,22 @@ export class CanvasModel {
         return {
             x: (x / this.getZoom() - linkLayerRealX / this.getZoom()),
             y: (y / this.getZoom() - linkLayerRealY / this.getZoom())
+        }
+    }
+
+    getAbsolutePosition(x: number, y:number, offsetX:number = 0, layerName: string = "node-layer"): Point{
+        let linkLayer = this.getLayer("node-layer");
+
+        if (!linkLayer) {
+            throw new Error(`Layer with name '${layerName}' is not defined`);
+        }
+
+        let linkLayerRealX = linkLayer.getHTMLElement().getBoundingClientRect().x;
+        let linkLayerRealY = linkLayer.getHTMLElement().getBoundingClientRect().y;
+
+        return {
+            x: (linkLayerRealX + x * this.getZoom()) + offsetX,
+            y: (linkLayerRealY + y * this.getZoom()),
         }
     }
 

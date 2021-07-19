@@ -75,11 +75,11 @@ export class CanvasEngine {
             let contextMenu = new ContextMenu({
                 x: event.clientX,
                 y: event.clientY
-            }, {
-                onItemSelect: (data: any) => {
-                    this.addNode(data.position.x, data.position.y, data.nodeName)
-                }
             });
+
+            contextMenu.events.add("node-select", (data: any)=>{
+                this.addNode(data.position.x, data.position.y, data.nodeName);
+            })
 
             contextMenu.addItemsFilter((itemsList: Map<string, NodeFactory>) => {
                 return itemsList;

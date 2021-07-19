@@ -12,36 +12,44 @@ export class OrphanLinkStrategyContextMenu implements OrphanLinkInterface {
     }
 
     handleOrphanLink(portOrigin: PortModel, placeholderLink: PlaceholderLinkModel): void {
-        const targetPosition = placeholderLink.getEndPosition();
-        targetPosition.x =  targetPosition.x - 100;
+        let targetPosition = placeholderLink.getEndPosition();
+        let contextMenuPosition = this.canvasModel.getAbsolutePosition(
+            targetPosition.x,
+            targetPosition.y,
+            -125
+        );
 
-        const contextMenu = new ContextMenu(
-            targetPosition,
-            {
-                onItemSelect: (data) => {
-                    placeholderLink.getHTMLElement().remove();
-                    const node = this.canvasModel.getCanvasEngine().addNode(
-                        targetPosition.x,
-                        targetPosition.y,
-                        data.nodeName
-                    )
+        const contextMenu = new ContextMenu(contextMenuPosition);
+        contextMenu.events.add("node-select", (data: any) => {
+            placeholderLink.getHTMLElement().remove();
+            const node = this.canvasModel.getCanvasEngine().addNode(
+                targetPosition.x - 125,
+                targetPosition.y,
+                data.nodeName
+            )
 
-                    const inputPort = node.getInputPort();
-                    if(inputPort){
-                        this.canvasModel.getCanvasEngine().addLink(portOrigin, inputPort);
-                    }
-                }
-            });
-        contextMenu.addItemsFilter((itemsList: Map<string, NodeFactory>, context: string)=>{
+            const inputPort = node.getInputPort();
+            if (inputPort) {
+                this.canvasModel.getCanvasEngine().addLink(portOrigin, inputPort);
+            }
+        })
+
+        contextMenu.events.add("context-menu-close", () => {
+            placeholderLink.getHTMLElement().remove();
+        });
+
+        contextMenu.addItemsFilter((itemsList: Map<string, NodeFactory>, context: string) => {
             const itemsFiltered = new Map<string, NodeFactory>(itemsList);
-            itemsFiltered.forEach((nodeFactory:NodeFactory, nodeName:string)=>{
-                if(nodeName === "start-game"){
+            itemsFiltered.forEach((nodeFactory: NodeFactory, nodeName: string) => {
+                if (nodeName === "start-game") {
                     itemsFiltered.delete(nodeName);
                 }
             });
 
             return itemsFiltered;
         });
+
+
         this.canvasModel.getCanvasEngine().getContextMenu().show(contextMenu);
     }
 }

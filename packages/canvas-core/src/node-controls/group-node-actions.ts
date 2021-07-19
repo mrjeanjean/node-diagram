@@ -24,12 +24,12 @@ export const createGroupNodeActions = (
 
         let contextMenu = new ContextMenu(
             contextMenuPosition,
-            {
-                onItemSelect: (data) => {
-                    groupNodeModel.addNode(data.nodeName)
-                },
-                context
-            });
+            context);
+
+        contextMenu.events.add("node-select", (data:any)=>{
+                groupNodeModel.addNode(data.nodeName)
+        });
+
         canvasEngine.getContextMenu().show(contextMenu);
         e.stopPropagation();
     });

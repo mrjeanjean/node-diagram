@@ -3,6 +3,7 @@ import {CanvasEngine} from "./../canvas";
 import {contextTypes} from "./context-types";
 import {NodeFactory} from "../factories/factory-interface";
 import {itemTransitionHelper} from "../utils/helpers";
+import {EventDispatcher} from "../utils/event-dispatcher";
 
 type ContextMenuFilter = {
     (itemsList: Map<string, NodeFactory>, context: string):Map<string, NodeFactory>
@@ -10,18 +11,19 @@ type ContextMenuFilter = {
 
 export class ContextMenu {
     $contextMenu: HTMLElement | null = null;
-    onItemSelect: (data: any) => void;
     position: Point;
     itemsFilters: Array<ContextMenuFilter>;
     itemsGroups: Map<string, HTMLElement>;
     context: string;
+    events: EventDispatcher;
 
-    constructor(position: Point, data: { onItemSelect: (data: any) => void, context?: string | null }) {
-        this.onItemSelect = data.onItemSelect;
-        this.context = data.context ?? contextTypes.main;
+    constructor(position: Point, context?: string | null) {
+        this.context = context ?? contextTypes.main;
         this.position = position;
         this.itemsFilters = new Array<() => Map<string, NodeFactory>>();
         this.itemsGroups = new Map<string, HTMLElement>();
+        this.events = new EventDispatcher();
+
         this.addItemsFilter(this.filterItemsByContext);
         this.filterItemsByContext = this.filterItemsByContext.bind(this);
     }
@@ -160,10 +162,10 @@ export class ContextMenu {
             const $groupItem = this.itemsGroups.get(nodeFactory.getMenuGroup());
 
             $menuItem.addEventListener("click", () => {
-                this.onItemSelect({
+                this.events.fire("node-select", {
                     position: relativePosition,
                     nodeName: nodeName
-                });
+                })
                 this.remove();
             });
 
