@@ -3,7 +3,6 @@ import {
     CanvasEngine,
     CanvasModel,
     contextTypes,
-    getRandomColor,
     getRandomThemeColor
 } from "canvas-core";
 import {DialogQuoteModel} from "./dialog-quote-model";
@@ -42,7 +41,9 @@ export class DialogQuoteBuilderFactory extends AbstractNodeFactory {
     }
 
     displayOnContextMenu(context: string): boolean {
-        return context === contextTypes.main || context === contextTypes.group || context === contextTypes.choices;
+        return context === contextTypes.main
+            || context === contextTypes.group
+            || this.getMenuItemName() === "Heros";
     }
 
     getMenuItemName(): string {

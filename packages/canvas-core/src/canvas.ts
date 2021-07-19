@@ -16,6 +16,9 @@ import {canBeRenamed} from "./interfaces/renamable-interface";
 import {ContextMenuManager} from "./context-menu/context-menu-manager";
 import {ContextMenu} from "./context-menu/context-menu";
 import {ActivatableItem} from "./node-transform/activatable-item";
+import {OrphanLinkInterface} from "./links/orphan-link-interface";
+import {OrphanLinkStrategyDefault} from "./links/orphan-link-strategy-default";
+import {PlaceholderLinkModel} from "./connexion/placeholder-link-model";
 
 export class CanvasEngine {
     $canvas: HTMLElement;
@@ -26,6 +29,7 @@ export class CanvasEngine {
     itemsFactories: ItemsFactories;
     portNameAdapter: PortNameAdapter;
     contextMenuManager: ContextMenuManager;
+    orphanLinkStrategy: OrphanLinkInterface;
 
     constructor($container: HTMLElement) {
         // Create HTML elements
@@ -77,12 +81,15 @@ export class CanvasEngine {
                 }
             });
 
-            contextMenu.addItemsFilter((itemsList: Map<string, NodeFactory>)=>{
+            contextMenu.addItemsFilter((itemsList: Map<string, NodeFactory>) => {
                 return itemsList;
             });
 
             this.contextMenuManager.show(contextMenu);
         });
+
+        // Orphan link default strategy
+        this.orphanLinkStrategy = new OrphanLinkStrategyDefault(this.canvasModel);
 
         this.canvasModel.updateZoom();
     }
@@ -95,7 +102,7 @@ export class CanvasEngine {
         this.contextMenuManager.add(type, nodeFactory);
     }
 
-    registerContextMenuGroup(groupSlug: string, groupName: string){
+    registerContextMenuGroup(groupSlug: string, groupName: string) {
         this.contextMenuManager.addGroup(groupSlug, groupName);
     }
 
@@ -142,7 +149,7 @@ export class CanvasEngine {
 
         itemTransitionHelper($node, "enter");
 
-        nodeModel.events.add("node-removed", (data:any)=>{
+        nodeModel.events.add("node-removed", (data: any) => {
             this.canvasModel.removeItem(data.nodeModel.getId());
         })
 
@@ -171,7 +178,7 @@ export class CanvasEngine {
 
         this.canvasEventsHandler.addItem(linkModel);
 
-        linkModel.events.add("link-removed", (data: any)=>{
+        linkModel.events.add("link-removed", (data: any) => {
             this.canvasModel.removeItem(data.linkModel.getId());
         })
 
@@ -249,11 +256,15 @@ export class CanvasEngine {
         return $port;
     }
 
+    getCanvasModel():CanvasModel{
+        return this.canvasModel;
+    }
+
     setPortNameAdapter(portNameAdapter: PortNameAdapter): void {
         this.portNameAdapter = portNameAdapter;
     }
 
-    getPortNameAdapter(): PortNameAdapter{
+    getPortNameAdapter(): PortNameAdapter {
         return this.portNameAdapter;
     }
 
@@ -261,7 +272,15 @@ export class CanvasEngine {
         return this.contextMenuManager;
     }
 
-    getCanvasHandler():CanvasEventsHandler{
+    getCanvasHandler(): CanvasEventsHandler {
         return this.canvasEventsHandler;
+    }
+
+    setOrphanLinkStrategy(strategy: OrphanLinkInterface): void {
+        this.orphanLinkStrategy = strategy;
+    }
+
+    handleOrphanLink(portOrigin: PortModel, placeholderLink:PlaceholderLinkModel): void {
+        this.orphanLinkStrategy.handleOrphanLink(portOrigin, placeholderLink);
     }
 }

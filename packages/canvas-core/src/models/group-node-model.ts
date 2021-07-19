@@ -24,14 +24,12 @@ export class GroupNodeModel extends NodeModel {
         this.update();
 
         SortableItem.makeSortable(nodeModel, this.canvasModel, this);
-
         nodeModel.events.add("node-removed", this.update);
 
         return nodeModel;
     }
 
     update(): void {
-        console.log(this)
         super.update();
         this.updateAllNodes();
     }

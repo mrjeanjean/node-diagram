@@ -18,6 +18,7 @@ export class DefaultNodeRegister {
     }
 
     registerNodeFactory(name: string, nodeFactory: AbstractNodeFactory): void {
+        nodeFactory.setSlug(name);
         this.canvasEngine.registerNodeFactory(name, nodeFactory);
         this.canvasEngine.registerContextMenuItem(name, nodeFactory);
     }

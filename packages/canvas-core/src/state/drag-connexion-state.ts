@@ -34,9 +34,17 @@ export class DragConnexionState implements DragStateInterface {
     }
 
     endDrag() {
+        if (!this.portTarget) {
+            this.canvasModel.getCanvasEngine().handleOrphanLink(this.portOrigin, this.placeHolderLinkModel);
+            return;
+        }
+
         this.placeHolderLinkModel.getHTMLElement().remove();
 
-        if (!this.portTarget || !this.portTarget.accept(this.portOrigin)) return;
+        if (!this.portTarget.accept(this.portOrigin)) {
+            console.warn('The target port does not accept connexion from port origin');
+            return;
+        }
 
         if (this.portOrigin.isInputPort()) {
             this.canvasModel.getCanvasEngine().addLink(this.portTarget, this.portOrigin);

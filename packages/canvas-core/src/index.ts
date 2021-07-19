@@ -24,3 +24,5 @@ export * from './interfaces/activatable-interface';
 export * from './interfaces/group-filterable-interface';
 
 export {getRandomColor, getRandomThemeColor} from './utils/helpers';
+
+export {OrphanLinkStrategyContextMenu} from './links/orphan-link-strategy-context-menu';

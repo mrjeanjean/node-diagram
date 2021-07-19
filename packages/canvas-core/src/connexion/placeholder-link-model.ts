@@ -39,4 +39,8 @@ export class PlaceholderLinkModel {
     getHTMLElement(): SVGElement {
         return this.$link;
     }
+
+    getEndPosition():Point{
+        return this.endPosition;
+    }
 }

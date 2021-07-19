@@ -4,11 +4,15 @@ import {contextTypes} from "./context-types";
 import {NodeFactory} from "../factories/factory-interface";
 import {itemTransitionHelper} from "../utils/helpers";
 
+type ContextMenuFilter = {
+    (itemsList: Map<string, NodeFactory>, context: string):Map<string, NodeFactory>
+}
+
 export class ContextMenu {
     $contextMenu: HTMLElement | null = null;
     onItemSelect: (data: any) => void;
     position: Point;
-    itemsFilters: Array<(itemList:Map<string, NodeFactory>) => Map<string, NodeFactory>>;
+    itemsFilters: Array<ContextMenuFilter>;
     itemsGroups: Map<string, HTMLElement>;
     context: string;
 
@@ -19,6 +23,7 @@ export class ContextMenu {
         this.itemsFilters = new Array<() => Map<string, NodeFactory>>();
         this.itemsGroups = new Map<string, HTMLElement>();
         this.addItemsFilter(this.filterItemsByContext);
+        this.filterItemsByContext = this.filterItemsByContext.bind(this);
     }
 
     addMenuGroupsHTML(groups: Array<{slug:string, name:string}>){
@@ -72,15 +77,15 @@ export class ContextMenu {
         })
     }
 
-    addItemsFilter(filter: (itemsList: Map<string, NodeFactory>) => Map<string, NodeFactory>): void {
+    addItemsFilter(filter: ContextMenuFilter): void {
         this.itemsFilters.push(filter);
     }
 
-    filterItemsByContext(itemsList: Map<string, NodeFactory>):Map<string, NodeFactory>{
+    filterItemsByContext(itemsList: Map<string, NodeFactory>, context: string):Map<string, NodeFactory>{
         const itemsFiltered = new Map<string, NodeFactory>(itemsList);
         itemsFiltered.forEach((nodeFactory:NodeFactory, nodeName:string)=>{
 
-            if(!nodeFactory.displayOnContextMenu(this.context)){
+            if(!nodeFactory.displayOnContextMenu(context)){
                 itemsFiltered.delete(nodeName);
             }
         });
@@ -139,7 +144,10 @@ export class ContextMenu {
     }
 
     addMenuItemsHTML(nodesItems: Map<string, NodeFactory>, canvasEngine:CanvasEngine) {
-        let nodeItemsFiltered = this.filterItemsByContext(nodesItems);
+        let nodeItemsFiltered = this.itemsFilters.reduce((itemsList: Map<string, NodeFactory>, filter:ContextMenuFilter)=>{
+            return filter(itemsList, this.context);
+        }, nodesItems);
+
         let $contextMenuBody = this.$contextMenu?.querySelector(".context-menu__body") as HTMLElement;
 
         if(!$contextMenuBody){

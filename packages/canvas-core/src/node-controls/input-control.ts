@@ -34,7 +34,11 @@ export const createInput = (
 
     $controlInput.addEventListener("input", (e) => {
         onInput($controlInput.value);
-    })
+    });
+
+    $controlWrapper.addEventListener("mousedown", (e) => {
+        e.stopPropagation();
+    });
 
     $controlWrapper.appendChild($controlInput)
 

@@ -5,7 +5,9 @@ import {NodeFactory} from "./factory-interface";
 import {CanvasEngine} from "../canvas";
 import {contextTypes} from "..";
 
-export abstract class AbstractNodeFactory implements NodeFactory{
+export abstract class AbstractNodeFactory implements NodeFactory {
+    slug: string = "";
+
     createNodeHTML($container: HTMLElement, type: string): HTMLElement {
         let node = new DefaultNode($container, type);
         node.setHTMLTitle(this.getMenuItemName());
@@ -21,7 +23,8 @@ export abstract class AbstractNodeFactory implements NodeFactory{
     }
 
     abstract getMenuItemName(): string;
-    abstract createNodeModel($node: HTMLElement, canvasModel: CanvasModel, positionX: number, positionY: number):NodeModel;
+
+    abstract createNodeModel($node: HTMLElement, canvasModel: CanvasModel, positionX: number, positionY: number): NodeModel;
 
     getMenuGroup(): string {
         return "root";
@@ -29,5 +32,13 @@ export abstract class AbstractNodeFactory implements NodeFactory{
 
     editMenuItemHTML($menuItem: HTMLElement): HTMLElement {
         return $menuItem;
+    }
+
+    setSlug(slug: string): void{
+        this.slug = slug;
+    }
+
+    getSlug():string{
+        return this.slug;
     }
 }

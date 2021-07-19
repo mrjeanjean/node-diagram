@@ -99,4 +99,10 @@ export class NodeModel extends ItemModel implements DraggableInterface{
     getModel():NodeModel{
         return this;
     }
+
+    getInputPort():PortModel | undefined {
+        return this.ports.find((port:PortModel)=>{
+            return port.isInput();
+        })
+    }
 }

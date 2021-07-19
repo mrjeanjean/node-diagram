@@ -11,6 +11,8 @@ export const createCanvasEngine = ($root:HTMLElement) =>{
 
     addDialogCharacter("Michel", "michel");
     addDialogCharacter("Heros", "heros");
+    addDialogCharacter("Madame", "madame");
+
     return canvasEngine;
 }
 

@@ -1,5 +1,4 @@
 import {
-    AbstractNodeFactory,
     CanvasEngine,
     CanvasModel, contextTypes,
     createGroupNodeActions, createGroupNodeFilters,

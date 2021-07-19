@@ -113,4 +113,8 @@ export class PortModel implements PortInterface {
     isActionType(): boolean {
         return this.getPortType().startsWith('action');
     }
+
+    isInput(): boolean{
+        return this.getPortType() === portsTypes.input;
+    }
 }
