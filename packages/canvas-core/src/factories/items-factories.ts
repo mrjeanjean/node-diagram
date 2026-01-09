@@ -1,5 +1,8 @@
 import {LinkFactory, NodeFactory} from "./factory-interface";
 
+/**
+ * Map node and link based on slug name
+ */
 export class ItemsFactories{
     nodeFactories: Map<string, NodeFactory>;
     linkFactories: Map<string, LinkFactory>;

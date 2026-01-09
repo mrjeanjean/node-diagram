@@ -9,6 +9,9 @@ type ContextMenuFilter = {
     (itemsList: Map<string, NodeFactory>, context: string):Map<string, NodeFactory>
 }
 
+/**
+ * Add node context menu
+ */
 export class ContextMenu {
     $contextMenu: HTMLElement | null = null;
     position: Point;
@@ -199,6 +202,8 @@ export class ContextMenu {
     }
 
     remove() {
+        this.events.fire("context-menu-close", {});
+
         if (this.$contextMenu) {
             this.$contextMenu.remove();
         }

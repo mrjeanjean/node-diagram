@@ -5,6 +5,9 @@ import {NodeFactory} from "./factory-interface";
 import {CanvasEngine} from "../canvas";
 import {contextTypes} from "..";
 
+/**
+ * Based factory node
+ */
 export abstract class AbstractNodeFactory implements NodeFactory {
     slug: string = "";
 

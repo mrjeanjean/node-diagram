@@ -4,6 +4,9 @@ import {PlaceholderLinkModel} from "../connexion/placeholder-link-model";
 import {CanvasModel, NodeFactory} from "canvas-core";
 import {ContextMenu} from "../context-menu/context-menu";
 
+/**
+ * Display context menu when link don't reach port
+ */
 export class OrphanLinkStrategyContextMenu implements OrphanLinkInterface {
     canvasModel: CanvasModel;
 

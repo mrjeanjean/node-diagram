@@ -2,6 +2,9 @@ import {generateCurvedPath, getRandomColor} from "../utils/helpers";
 import {PortModel} from "../models/port-model";
 import {Point} from "../types";
 
+/**
+ * Fake link on drag from port
+ */
 export class PlaceholderLinkModel {
     portOrigin: PortModel;
     $link: SVGElement;

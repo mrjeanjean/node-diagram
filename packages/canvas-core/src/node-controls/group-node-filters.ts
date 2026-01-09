@@ -1,9 +1,13 @@
-import {CanvasEngine, GroupFilterInterface, GroupNodeModel} from "canvas-core";
-import {ContextMenu} from "../context-menu/context-menu";
+import {CanvasEngine, GroupFilterInterface} from "canvas-core";
 import {createSelect} from "./select-control";
-import {createInput} from "./input-control";
 import {createSpinner} from "./spinner-control";
 
+/**
+ * Generate group node filters
+ * @param {GroupFilterInterface} groupNodeModel
+ * @param {CanvasEngine} canvasEngine
+ * @return {HTMLDivElement}
+ */
 export const createGroupNodeFilters = (
     groupNodeModel: GroupFilterInterface,
     canvasEngine: CanvasEngine
@@ -18,15 +22,15 @@ export const createGroupNodeFilters = (
     const $nodeFilters = document.createElement("div");
     $nodeFilters.classList.add("node-filters__wrapper");
 
-    const {$controlWrapper:$input, setValue} = createSpinner(0, (value:number)=>{
+    const {$controlWrapper: $input, setValue} = createSpinner(0, (value: number) => {
         groupNodeModel.setPickUpNumber(value);
         update();
     })
 
-    function update(){
-        if(groupNodeModel.currentFilter === "pickup"){
+    function update() {
+        if (groupNodeModel.currentFilter === "pickup") {
             $input.classList.remove("hidden");
-        }else{
+        } else {
             $input.classList.add("hidden");
             groupNodeModel.setPickUpNumber(0);
             setValue(0);
@@ -35,7 +39,7 @@ export const createGroupNodeFilters = (
 
     update();
 
-    const {$select, close} = createSelect("all", groupNodeFilters, (value: string)=>{
+    const {$select, close} = createSelect("all", groupNodeFilters, (value: string) => {
         groupNodeModel.setFilter(value);
         update();
     }, "Filter");
@@ -50,7 +54,7 @@ export const createGroupNodeFilters = (
         e.stopPropagation();
     })
 
-    document.addEventListener("mousedown", ()=>{
+    document.addEventListener("mousedown", () => {
         close();
     })
 

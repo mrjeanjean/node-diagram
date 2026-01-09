@@ -1,5 +1,8 @@
 import {CanvasModel} from "./models/canvas-model";
 
+/**
+ * Simple helper info
+ */
 class DiagramInfos{
     $diagramInfos: HTMLElement;
 

@@ -1,5 +1,8 @@
 import {portsTypes} from "../ports/ports-types";
 
+/**
+ * HTML node creator
+ */
 export class DefaultNode{
     $node: HTMLElement;
     $nodeTitle: HTMLElement;

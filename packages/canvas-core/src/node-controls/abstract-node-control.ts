@@ -1,6 +1,8 @@
 import {NodeModel} from "canvas-core";
-import {createInput} from "./input-control";
 
+/**
+ * Node control (input, select..) base
+ */
 export abstract class AbstractNodeControl<T> {
     nodeModel: NodeModel;
     $control: HTMLElement;

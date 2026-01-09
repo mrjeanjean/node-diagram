@@ -12,6 +12,10 @@ import {SelectItemState} from "./state/select-item-state";
 import {SelectableItem} from "./node-transform/selectable-item";
 import {DragSelectedNodeState} from "./state/drag-selected-node-state";
 
+/**
+ * Events canvas manager
+ * Handle wheel, click, drag events
+ */
 export class CanvasEventsHandler {
     canvasModel: CanvasModel;
     itemsMousedDown: Set<any> = new Set();

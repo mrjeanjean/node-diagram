@@ -1,6 +1,13 @@
 import {CanvasEngine, GroupNodeModel} from "canvas-core";
 import {ContextMenu} from "../context-menu/context-menu";
 
+/**
+ * Generate add node button for group node
+ * @param {GroupNodeModel} groupNodeModel
+ * @param {CanvasEngine} canvasEngine
+ * @param {string | null} context
+ * @return {HTMLDivElement}
+ */
 export const createGroupNodeActions = (
     groupNodeModel: GroupNodeModel,
     canvasEngine: CanvasEngine,

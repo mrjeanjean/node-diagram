@@ -3,6 +3,9 @@ import {PortModel} from "../models/port-model";
 import {PlaceholderLinkModel} from "../connexion/placeholder-link-model";
 import {CanvasModel} from "canvas-core";
 
+/**
+ * Default orphan link: simply remove placeholder link
+ */
 export class OrphanLinkStrategyDefault implements OrphanLinkInterface{
     canvasModel: CanvasModel;
 

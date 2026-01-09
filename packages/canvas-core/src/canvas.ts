@@ -20,6 +20,9 @@ import {OrphanLinkInterface} from "./links/orphan-link-interface";
 import {OrphanLinkStrategyDefault} from "./links/orphan-link-strategy-default";
 import {PlaceholderLinkModel} from "./connexion/placeholder-link-model";
 
+/**
+ * Main canvas core class
+ */
 export class CanvasEngine {
     $canvas: HTMLElement;
     $nodeLayer: HTMLElement;
